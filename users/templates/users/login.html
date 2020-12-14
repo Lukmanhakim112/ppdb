@@ -1,13 +1,13 @@
 {% extends 'users/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block style %}
+{% block head %}
     <style type="text/css" media="screen">
      .alert.alert-block.alert-danger, .asteriskField{
          display: none !important;
      }
     </style>
-{% endblock style %}
+{% endblock head %}
 {% block main %}
 
     {% if next %}
@@ -22,7 +22,7 @@
     <div class="row justify-content-md-center mx-2 mt-3">
         <div class="col-lg-3 text-center">
             <img src="{% static 'users/images/Sekunder.png'  %}" alt="logo smk telkom bandung" width="125vh" />
-            <h4 class="mb-0 mt-3">Login PPDB</h4>
+            <h4 class="mb-0 mt-3">Login Primaseru</h4>
         </div>
     </div>
 
@@ -54,3 +54,6 @@
     </div>
 
 {% endblock main %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'users/js/login.js' %}"></script>
+{% endblock js %}
