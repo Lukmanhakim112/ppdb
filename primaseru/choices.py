@@ -18,6 +18,7 @@ BLOOD_TYPE = [
     ('B', 'B'),
     ('AB', 'AB'),
     ('O', 'O'),
+    ('0', 'Tidak Tahu'),
 ]
 EDUCATION_LEVEL = [
     (None, '=Pilih='),
