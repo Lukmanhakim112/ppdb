@@ -16,14 +16,14 @@ class StudentProfile(models.Model):
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     no_regis = models.PositiveIntegerField('No. Register')
     sex = models.CharField('Jenis Kelamin', max_length=1, choices=choices.SEX)
-    nisn = models.PositiveIntegerField('NISN')
-    city_born = models.ForeignKey(CityList, on_delete=models.DO_NOTHING, verbose_name="Kota Kelahiran", related_name="city_born")
+    religion = models.CharField('Agama', choices=choices.RELIGION, max_length=3)
+    city_born = models.CharField('Tempat Lahir', max_length=100)
     date_born = models.DateField('Tanggal Lahir')
 
     # Documents Information
+    nisn = models.PositiveIntegerField('NISN')
     nik = models.PositiveIntegerField('Nomor Induk Kependudukan (NIK)', unique=True)
     no_kk = models.PositiveIntegerField('Nomor Kartu Keluarga (KK)')
-    religion = models.CharField('Agama', choices=choices.RELIGION, max_length=3)
     address_kk = models.TextField('Alamat KK')
 
     # Address
@@ -51,7 +51,7 @@ class StudentProfile(models.Model):
     blood_type = models.CharField('Golongan Darah', choices=choices.BLOOD_TYPE, max_length=2)
     in_medicine = models.CharField('Dalam Pengobatan', max_length=120, null=True, blank=True)
     private_doctor = models.CharField('Nama Dokter Keluarga', max_length=120, null=True, blank=True)
-    phone_doctor = models.PositiveIntegerField('No Telepon Doktor', null=True, blank=True)
+    phone_doctor = models.PositiveIntegerField('No Telepon Dokter', null=True, blank=True)
 
     def __str__(self):
         return f'{self.student} profile'
