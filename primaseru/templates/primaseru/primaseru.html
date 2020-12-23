@@ -29,16 +29,25 @@
         </div>
         <div class="col-sm-9">
             <h1>Lukman Hakim</h1>
+            <form method="POST" enctype="multipart/form-data" id="photo-profile-form" name="photo-profile-form">
+                {% csrf_token %}
+                {{ form_ph }}
+                <div class="custom-file">
+                    <input type="file" accept="image/*" class="custom-file-input" value="{{ form_ph.image.value }}" id="{{ form_ph.image.auto_id }}" name="{{ form_ph.image.name }}">
+                    <label class="custom-file-label" for="customFile">Upload Photo</label>
+                </div>
+            </form>
         </div>
     </div>
     <hr />
     <div class="row">
         <div class="col-sm-3 mb-3">
             <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="navigation" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-identity-tab" data-toggle="pill" href="#v-pills-identity" role="tab" aria-controls="v-pills-identity" aria-selected="true">Identitas Diri</a>
-                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                <a class="nav-link tab-profile active" id="v-pills-identity-tab" data-toggle="pill" href="#v-pills-identity" role="tab" aria-controls="v-pills-identity" aria-selected="true">Identitas Diri</a>
+                <a class="nav-link tab-profile" id="v-pills-id-ayah-tab" data-toggle="pill" href="#v-pills-id-ayah" role="tab" aria-controls="v-pills-id-ayah" aria-selected="false">Identitas Ayah</a>
+                <a class="nav-link tab-profile" id="v-pills-id-ibu-tab" data-toggle="pill" href="#v-pills-id-ibu" role="tab" aria-controls="v-pills-id-ibu" aria-selected="false">Identitas Ibu</a>
+                <a class="nav-link tab-profile" id="v-pills-id-wali-tab" data-toggle="pill" href="#v-pills-id-wali" role="tab" aria-controls="v-pills-id-wali" aria-selected="false">Identitas Wali</a>
+                <a class="nav-link tab-profile" id="v-pills-major-tab" data-toggle="pill" href="#v-pills-major" role="tab" aria-controls="v-pills-major" aria-selected="false">Jurusan</a>
             </div>
         </div>
         <div class="col-sm-9">
@@ -48,14 +57,31 @@
                         {% crispy form_s %}
                     </div>
                 </div>
-                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-id-ayah" role="tabpanel" aria-labelledby="v-pills-id-ayah-tab">
+                    <div class="row  rounded py-2 bg-white shadow mb-4">
+                        {% crispy form_f %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-id-ibu" role="tabpanel" aria-labelledby="v-pills-id-ibu-tab">
+                     <div class="row  rounded py-2 bg-white shadow mb-4">
+                        {% crispy form_m %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-id-wali" role="tabpanel" aria-labelledby="v-pills-id-wali-tab">
+                      <div class="row  rounded py-2 bg-white shadow mb-4">
+                        {% crispy form_g %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-major" role="tabpanel" aria-labelledby="v-pills-major-tab">
+                      <div class="row  rounded py-2 bg-white shadow mb-4">
+                        {% crispy form_ma %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 {% endblock main %}
 {% block js %}
     <script type="text/javascript" src="{% static 'primaseru/js/jquery-auto-resize.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'primaseru/js/autoresize.js' %}"></script>
+    <script type="text/javascript" src="{% static 'primaseru/js/primaseru.js' %}"></script>
 {% endblock js %}
