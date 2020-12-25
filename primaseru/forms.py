@@ -1,5 +1,6 @@
 from django import forms
 import datetime
+from django.urls import reverse
 
 from crispy_forms.helper import FormHelper
 
@@ -14,7 +15,7 @@ class PhotoProfileForm(forms.ModelForm):
 
     class Meta:
         model = PhotoProfile
-        exclude = ['student']
+        fields = ['image']
 
 class MajorStudentForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -85,6 +86,7 @@ class StudentProfileForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.form_class = 'col-md-12 '
         self.helper.form_id = 'profile-form'
+        self.helper.form_action = reverse('save-student')
         self.helper.layout = layouts.STUDENT_LAYOUT
 
     class Meta:

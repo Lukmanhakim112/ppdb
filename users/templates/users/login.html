@@ -8,18 +8,10 @@
      }
     </style>
 {% endblock head %}
+{% block navbar %}{% endblock navbar %}
 {% block main %}
 
-    {% if next %}
-        {% if user.is_authenticated %}
-            <p>Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.</p>
-        {% else %}
-            <p>Please login to see this page.</p>
-        {% endif %}
-    {% endif %}
-
-    <div class="row justify-content-md-center mx-2 mt-3">
+    <div class="row justify-content-md-center mx-2 mt-5">
         <div class="col-lg-3 text-center">
             <img src="{% static 'users/images/Sekunder.png'  %}" alt="logo smk telkom bandung" width="125vh" />
             <h4 class="mb-0 mt-3">Login Primaseru</h4>
@@ -29,7 +21,7 @@
     {% if form.errors %}
         <div class="row justify-content-md-center mt-4 mx-2">
             <div class="col-lg-3 alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                Username and Password are not registered!
+                Email and Password Tidak Valid!
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

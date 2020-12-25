@@ -12,7 +12,6 @@ STUDENT_LAYOUT = Layout(
                         ),
                         Row(
                             Div(Field("handpone", css_class='form-control-sm'), css_class="col-sm-6"),
-                            Div(Field('email', css_class='form-control-sm'), css_class="col-sm-6"),
                         ),
                         Row(
                             Div(Field("city_born", css_class='form-control-sm'), css_class="col-sm-6"),
