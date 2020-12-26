@@ -18,7 +18,6 @@ class PhotoProfileForm(forms.ModelForm):
         fields = ['image']
 
 class MajorStudentForm(forms.ModelForm):
-    date_born = DATE_BORN
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -30,7 +29,7 @@ class MajorStudentForm(forms.ModelForm):
 
     class Meta:
         model =  MajorStudent
-        exclude = ['stundent']
+        exclude = ['student']
 
 class FatherStudentProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -86,7 +85,6 @@ class StudentProfileForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.form_class = 'col-md-12 '
         self.helper.form_id = 'profile-form'
-        self.helper.form_action = reverse('save-student')
         self.helper.layout = layouts.STUDENT_LAYOUT
 
     class Meta:

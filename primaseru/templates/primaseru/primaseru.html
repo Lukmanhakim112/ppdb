@@ -84,12 +84,4 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'primaseru/js/jquery-auto-resize.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'primaseru/js/primaseru.js' %}"></script>
-    <script type="text/javascript">
-     let profileStudent = {
-         url: "{% url 'save-student' %}"
-     };
-     let profileFather = {
-         url: "{% url 'save-father' %}"
-     };
-    </script>
 {% endblock js %}

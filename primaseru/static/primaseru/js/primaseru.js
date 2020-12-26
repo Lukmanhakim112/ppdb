@@ -1,19 +1,3 @@
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
 $(document).ready( () => {
     let textbox = [
         $('#id_address_kk'),
@@ -41,41 +25,34 @@ $(document).ready( () => {
         });
     }
 
-    $("#profile-form").submit(() => {
-        $.ajax({
-            url: profileStudent.url,
-            type: "POST",
-            data: $(this).serialize(),
-            success: () => {
-                if (!(data['success'])) {
-                    $("#profile-form").replaceWith(data['form_s']);
-                }
-                else {
-                    $("#profile-form").find('.success-message').show();
-                }
-            },
-            error: () => {
-                $("#profile-form").find('.error-message').show()
-            },
+    let formList = [
+        [$("#profile-form"), "Calon Siswa", "profile"],
+        [$("#major-form"), "Jurusan", "major"],
+        [$("#father-form"), "Ayah Calon Siswa", "father"],
+        [$("#mother-form"), "Ibu Calon Siswa", "mother"],
+        [$("#guardian-form"), "Wali Calon Siswa", "guardian"]
+    ];
+    for (let i = 0; i < formList.length; i++){
+        $(formList[i][0]).submit(() => {
+            $.ajax({
+                url: `/profile/save/${formList[i][2]}/`,
+                type: "POST",
+                data: $(formList[i][0]).serialize(),
+                dataType: 'json',
+                success: (response) => {
+                    $(formList[i][0]).empty().html(response.form_s);
+                    let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menyimpan Data ${formList[i][1]} \
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
+                                    &times;</span></button></div>`;
+                    $(formList[i][0]).prepend(alertSuccess);
+                },
+                error: (response) => {
+                    $(formList[i][0]).empty().html(response.responseJSON.form_s);
+                },
+            });
+            return false;
         });
-        return false;
-    });
+    }
 
-    $("#father-form").submit(() => {
-        $.ajax({
-            url: profileFather.url,
-            type: "POST",
-            data: $("#father-form").serialize(),
-            dataType: 'json',
-            success: () => {
-                let alertSuccess = '<div class="alert alert-success" role="alert">Berhasil Simpan Data Ayah</div>'
-                $("#father-form").prepend(alertSuccess)
-            },
-            error: (response) => {
-                $("#father-form").replaceWith(response.responseJSON.form_s);
-            },
-        });
-        return false;
-    });
 
 });

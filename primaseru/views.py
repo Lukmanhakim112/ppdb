@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from crispy_forms.utils import render_crispy_form
-from jsonview.decorators import json_view
 
 from .forms import StudentProfileForm, FatherStudentProfileForm, MotherStudentProfileForm, StudentGuardianProfileForm, MajorStudentForm, PhotoProfileForm
 from .models import PhotoProfile
@@ -15,22 +14,33 @@ def home(request):
     return render(request, 'primaseru/home.html')
 
 @login_required
-def save_father_profile(request):
+def save_profile(request, data):
     if request.method == "POST":
-        form = FatherStudentProfileForm(request.POST, instance=request.user.fatherstudentprofile)
+        if data == "father":
+            form = FatherStudentProfileForm(request.POST, instance=request.user.fatherstudentprofile)
+        elif data == "mother":
+            form = MotherStudentProfileForm(request.POST, instance=request.user.motherstudentprofile)
+        elif data == "guardian":
+            form = StudentGuardianProfileForm(request.POST, instance=request.user.studentguardialprofile)
+        elif data == "profile":
+            form = StudentProfileForm(request.POST, instance=request.user.studentprofile)
+        elif data == "major":
+            form = MajorStudentForm(request.POST, instance=request.user.majorstudent)
+        else:
+            return JsonResponse({'error': 'Not Find Any Person'}, status=404)
+
+        ctx = {}
+        ctx.update(csrf(request))
+        form_s = render_crispy_form(form, context=ctx)
+
         if form.is_valid():
             form.save()
-            return JsonResponse({"success": True}, status=200)
+            return JsonResponse({'success': True, 'form_s': form_s}, status=200)
         else:
-            ctx = {}
-            ctx.update(csrf(request))
-            form_s = render_crispy_form(form, context=ctx)
             return JsonResponse({'success': False, 'form_s': form_s}, status=406)
     else:
         return redirect('profile')
 
-def save_student_profile(request):
-    pass
 
 @login_required
 def studentProfile(request):
