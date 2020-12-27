@@ -32,35 +32,35 @@ class StudentProfile(models.Model):
     handpone = models.PositiveIntegerField('No. HP', null=True)
     city_born = models.CharField('Tempat Lahir', max_length=100, help_text="Contoh: Kabupaten Bandung")
     date_born = models.DateField('Tanggal Lahir', null=True)
-    social_media = models.CharField('Akun Sosial Media', max_length=100)
-    achievement = models.CharField('Prestasi Akademik/Non Akademik', max_length=120, null=True, blank=True)
-    transport = models.CharField('Alat Transportasi', max_length=50)
+    social_media = models.CharField('Akun Sosial Media', max_length=100, help_text="Seperti Alamat Twitter, IG, atau FB")
+    achievement = models.CharField('Prestasi Akademik/Non Akademik', max_length=120, null=True, blank=True, help_text="Contoh : Juara 3 Lomba Basket Antar SMA Tingkat Kabupaten tahun 2018 atau Juara 3 Pencak Silat Ditingkat Kabupaten tahun 2018 ")
 
     # Documents Information
-    nisn = models.PositiveIntegerField('NISN', unique=True, null=True)
-    nik = models.PositiveIntegerField('Nomor Induk Kependudukan (NIK)', unique=True, null=True)
-    no_kk = models.PositiveIntegerField('Nomor Kartu Keluarga (KK)', null=True)
-    address_kk = models.TextField('Alamat KK', null=True)
+    nisn = models.PositiveIntegerField('NISN', unique=True, null=True, help_text="Isi berdasarkan NISN yang diberikan SMP Asal")
+    nik = models.PositiveIntegerField('Nomor Induk Kependudukan (NIK)', unique=True, null=True, help_text="Bisa dicek di Kartu Keluarga")
+    no_kk = models.PositiveIntegerField('Nomor Kartu Keluarga (KK)', null=True, help_text="Diisi Berdasarkan Kartu Keluarga")
+    address_kk = models.TextField('Alamat Kartu Keluarga (KK)', null=True, help_text="Contoh: Jalan Radio Palasari")
 
     # Address
     city = models.CharField('Kota/Kabupaten', max_length=120, help_text="Contoh: Kabupaten Bandung")
-    kecamatan = models.CharField(max_length=120)
-    kelurahan = models.CharField(max_length=120)
-    dusun = models.CharField(max_length=120)
-    rt_rw = models.CharField('RT/RW', max_length=8)
-    real_address = models.TextField('Alamat Sekarang')
-    resident = models.CharField('Tempat Tinggal', max_length=50)
+    kecamatan = models.CharField(max_length=120, help_text="Contoh : Kecamatan Dayeuhkolot")
+    kelurahan = models.CharField(max_length=120, help_text="Contoh : Desa Citeureup")
+    dusun = models.CharField(max_length=120, help_text="Jika tidak tahu ada maka diisi dengan -")
+    rt_rw = models.CharField('RT/RW', max_length=8, help_text="Contoh: 06/02")
+    real_address = models.TextField('Alamat Sekarang', help_text="Contoh : Jalan Bojongsoang")
+    resident = models.CharField('Tempat Tinggal', max_length=50, help_text="Contoh: Rumah Pribadi, Kost, Rumah Keluarga (Keluarga Besar).")
+    transport = models.CharField('Alat Transportasi', max_length=50, help_text="Contoh: Jalan Kaki, Motor, Ojek Online, Sepeda, Mobil, Angkot.")
 
     # Previous School Information
-    school_origin = models.CharField('Asal Sekolah', max_length=120)
+    school_origin = models.CharField('Asal Sekolah', max_length=120, help_text="Isilah sesuai dengan asal sekolah Anda dan dituliskan seperti contoh berikut : SMP Telkom Bandung ")
     npsn_school_origin = models.PositiveIntegerField('Nomor NPSN Sekolah Asal', help_text="Bisa Cek <a href='https://referensi.data.kemdikbud.go.id/index11.php' target='_blank'><b>Disini</b></a>", null=True)
 
     # Medical Record
-    medic_record = models.TextField('Riwayat Kesehatan', null=True, blank=True)
+    medic_record = models.TextField('Riwayat Kesehatan', null=True, blank=True, help_text="Jika pernah mempunyai penyakit, silahkan ditulis disini")
     blood_type = models.CharField('Golongan Darah', choices=choices.BLOOD_TYPE, max_length=2)
     in_medicine = models.CharField('Dalam Pengobatan', max_length=120, null=True, blank=True)
-    private_doctor = models.CharField('Nama Dokter Keluarga', max_length=120, null=True, blank=True)
-    phone_doctor = models.PositiveIntegerField('No Telepon Dokter', null=True, blank=True)
+    private_doctor = models.CharField('Nama Dokter Keluarga', max_length=120, null=True, blank=True, help_text="Jika kamu mempunyai dokter keluarga, silahkan input disini")
+    phone_doctor = models.PositiveIntegerField('No Telepon Dokter', null=True, blank=True, help_text="Isi jika memiliki dokter keluarga dan atau dalam masa penyambuhan penyakit")
 
     def __str__(self):
         return f'{self.student} profile'
@@ -72,12 +72,12 @@ class ProfileParent(models.Model):
     """
     child = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     full_name = models.CharField(verbose_name=f"Nama Lengkap", max_length=120)
-    city_born = models.CharField('Kota/Kabupaten Kelahiran', max_length=120, help_text="Contoh: Kabupaten Bandung")
+    city_born = models.CharField('Kota/Kabupaten Kelahiran', max_length=120, help_text="Contoh pengisian tempat lahir: Kab bandung")
     date_born = models.DateField('Tanggal Lahir', null=True)
-    nik = models.PositiveIntegerField('Nomor Induk Kependudukan (NIK)', null=True)
+    nik = models.PositiveIntegerField('Nomor Induk Kependudukan (NIK)', null=True, help_text="Diisi berdasarkan Kartu Keluarga")
     education = models.CharField(f'Pendidikan Terakhir', max_length=4, choices=choices.EDUCATION_LEVEL)
     job = models.CharField(f'Pekerjaan', max_length=100, null=True, blank=True)
-    salary = models.PositiveIntegerField(f'Penghasilan', null=True, blank=True)
+    salary = models.PositiveIntegerField(f'Penghasilan', null=True, blank=True, help_text="Diisi dengan angka")
     email = models.EmailField(f'Email', null=True, blank=True)
     phone = models.PositiveIntegerField(f'No. HP', null=True)
 
