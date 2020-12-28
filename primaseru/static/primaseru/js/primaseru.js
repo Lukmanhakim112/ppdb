@@ -52,17 +52,8 @@ $(document).ready( () => {
         });
     }
 
-    let selectedFirst = $("#id_first_major").val();
-    if (!!(selectedFirst)) {
-        $("#id_first_major").prop('disabled', true);
-    }
-    let selectedSecond = $("#id_second_major").val();
-    if (!!(selectedSecond)) {
-        $("#id_second_major").prop('disabled', true);
-    }
-
     let majorForm = $("#major-form");
-    $("#major-form").submit((e) => {
+    $(majorForm).submit((e) => {
         if ($("#id_first_major").is(":disabled") && $("#id_second_major").is(":disabled")) {
             let alertDanger = `<div class="alert alert-danger alert-dismissible fade show" role="alert">Jurusan Sudah Dipilih, Tidak Bisa Diubah.... \
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
@@ -80,17 +71,16 @@ $(document).ready( () => {
                     let alertDanger = `<div class="alert alert-danger alert-dismissible fade show" role="alert">Kedua juruan pilihan tidak boleh sama! \
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
                                     &times;</span></button></div>`;
-                    if (selectedFirst == selectedSecond) {
+                    if ($("#id_first_major").val() == $("#id_second_major").val()) {
                         $(majorForm).prepend(alertDanger);
                         return false;
                     }
                 },
-                success: (response) => {
-                    $(majorForm).empty().html(response.form_s);
-                    console.log(response.form_s);
+                success: () => {
                     let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menyimpan Jurusan Pilihan \
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
                                     &times;</span></button></div>`;
+                    disableMajor()
                     $(majorForm).prepend(alertSuccess);
                 },
                 error: () => {
@@ -103,5 +93,18 @@ $(document).ready( () => {
             return false;
         }
     });
+
+    let disableMajor = () => {
+        let selectedFirst = $("#id_first_major").val();
+        if (!!(selectedFirst)) {
+            $("#id_first_major").prop('disabled', true);
+        }
+        let selectedSecond = $("#id_second_major").val();
+        if (!!(selectedSecond)) {
+            $("#id_second_major").prop('disabled', true);
+        }
+    }
+    disableMajor();
+
 
 });
