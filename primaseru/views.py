@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from crispy_forms.utils import render_crispy_form
 
-from .forms import StudentProfileForm, FatherStudentProfileForm, MotherStudentProfileForm, StudentGuardianProfileForm, MajorStudentForm, PhotoProfileForm
+from .forms import StudentProfileForm, FatherStudentProfileForm, MotherStudentProfileForm, StudentGuardianProfileForm, MajorStudentForm, PhotoProfileForm, RaportForm
 from .models import PhotoProfile
 
 
@@ -21,7 +21,7 @@ def save_profile(request, data):
         elif data == "mother":
             form = MotherStudentProfileForm(request.POST, instance=request.user.motherstudentprofile)
         elif data == "guardian":
-            form = StudentGuardianProfileForm(request.POST, instance=request.user.studentguardialprofile)
+            form = StudentGuardianProfileForm(request.POST, instance=request.user.studentguardianprofile)
         elif data == "profile":
             form = StudentProfileForm(request.POST, instance=request.user.studentprofile)
         elif data == "major":
@@ -56,6 +56,7 @@ def studentProfile(request):
                'form_g': StudentGuardianProfileForm(instance=request.user.studentguardianprofile),
                'form_ma': MajorStudentForm(instance=request.user.majorstudent),
                'form_ph': PhotoProfileForm(instance=request.user.photoprofile),
+               'form_r': RaportForm(),
                'profile': PhotoProfile.objects.get(student=request.user)
            }
         return render(request, 'primaseru/primaseru.html', context=ctx)
