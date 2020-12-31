@@ -54,7 +54,7 @@ $(document).ready( () => {
 
     let majorForm = $("#major-form");
     $(majorForm).submit((e) => {
-        if ($("#id_first_major").is(":disabled") && $("#id_second_major").is(":disabled")) {
+        if ($("#id_first_major").is(":disabled") && $("#id_second_major").is(":disabled") || (!!(selectedFirst) || !!(selectedSecond))) {
             let alertDanger = `<div class="alert alert-danger alert-dismissible fade show" role="alert">Jurusan Sudah Dipilih, Tidak Bisa Diubah.... \
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
                                     &times;</span></button></div>`;
@@ -94,12 +94,14 @@ $(document).ready( () => {
         }
     });
 
+    let selectedFirst = $("#id_first_major").val();
+    let selectedSecond = $("#id_second_major").val();
     let disableMajor = () => {
         let selectedFirst = $("#id_first_major").val();
+        let selectedSecond = $("#id_second_major").val();
         if (!!(selectedFirst)) {
             $("#id_first_major").prop('disabled', true);
         }
-        let selectedSecond = $("#id_second_major").val();
         if (!!(selectedSecond)) {
             $("#id_second_major").prop('disabled', true);
         }

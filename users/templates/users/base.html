@@ -15,10 +15,10 @@
         {% block head %}
         {% endblock head %}
     </head>
-    <body class="bg-light">
+    <body style="background-color: #f9f9f9f9;">
 
         {% block navbar %}
-        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light border-0">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'home' %}">
                     <img src="{% static 'primaseru/images/prima_1.png' %}" width="30" height="30" class="d-inline-block align-top" alt="logo primaseru" loading="lazy">
@@ -38,9 +38,15 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="btn btn-outline-danger" href="{% url 'login' %}">Logout</a>
+                        </li>
+                    {% else %}
                         <li class="nav-item">
                             <a class="btn btn-outline-primary" href="{% url 'login' %}">Login</a>
                         </li>
+                    {% endif %}
                     </ul>
                 </div>
             </div>

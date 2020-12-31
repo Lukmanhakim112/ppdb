@@ -20,12 +20,11 @@
     </style>
     <link rel="stylesheet" href="{% static 'primaseru/css/primaseru.css' %}" type="text/css" media="screen" />
 {% endblock head %}
-{% block navbar %}{% endblock navbar %}
 {% block main %}
 
     <div class="row py-2 my-4">
         <div class="col-sm-3 text-center mb-1">
-            <img src="{{ profile.image.url }}" alt="photo profile" width="175" height="175" />
+            <img src="{{ photo.image.url }}" alt="photo profile" width="175" height="175" />
         </div>
         <div class="col-sm-9 mb-1">
             <h1>{{ profile.student.full_name  }} <br /> <small class="text-muted">{{ profile.student.email  }}</small></h1>
@@ -47,33 +46,93 @@
                 <a class="nav-link tab-profile" id="v-pills-id-ibu-tab" data-toggle="pill" href="#v-pills-id-ibu" role="tab" aria-controls="v-pills-id-ibu" aria-selected="false">Identitas Ibu</a>
                 <a class="nav-link tab-profile" id="v-pills-id-wali-tab" data-toggle="pill" href="#v-pills-id-wali" role="tab" aria-controls="v-pills-id-wali" aria-selected="false">Identitas Wali</a>
                 <a class="nav-link tab-profile" id="v-pills-major-tab" data-toggle="pill" href="#v-pills-major" role="tab" aria-controls="v-pills-major" aria-selected="false">Jurusan</a>
+                <a class="nav-link tab-profile" id="v-pills-files-tab" data-toggle="pill" href="#v-pills-files" role="tab" aria-controls="v-pills-files" aria-selected="false">Berkas</a>
             </div>
         </div>
         <div class="col-sm-9">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-identity" role="tabpanel" aria-labelledby="v-pills-identity-tab">
                     <div class="row  rounded py-2 bg-white shadow mb-4">
+                        <div class="card mx-3 mb-3 w-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Identitas Diri</h5>
+                                <p class="card-text">
+                                    Silahkang melengkapi data diri Anda sesuai kolom yang tersedia, jika terdapat tanda bintang (<span class="text-danger">*</span>) berarti wajib diisi.
+                                    <samp class="text-danger">Data yang sudah terverifikasi tidak bisa diubah.</samp>
+                                </p>
+                                Status : <span class="badge badge-warning">Belum Terverifikasi</span>
+                            </div>
+                        </div>
                         {% crispy form_s %}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-id-ayah" role="tabpanel" aria-labelledby="v-pills-id-ayah-tab">
                     <div class="row  rounded py-2 bg-white shadow mb-4">
+                        <div class="card mx-3 mb-3 w-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Identitas Ayah</h5>
+                                <p class="card-text">
+                                    Silahkang melengkapi data Ayah Anda sesuai kolom yang tersedia, jika terdapat tanda bintang (<span class="text-danger">*</span>) berarti wajib diisi.
+                                    <samp class="text-danger">Data yang sudah terverifikasi tidak bisa diubah.</samp>
+                                </p>
+                                Status : <span class="badge badge-warning">Belum Terverifikasi</span>
+                            </div>
+                        </div>
                         {% crispy form_f %}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-id-ibu" role="tabpanel" aria-labelledby="v-pills-id-ibu-tab">
                      <div class="row  rounded py-2 bg-white shadow mb-4">
+                         <div class="card mx-3 mb-3 w-100">
+                             <div class="card-body">
+                                 <h5 class="card-title">Identitas Ibu</h5>
+                                 <p class="card-text">
+                                     Silahkang melengkapi data Ibu Anda sesuai kolom yang tersedia, jika terdapat tanda bintang (<span class="text-danger">*</span>) berarti wajib diisi.
+                                     <samp class="text-danger">Data yang sudah terverifikasi tidak bisa diubah.</samp>
+                                 </p>
+                                 Status : <span class="badge badge-warning">Belum Terverifikasi</span>
+                             </div>
+                         </div>
                         {% crispy form_m %}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-id-wali" role="tabpanel" aria-labelledby="v-pills-id-wali-tab">
                       <div class="row  rounded py-2 bg-white shadow mb-4">
+                          <div class="card mx-3 mb-3 w-100">
+                              <div class="card-body">
+                                  <h5 class="card-title">Identitas Wali (Jika Ada)</h5>
+                                  <p class="card-text">
+                                      Silahkang melengkapi data Wali Anda sesuai kolom yang tersedia, jika terdapat tanda bintang (<span class="text-danger">*</span>) berarti wajib diisi.
+                                      <samp class="text-danger">Data yang sudah terverifikasi tidak bisa diubah.</samp>
+                                  </p>
+                                  Status : <span class="badge badge-warning">Belum Terverifikasi</span>
+                              </div>
+                          </div>
                         {% crispy form_g %}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-major" role="tabpanel" aria-labelledby="v-pills-major-tab">
                       <div class="row  rounded py-2 bg-white shadow mb-4">
+                          <div class="card mx-3 mb-3 w-100">
+                              <div class="card-body">
+                                  <h5 class="card-title">Pemilihan Jurusan</h5>
+                                  <p class="card-text">
+                                      Silahkan pilih jurusan, jika sudah memilih jurusan, maka pilihan tersebut tidak dapat diubah kembali.
+                                  </p>
+                              </div>
+                          </div>
                         {% crispy form_ma %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-files" role="tabpanel" aria-labelledby="v-pills-files-tab">
+                    <div class="row  rounded py-2 bg-white shadow mb-4">
+                        <div class="card mx-3 mb-3 w-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Silahkan Unggah Berkas yang Diperlukan.</h5>
+                                Status : <span class="badge badge-warning">Belum Terverifikasi</span>
+                            </div>
+                        </div>
+                        {% crispy form_r %}
                     </div>
                 </div>
             </div>

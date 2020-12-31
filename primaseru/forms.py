@@ -5,11 +5,29 @@ from django.urls import reverse
 from crispy_forms.helper import FormHelper
 
 from . import choices, layouts
-from .models import StudentProfile, FatherStudentProfile, MotherStudentProfile, StudentGuardianProfile, MajorStudent, PhotoProfile
+from .models import StudentProfile, FatherStudentProfile, MotherStudentProfile, StudentGuardianProfile, MajorStudent, PhotoProfile, StudentFile
 
 
 DATE_BORN = forms.DateField(label='Tanggal Lahir',initial=datetime.date.today, widget=forms.DateInput(format="%d/%m/%Y"),
-                                help_text="Format: <em>DD/MM/YYYY</em>")
+                                help_text="Format: <em>DD/MM/YYYY</em>", input_formats=["%d/%m/%Y"])
+
+
+class StudentFileForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.form_class = 'col-sm-12 form-horizontal'
+        self.helper.label_class = 'col-sm-3'
+        self.helper.field_class = 'col-sm-9'
+        self.helper.form_id = 'raport-form'
+        self.helper.layout = layouts.RAPORT_LAYOUT
+
+    class Meta:
+        model = StudentFile
+        exclude = ['student', 'created_at', 'updated_at', 'verified', 'msg']
+
 
 class PhotoProfileForm(forms.ModelForm):
 
@@ -29,7 +47,7 @@ class MajorStudentForm(forms.ModelForm):
 
     class Meta:
         model =  MajorStudent
-        exclude = ['student']
+        exclude = ['student', 'verified']
 
 class FatherStudentProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -44,7 +62,7 @@ class FatherStudentProfileForm(forms.ModelForm):
 
     class Meta:
         model =  FatherStudentProfile
-        exclude = ['child']
+        exclude = ['child', 'verified']
 
 class MotherStudentProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -59,7 +77,7 @@ class MotherStudentProfileForm(forms.ModelForm):
 
     class Meta:
         model =  MotherStudentProfile
-        exclude = ['child']
+        exclude = ['child', 'verified']
 
 class StudentGuardianProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -74,7 +92,7 @@ class StudentGuardianProfileForm(forms.ModelForm):
 
     class Meta:
         model =  StudentGuardianProfile
-        exclude = ['child']
+        exclude = ['child', 'verified']
 
 class StudentProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -89,4 +107,4 @@ class StudentProfileForm(forms.ModelForm):
 
     class Meta:
         model =  StudentProfile
-        exclude = ['student']
+        exclude = ['student', 'verified']

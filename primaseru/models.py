@@ -1,10 +1,31 @@
 from django.db import models
+from django.utils import timezone
 
 from PIL import Image
 
 from users.models import CustomUser
 from . import choices
 
+
+def user_directory_path(instance, filename):
+    return f'berkas_{instance.student.id}_{instance.student.full_name}/{filename}'
+
+class StudentFile(models.Model):
+    student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    verified = models.BooleanField(default=False)
+    msg = models.CharField("Pesan", max_length=120, null=True, blank=True)
+    ra_sem_1 = models.FileField('Rapor Semester 1', upload_to=user_directory_path)
+    ra_sem_2 = models.FileField('Rapor Semester 2', upload_to=user_directory_path)
+    ra_sem_3 = models.FileField('Rapor Semester 3', upload_to=user_directory_path)
+    ra_sem_4 = models.FileField('Rapor Semester 4', upload_to=user_directory_path)
+    ra_sem_5 = models.FileField('Rapor Semester 5', upload_to=user_directory_path, null=True, blank=True)
+    color_blind_cert = models.FileField('Semester Keterangan Tidak Buta Warna', upload_to=user_directory_path)
+    healty_cert = models.FileField('Surat Keterangan Sehat', upload_to=user_directory_path)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'Raport {self.student}'
 
 class PhotoProfile(models.Model):
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -24,6 +45,7 @@ class PhotoProfile(models.Model):
 
 
 class StudentProfile(models.Model):
+    verified = models.BooleanField(default=False)
     # Personal Information
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     no_regis = models.PositiveIntegerField('No. Pendaftaran', help_text="Bisa Konfirmasi Ke Bagian Pendaftaran, Contoh : 221321", unique=True, null=True)
@@ -33,7 +55,7 @@ class StudentProfile(models.Model):
     city_born = models.CharField('Tempat Lahir', max_length=100, help_text="Contoh: Kabupaten Bandung")
     date_born = models.DateField('Tanggal Lahir', null=True)
     social_media = models.CharField('Akun Sosial Media', max_length=100, help_text="Seperti Alamat Twitter, IG, atau FB")
-    achievement = models.CharField('Prestasi Akademik/Non Akademik', max_length=120, null=True, blank=True, help_text="Contoh : Juara 3 Lomba Basket Antar SMA Tingkat Kabupaten tahun 2018 atau Juara 3 Pencak Silat Ditingkat Kabupaten tahun 2018 ")
+    achievement = models.TextField('Prestasi Akademik/Non Akademik', max_length=120, null=True, blank=True, help_text="Contoh : Juara 3 Lomba Basket Antar SMA Tingkat Kabupaten tahun 2018 atau Juara 3 Pencak Silat Ditingkat Kabupaten tahun 2018 ")
 
     # Documents Information
     nisn = models.PositiveIntegerField('NISN', unique=True, null=True, help_text="Isi berdasarkan NISN yang diberikan SMP Asal")
@@ -70,6 +92,7 @@ class ProfileParent(models.Model):
     Creating abstract models, so this models (field) can be use multiple time (inheritance).
     https://docs.djangoproject.com/en/3.1/topics/db/models/#abstract-base-classes
     """
+    verified = models.BooleanField(default=False)
     child = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     full_name = models.CharField(verbose_name=f"Nama Lengkap", max_length=120)
     city_born = models.CharField('Kota/Kabupaten Kelahiran', max_length=120, help_text="Contoh pengisian tempat lahir: Kab bandung")
@@ -98,6 +121,7 @@ class StudentGuardianProfile(ProfileParent):
 
 class MajorStudent(models.Model):
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    verified = models.BooleanField(default=False)
     first_major = models.CharField('Pilihan Jurusan Pertama', choices=choices.MAJOR, max_length=4)
     second_major = models.CharField('Pilihan Jurusan Kedua', choices=choices.MAJOR, max_length=4)
     info = models.CharField('Info Primaseru (PPDB)', max_length=120, help_text="Tuliskan Darimana Kamu Mendapatkan Info Tentang Primaseru.")

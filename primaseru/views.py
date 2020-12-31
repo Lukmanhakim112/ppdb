@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.template.context_processors import csrf
-from django.contrib import messages
+from django.views import View
+from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 
 from crispy_forms.utils import render_crispy_form
 
-from .forms import StudentProfileForm, FatherStudentProfileForm, MotherStudentProfileForm, StudentGuardianProfileForm, MajorStudentForm, PhotoProfileForm, RaportForm
-from .models import PhotoProfile
-
+from . import forms, models
 
 def home(request):
     return render(request, 'primaseru/home.html')
@@ -17,15 +16,15 @@ def home(request):
 def save_profile(request, data):
     if request.method == "POST":
         if data == "father":
-            form = FatherStudentProfileForm(request.POST, instance=request.user.fatherstudentprofile)
+            form = forms.FatherStudentProfileForm(request.POST, instance=request.user.fatherstudentprofile)
         elif data == "mother":
-            form = MotherStudentProfileForm(request.POST, instance=request.user.motherstudentprofile)
+            form = forms.MotherStudentProfileForm(request.POST, instance=request.user.motherstudentprofile)
         elif data == "guardian":
-            form = StudentGuardianProfileForm(request.POST, instance=request.user.studentguardianprofile)
+            form = forms.StudentGuardianProfileForm(request.POST, instance=request.user.studentguardianprofile)
         elif data == "profile":
-            form = StudentProfileForm(request.POST, instance=request.user.studentprofile)
+            form = forms.StudentProfileForm(request.POST, instance=request.user.studentprofile)
         elif data == "major":
-            form = MajorStudentForm(request.POST, instance=request.user.majorstudent)
+            form = forms.MajorStudentForm(request.POST, instance=request.user.majorstudent)
         else:
             return JsonResponse({'error': 'Not Find Any Person'}, status=404)
 
@@ -42,22 +41,31 @@ def save_profile(request, data):
         return redirect('profile')
 
 
+
+
 @login_required
 def studentProfile(request):
     if request.method == "POST":
-        form_ph = PhotoProfileForm(request.POST, request.FILES, instance=request.user.photoprofile)
+        form_ph = forms.PhotoProfileForm(request.POST, request.FILES, instance=request.user.photoprofile)
         if form_ph.is_valid():
             form_ph.save()
             return redirect('profile')
     else:
-        ctx = {'form_s': StudentProfileForm(instance=request.user.studentprofile),
-               'form_f': FatherStudentProfileForm(instance=request.user.fatherstudentprofile),
-               'form_m': MotherStudentProfileForm(instance=request.user.motherstudentprofile),
-               'form_g': StudentGuardianProfileForm(instance=request.user.studentguardianprofile),
-               'form_ma': MajorStudentForm(instance=request.user.majorstudent),
-               'form_ph': PhotoProfileForm(instance=request.user.photoprofile),
-               'form_r': RaportForm(),
-               'profile': PhotoProfile.objects.get(student=request.user)
+        # TODO Refactoring This Fucking Shit!
+        ctx = {'form_s': forms.StudentProfileForm(instance=request.user.studentprofile),
+               'form_f': forms.FatherStudentProfileForm(instance=request.user.fatherstudentprofile),
+               'form_m': forms.MotherStudentProfileForm(instance=request.user.motherstudentprofile),
+               'form_g': forms.StudentGuardianProfileForm(instance=request.user.studentguardianprofile),
+               'form_ma': forms.MajorStudentForm(instance=request.user.majorstudent),
+               'form_ph': forms.PhotoProfileForm(instance=request.user.photoprofile),
+               'form_r': forms.StudentFileForm(instance=request.user.studentfile),
+               # Model,
+               'photo': models.PhotoProfile.objects.get(student=request.user),
+               'profile': models.StudentProfile.objects.get(student=request.user),
+               'father': models.FatherStudentProfile.objects.get(child=request.user),
+               'mother': models.MotherStudentProfile.objects.get(child=request.user),
+               'guardian': models.StudentGuardianProfile.objects.get(child=request.user),
+               'files': models.StudentFile.objects.get(student=request.user),
            }
         return render(request, 'primaseru/primaseru.html', context=ctx)
 

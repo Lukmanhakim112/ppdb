@@ -69,7 +69,7 @@ STUDENT_LAYOUT = Layout(
                 ),
                 HTML('<hr />'),
                 HTML('\
-                    <button type="submit" role="submit" class="btn btn-outline-primary btn-block "><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"> \
+                    <button type="submit" role="submit" class="btn btn-outline-success btn-block "><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"> \
   <path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/> \
   <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/> \
 </svg> Save</button> \
@@ -100,7 +100,7 @@ PARENTS_LAYOUT = Layout(
                 ),
                 HTML('<hr />'),
                 HTML('\
-                    <button type="submit" role="submit" class="btn btn-outline-primary btn-block submit-parent"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"> \
+                    <button type="submit" role="submit" class="btn btn-outline-success btn-block submit-parent"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"> \
   <path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/> \
   <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/> \
 </svg> Save</button> \
@@ -116,10 +116,45 @@ MAJOR_LAYOUT = Layout(
              Field('info', css_class="form-control-sm"),
              HTML('<hr />'),
              HTML('\
-                    <button type="submit" role="submit" class="btn btn-outline-primary btn-block"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"> \
+                    <button type="submit" role="submit" class="btn btn-outline-success btn-block"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"> \
   <path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/> \
   <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/> \
 </svg> Save</button> \
              ')
     )
 )
+
+
+
+RAPORT_LAYOUT = Layout(
+            Fieldset(None,
+                Row(
+                    Div('ra_sem_1', css_class="col-sm-12"),
+                ),
+                Row(
+                    Div('ra_sem_2', css_class="col-sm-12"),
+                ),
+                Row(
+                    Div('ra_sem_3', css_class="col-sm-12"),
+                ),
+                Row(
+                    Div('ra_sem_4', css_class="col-sm-12"),
+                ),
+                Row(
+                    Div('ra_sem_5', css_class="col-sm-12"),
+                ),
+                Row(
+                    Div('color_blind_cert', css_class="col-sm-12"),
+                ),
+                Row(
+                    Div('healty_cert', css_class="col-sm-12"),
+                ),
+                HTML('<hr />'),
+                HTML('\
+                    <button type="submit" role="submit" class="btn btn-outline-success btn-block submit-parent"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"> \
+  <path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/> \
+  <path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/> \
+</svg> Save</button> \
+                ')
+            )
+        )
