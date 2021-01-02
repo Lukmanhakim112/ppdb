@@ -1,0 +1,34 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<div class="card mx-3 mb-3 w-100">
+    <div class="card-body">
+        <h5 class="card-title">Identitas {{ name|capfirst  }}</h5>
+        <p class="card-text">
+            Silahkang melengkapi data {{ name|capfirst }} Anda sesuai kolom yang tersedia, jika terdapat tanda bintang (<span class="text-danger">*</span>) berarti wajib diisi.
+            <samp class="text-danger">Data yang sudah terverifikasi tidak bisa diubah.</samp>
+        </p>
+        Status : <span class="badge badge-warning">Belum Terverifikasi</span>
+    </div>
+</div>
+{% crispy form %}
+<script type="text/javascript">
+$("#{{ name }}-form").submit(() => {
+    $.ajax({
+        url: `/profile/{{ name }}/`,
+        type: "POST",
+        data: $("#{{ name }}-form").serialize(),
+        dataType: 'json',
+        success: (response) => {
+            $("#{{ name }}-form").empty().html(response.form_s);
+            let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menyimpan Data {{ name|capfirst }} \
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
+            &times;</span></button></div>`;
+            $("#{{ name }}-form").prepend(alertSuccess);
+        },
+        error: (response) => {
+            $("#{{ name }}-form").empty().html(response.responseJSON.form_s);
+        },
+    });
+    return false;
+});
+</script>

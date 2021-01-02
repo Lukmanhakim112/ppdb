@@ -56,8 +56,8 @@ class FatherStudentProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        self.helper.form_class = 'col-sm-12 '
-        self.helper.form_id = 'father-form'
+        self.helper.form_class = 'col-sm-12 parent-form'
+        self.helper.form_id = 'ayah-form'
         self.helper.layout = layouts.PARENTS_LAYOUT
 
     class Meta:
@@ -71,8 +71,8 @@ class MotherStudentProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        self.helper.form_class = 'col-sm-12 '
-        self.helper.form_id = 'mother-form'
+        self.helper.form_class = 'col-sm-12 parent-form'
+        self.helper.form_id = 'ibu-form'
         self.helper.layout = layouts.PARENTS_LAYOUT
 
     class Meta:
@@ -86,8 +86,8 @@ class StudentGuardianProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        self.helper.form_class = 'col-sm-12 '
-        self.helper.form_id = 'guardian-form'
+        self.helper.form_class = 'col-sm-12 parent-form'
+        self.helper.form_id = 'wali-form'
         self.helper.layout = layouts.PARENTS_LAYOUT
 
     class Meta:

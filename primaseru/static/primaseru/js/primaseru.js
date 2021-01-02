@@ -26,9 +26,6 @@ $(document).ready( () => {
 
     let formList = [
         [$("#profile-form"), "Calon Siswa", "profile"],
-        [$("#father-form"), "Ayah Calon Siswa", "father"],
-        [$("#mother-form"), "Ibu Calon Siswa", "mother"],
-        [$("#guardian-form"), "Wali Calon Siswa", "guardian"]
     ];
     for (let i = 0; i < formList.length; i++){
         $(formList[i][0]).submit(() => {
@@ -107,6 +104,8 @@ $(document).ready( () => {
         }
     }
     disableMajor();
+
+
 
 
 });
