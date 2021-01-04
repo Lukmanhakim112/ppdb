@@ -9,9 +9,9 @@ from primaseru.models import StudentProfile, FatherStudentProfile, MotherStudent
 def create_profile(sender, instance, created, **kwargs):
     if created:
         StudentProfile.objects.create(student=instance)
-        FatherStudentProfile.objects.create(child=instance)
-        MotherStudentProfile.objects.create(child=instance)
-        StudentGuardianProfile.objects.create(child=instance)
+        FatherStudentProfile.objects.create(student=instance)
+        MotherStudentProfile.objects.create(student=instance)
+        StudentGuardianProfile.objects.create(student=instance)
         PhotoProfile.objects.create(student=instance)
         MajorStudent.objects.create(student=instance)
         StudentFile.objects.create(student=instance)

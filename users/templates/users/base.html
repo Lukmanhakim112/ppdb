@@ -40,7 +40,7 @@
                     <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="btn btn-outline-danger" href="{% url 'login' %}">Logout</a>
+                            <a class="btn btn-outline-danger" href="{% url 'logout' %}">Logout</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
@@ -54,6 +54,13 @@
         {% endblock navbar %}
 
         <main role="main" class="container">
+            {% if messages %}
+                {% for m in messages%}
+                    <div class="alert alert-{{ m.tags }} my-3">
+                        {{m}}
+                    </div>
+                {% endfor%}
+            {% endif%}
            {% block main %} {% endblock main %}
         </main>
 

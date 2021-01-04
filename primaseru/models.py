@@ -93,7 +93,7 @@ class ProfileParent(models.Model):
     https://docs.djangoproject.com/en/3.1/topics/db/models/#abstract-base-classes
     """
     verified = models.BooleanField(default=False)
-    child = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     full_name = models.CharField(verbose_name=f"Nama Lengkap", max_length=120)
     city_born = models.CharField('Kota/Kabupaten Kelahiran', max_length=120, help_text="Contoh pengisian tempat lahir: Kab bandung")
     date_born = models.DateField('Tanggal Lahir', null=True)

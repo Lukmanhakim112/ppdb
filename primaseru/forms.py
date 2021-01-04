@@ -19,14 +19,14 @@ class StudentFileForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_class = 'col-sm-12 form-horizontal'
-        self.helper.label_class = 'col-sm-3'
+        self.helper.label_class = 'col-sm-3 my-auto'
         self.helper.field_class = 'col-sm-9'
-        self.helper.form_id = 'raport-form'
+        self.helper.form_id = 'berkas-form'
         self.helper.layout = layouts.RAPORT_LAYOUT
 
     class Meta:
         model = StudentFile
-        exclude = ['student', 'created_at', 'updated_at', 'verified', 'msg']
+        exclude = ['student', 'verified', 'msg', 'created_at', 'updated_at']
 
 
 class PhotoProfileForm(forms.ModelForm):
@@ -42,7 +42,7 @@ class MajorStudentForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_class = 'col-sm-12 '
-        self.helper.form_id = 'major-form'
+        self.helper.form_id = 'jurusan-form'
         self.helper.layout = layouts.MAJOR_LAYOUT
 
     class Meta:
@@ -62,7 +62,7 @@ class FatherStudentProfileForm(forms.ModelForm):
 
     class Meta:
         model =  FatherStudentProfile
-        exclude = ['child', 'verified']
+        exclude = ['student', 'verified']
 
 class MotherStudentProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -77,7 +77,7 @@ class MotherStudentProfileForm(forms.ModelForm):
 
     class Meta:
         model =  MotherStudentProfile
-        exclude = ['child', 'verified']
+        exclude = ['student', 'verified']
 
 class StudentGuardianProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -92,7 +92,7 @@ class StudentGuardianProfileForm(forms.ModelForm):
 
     class Meta:
         model =  StudentGuardianProfile
-        exclude = ['child', 'verified']
+        exclude = ['student', 'verified']
 
 class StudentProfileForm(forms.ModelForm):
     date_born = DATE_BORN
@@ -102,7 +102,7 @@ class StudentProfileForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_class = 'col-md-12 '
-        self.helper.form_id = 'profile-form'
+        self.helper.form_id = 'siswa-form'
         self.helper.layout = layouts.STUDENT_LAYOUT
 
     class Meta:
