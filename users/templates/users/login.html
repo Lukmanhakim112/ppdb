@@ -8,18 +8,10 @@
      }
     </style>
 {% endblock head %}
+{% block navbar %}{% endblock navbar %}
 {% block main %}
 
-    {% if next %}
-        {% if user.is_authenticated %}
-            <p>Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.</p>
-        {% else %}
-            <p>Please login to see this page.</p>
-        {% endif %}
-    {% endif %}
-
-    <div class="row justify-content-md-center mx-2 mt-3">
+    <div class="row justify-content-md-center mx-2 mt-5">
         <div class="col-lg-3 text-center">
             <img src="{% static 'users/images/Sekunder.png'  %}" alt="logo smk telkom bandung" width="125vh" />
             <h4 class="mb-0 mt-3">Login Primaseru</h4>
@@ -29,7 +21,7 @@
     {% if form.errors %}
         <div class="row justify-content-md-center mt-4 mx-2">
             <div class="col-lg-3 alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                Username and Password are not registered!
+                Email and Password Tidak Valid!
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -42,12 +34,18 @@
             <form method="post" class="login-form">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-success btn-block mt-4" id="login-button"><span>
+                <button type="submit" class="btn btn-success btn-block mt-4 login-button"><span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-arrow-in-right mb-1" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"></path>
                         <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"></path>
                     </svg>
                 </span>Login</button>
+                <a href="{% url 'home' %}" class="btn btn-secondary btn-block login-button"><span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-house mb-1" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                        <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                    </svg>
+                </span>Kembali</a>
                 <input type="hidden" name="next" value="{{ next }}">
             </form>
         </div>

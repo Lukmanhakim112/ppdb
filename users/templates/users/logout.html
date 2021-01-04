@@ -1,0 +1,27 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+    <style type="text/css" media="screen">
+     .alert.alert-block.alert-danger, .asteriskField{
+         display: none !important;
+     }
+    </style>
+{% endblock head %}
+{% block navbar %}{% endblock navbar %}
+{% block main %}
+    <div class="my-5">
+        <div class="card shadow">
+            <div class="card-header">
+                <img src="{% static 'primaseru/images/prima_1.png' %}" width="32" height="32" class="mb-1" alt="logo primaseru" loading="lazy">
+                Primaseru | SMK Telkom Bandung
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ title  }}</h5>
+                <p class="card-text">Terimakasih telah meluangkan waktu Anda...</p>
+                <a href="{% url 'login' %}" class="btn btn-primary">Login Kembali</a>
+                <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

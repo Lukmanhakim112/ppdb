@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
     'users.apps.UsersConfig',
     'primaseru.apps.PrimaseruConfig',
@@ -128,11 +129,18 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Media Files (user upload)
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Defining a custom user model
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'profile'
+LOGOUT_REDIRECT_URL = 'home'
+
 # Set template pack for crispy_forms
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
