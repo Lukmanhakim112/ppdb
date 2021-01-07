@@ -1,0 +1,97 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/sidebar.css' %}" type="text/css" media="screen" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+{% endblock head %}
+{% block navbar %}
+    <nav class="navbar navbar-dark sticky-top  flex-md-nowrap p-0 shadow bg-danger">
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">Primaseru | SMK Tel BDG</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link text-white" href="{% url 'logout' %}">Sign out</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock navbar %}
+{% block dashboard %}
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse">
+                <div class="sidebar-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">
+                                <span data-feather="home"></span>
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        {% if not calon_pk %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#registerModal">
+                                <span data-feather="file"></span>
+                                Tambah Calon Siswa
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    {% if calon_pk %}
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Data Calon Siswa</span>
+                        <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'detail-student' calon_pk %}">
+                                <span data-feather="file-text"></span>
+                                Profile Calon Siswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'detail-student-father' calon_pk %}">
+                                <span data-feather="file-text"></span>
+                                Ayah Calon Siswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'detail-student-mother' calon_pk %}">
+                                <span data-feather="file-text"></span>
+                                Ibu Calon Siswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'detail-student-guardian' calon_pk %}">
+                                <span data-feather="file-text"></span>
+                                Wali Calon Siswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'detail-student-major' calon_pk %}">
+                                <span data-feather="file-text"></span>
+                                Jurusan Pilihan Calon Siswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'detail-student-files' berkas_pk.pk %}">
+                                <span data-feather="file-text"></span>
+                                Berkas Calon Siswa
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </nav>
+
+            {% block maindash %}
+            {% endblock maindash %}
+
+
+{% endblock dashboard %}

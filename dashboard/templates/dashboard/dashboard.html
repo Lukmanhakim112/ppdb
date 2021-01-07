@@ -1,88 +1,7 @@
-{% extends 'users/base.html' %}
+{% extends 'dashboard/dashboard_base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block head %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/sidebar.css' %}" type="text/css" media="screen" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
-    <style type="text/css" media="screen">
-     .judul{
-         font-family: 'Roboto Slab', serif;
-     }
-     .asteriskField{
-         color: red;
-         margin-left: 0.25rem;
-     }
-    </style>
-{% endblock head %}
-{% block navbar %}
-    <nav class="navbar navbar-dark sticky-top  flex-md-nowrap p-0 shadow bg-danger">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">Primaseru | SMK Tel BDG</a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link text-white" href="{% url 'logout' %}">Sign out</a>
-            </li>
-        </ul>
-    </nav>
-{% endblock navbar %}
-{% block dashboard %}
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse">
-                <div class="sidebar-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <span data-feather="home"></span>
-                                Dashboard <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#registerModal">
-                                <span data-feather="file"></span>
-                                Tambah Calon Siswa
-                            </a>
-                        </li>
-                    </ul>
-
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Saved reports</span>
-                        <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                            <span data-feather="plus-circle"></span>
-                        </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file-text"></span>
-                                Current month
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file-text"></span>
-                                Last quarter
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file-text"></span>
-                                Social engagement
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="file-text"></span>
-                                Year-end sale
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
+{% block maindash %}
     <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         <div class="row py-4 judul">
             <div class="col-md mx-2 p-3 bg-white rounded shadow">
@@ -137,7 +56,7 @@
                             {% for s in siswa %}
                                 <tr>
                                     <th scope="row">{{ forloop.counter  }}</th>
-                                    <td>{{ s.student.full_name  }}</td>
+                                    <td><a href="{% url 'detail-student' s.pk %}">{{ s.student.full_name  }}</a></td>
                                     <td>{{ s.get_sex_display  }}</td>
                                     <td>{{ s.city_born  }}</td>
                                     <td>{{ s.date_born|date:"d M Y"  }}</td>
@@ -168,13 +87,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{ form_r|crispy  }}
+                    <form method="POST" id="add-student">
+                        {% csrf_token %}
+                        {{ form_r|crispy  }}
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary" form="add-student">Simpan</button>
                 </div>
             </div>
         </div>
     </div>
-{% endblock dashboard %}
+{% endblock maindash %}

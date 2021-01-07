@@ -44,6 +44,9 @@ class ProfileView(LoginRequiredMixin, View):
 
 @login_required
 def studentProfile(request):
+    # if request.user.is_staff:
+    #     return redirect('dashboard')
+
     if request.method == "POST":
         form_ph = forms.PhotoProfileForm(request.POST, request.FILES, instance=request.user.photoprofile)
         if form_ph.is_valid():

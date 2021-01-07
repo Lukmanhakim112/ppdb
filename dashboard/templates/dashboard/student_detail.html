@@ -1,5 +1,19 @@
-{% extends 'users/base.html' %}
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
-{% block main %}
-    {% crispy form %}
-{% endblock main %}
+{% block head %}
+    {{ block.super  }}
+    <style type="text/css" media="screen">
+     form *:disabled{
+         color: #000 !important;
+     }
+    </style>
+{% endblock head %}
+{% block maindash %}
+    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        {% crispy form %}
+    </div>
+{% endblock maindash %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'dashboard/js/d_siswa.js' %}"></script>
+{% endblock js %}

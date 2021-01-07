@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'users.apps.UsersConfig',
     'primaseru.apps.PrimaseruConfig',
+    'dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [
