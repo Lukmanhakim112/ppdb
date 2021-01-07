@@ -56,7 +56,7 @@
                             {% for s in siswa %}
                                 <tr>
                                     <th scope="row">{{ forloop.counter  }}</th>
-                                    <td><a href="{% url 'detail-student' s.pk %}">{{ s.student.full_name  }}</a></td>
+                                    <td><a href="{% url 'detail-student' s.student.pk %}">{{ s.student.full_name  }}</a></td>
                                     <td>{{ s.get_sex_display  }}</td>
                                     <td>{{ s.city_born  }}</td>
                                     <td>{{ s.date_born|date:"d M Y"  }}</td>

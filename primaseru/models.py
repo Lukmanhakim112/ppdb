@@ -51,7 +51,7 @@ class StudentProfile(models.Model):
     no_regis = models.PositiveIntegerField('No. Pendaftaran', help_text="Bisa Konfirmasi Ke Bagian Pendaftaran, Contoh : 221321", unique=True, null=True)
     sex = models.CharField('Jenis Kelamin', max_length=1, choices=choices.SEX)
     religion = models.CharField('Agama', choices=choices.RELIGION, max_length=3)
-    handpone = models.PositiveIntegerField('No. HP', null=True)
+    handpone = models.CharField('No. HP', null=True, max_length=15)
     city_born = models.CharField('Tempat Lahir', max_length=100, help_text="Contoh: Kabupaten Bandung")
     date_born = models.DateField('Tanggal Lahir', null=True)
     social_media = models.CharField('Akun Sosial Media', max_length=100, help_text="Seperti Alamat Twitter, IG, atau FB")
@@ -82,7 +82,7 @@ class StudentProfile(models.Model):
     blood_type = models.CharField('Golongan Darah', choices=choices.BLOOD_TYPE, max_length=2)
     in_medicine = models.CharField('Dalam Pengobatan', max_length=120, null=True, blank=True)
     private_doctor = models.CharField('Nama Dokter Keluarga', max_length=120, null=True, blank=True, help_text="Jika kamu mempunyai dokter keluarga, silahkan input disini")
-    phone_doctor = models.PositiveIntegerField('No Telepon Dokter', null=True, blank=True, help_text="Isi jika memiliki dokter keluarga dan atau dalam masa penyambuhan penyakit")
+    phone_doctor = models.CharField('No Telepon Dokter', max_length=15, null=True, blank=True, help_text="Isi jika memiliki dokter keluarga dan atau dalam masa penyambuhan penyakit")
 
     def __str__(self):
         return f'{self.student} profile'
@@ -102,7 +102,7 @@ class ProfileParent(models.Model):
     job = models.CharField(f'Pekerjaan', max_length=100, null=True, blank=True)
     salary = models.PositiveIntegerField(f'Penghasilan', null=True, blank=True, help_text="Diisi dengan angka")
     email = models.EmailField(f'Email', null=True, blank=True)
-    phone = models.PositiveIntegerField(f'No. HP', null=True)
+    phone = models.CharField(f'No. HP', null=True, max_length=15)
 
     def __str__(self):
         return self.full_name

@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.views.generic import UpdateView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
@@ -7,15 +7,18 @@ from users.forms import CustomUserCreationForm
 from primaseru import models as prim_models
 from . import forms
 
+
 class ProfileDetailView(UserPassesTestMixin, UpdateView):
     model = prim_models.StudentProfile
     form_class = forms.DashboardStudentProfileForm
     template_name = 'dashboard/student_detail.html'
 
+    def get_object(self):
+        return self.model.objects.get(student=self.kwargs['pk'])
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['calon_pk'] = self.object.pk
-        context['berkas_pk'] = prim_models.StudentFile.objects.get(student=self.object.pk)
+        context['calon_pk'] = self.kwargs['pk']
         return context
 
     def get_success_url(self):
