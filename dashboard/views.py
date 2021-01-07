@@ -22,7 +22,7 @@ class ProfileDetailView(UserPassesTestMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse('detail-student', kwargs={'pk': self.object.pk})
+        return reverse('detail-student', kwargs={'pk': self.kwargs['pk']})
 
     def test_func(self):
         return self.request.user.is_staff
