@@ -7,13 +7,16 @@ from users.forms import CustomUserCreationForm, CustomUserUpdateForm
 from primaseru import models as prim_models
 from . import forms
 
-class UpdateUser(UpdateView):
+class UpdateUser(UserPassesTestMixin, UpdateView):
     model = CustomUserUpdateForm.Meta.model
     form_class = CustomUserUpdateForm
     template_name = 'dashboard/student_change.html'
 
     def get_success_url(self):
         return reverse('detail-student', kwargs={'pk': self.kwargs['pk']})
+
+    def test_func(self):
+        return self.request.user.is_staff
 
 class ProfileDetailView(UserPassesTestMixin, UpdateView):
     model = prim_models.StudentProfile
