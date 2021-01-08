@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'primaseru.apps.PrimaseruConfig',
     'dashboard.apps.DashboardConfig',
+    'exam.apps.ExamConfig',
 ]
 
 MIDDLEWARE = [
