@@ -1,5 +1,6 @@
 from django.urls import path, include
 from primaseru import models as prim_models
+from users.forms import CustomUserUpdateForm
 from . import views, forms
 
 urlpatterns = [
@@ -10,4 +11,5 @@ urlpatterns = [
     path('wali/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardGuardianForm, model=prim_models.StudentGuardianProfile), name="detail-student-guardian"),
     path('jurusan/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardMajorForm, model=prim_models.MajorStudent), name="detail-student-major"),
     path('berkas/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardFilesForm, model=prim_models.StudentFile), name="detail-student-files"),
+    path('users/<int:pk>/', views.UpdateUser.as_view(), name="change-student-name"),
 ]

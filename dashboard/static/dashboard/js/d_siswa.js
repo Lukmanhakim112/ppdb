@@ -14,4 +14,21 @@ $(document).ready(() => {
         }
     });
 
+
+    $("#updateNameUser").one('click', () => {
+        let elem = $("#changeNameModal .modal-body");
+        $.ajax({
+            url: `/dashboard/users/${calon_pk}/`,
+            method: "GET",
+            async: true,
+            beforeSend: () => {
+                elem.html(`<div class="m-auto"><span class="spinner-border spinner-border-lg text-danger" role="status" aria-hidden="true"></span></div>`)
+            },
+            success: (data) => {
+                elem.empty().html(data);
+                $("#changeNameModal .modal-body form").prop('action',`/dashboard/users/${calon_pk}/` );
+            },
+        });
+    });
+
 });

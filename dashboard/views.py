@@ -3,10 +3,17 @@ from django.views.generic import UpdateView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 
-from users.forms import CustomUserCreationForm
+from users.forms import CustomUserCreationForm, CustomUserUpdateForm
 from primaseru import models as prim_models
 from . import forms
 
+class UpdateUser(UpdateView):
+    model = CustomUserUpdateForm.Meta.model
+    form_class = CustomUserUpdateForm
+    template_name = 'dashboard/student_change.html'
+
+    def get_success_url(self):
+        return reverse('detail-student', kwargs={'pk': self.kwargs['pk']})
 
 class ProfileDetailView(UserPassesTestMixin, UpdateView):
     model = prim_models.StudentProfile
@@ -19,6 +26,7 @@ class ProfileDetailView(UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['calon_pk'] = self.kwargs['pk']
+        context['name'] = self.object.student.full_name
         return context
 
     def get_success_url(self):

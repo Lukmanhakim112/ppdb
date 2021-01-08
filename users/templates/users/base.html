@@ -42,9 +42,15 @@
                         <li class="nav-item mx-1">
                             <a class="btn btn-outline-danger btn-block" href="{% url 'logout' %}">Logout</a>
                         </li>
+                        {% if user.is_staff %}
+                            <li class="nav-item mx-1">
+                                <a class="btn btn-outline-primary btn-block" href="{% url 'dashboard' %}">Dashboard</a>
+                            </li>
+                        {% else %}
                         <li class="nav-item mx-1">
                             <a class="btn btn-outline-primary btn-block" href="{% url 'profile' %}">Profile</a>
                         </li>
+                        {% endif %}
                     {% else %}
                         <li class="nav-item">
                             <a class="btn btn-outline-primary" href="{% url 'login' %}">Login</a>

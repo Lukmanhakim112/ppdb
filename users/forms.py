@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from .models import CustomUser
 
 
@@ -7,6 +7,12 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ['full_name', 'email', 'password1', 'password2']
 
+class CustomUserUpdateForm(UserChangeForm):
+    password = None
+
+    class Meta:
+        model = CustomUser
+        fields = ['full_name', 'email']
 
 class CustomAuthenticationForm(AuthenticationForm):
     def confirm_login_allowed(self, user):

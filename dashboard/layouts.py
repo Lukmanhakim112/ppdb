@@ -5,7 +5,7 @@ from crispy_forms.layout import Layout, Fieldset, Row, Div, HTML, Field
 
 DASHBOARD_STUDENT = Layout(
     Row(
-        Div(HTML('<h2>Verifikasi Data</h2><p>Silahkan lakukan verifikasi data calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
+        Div(HTML('<h2>Verifikasi Data {{ name }}</h2><p>Silahkan lakukan verifikasi data calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
             css_class="col-lg-10 col-md-12 border rounded mr-2 bg-white p-2"),
         Div(Fieldset(None,
             'verified',
@@ -20,7 +20,7 @@ DASHBOARD_STUDENT = Layout(
 
 DASHBOARD_PARENT = Layout(
     Row(
-        Div(HTML('<h2>Verifikasi Data</h2><p>Silahkan lakukan verifikasi data orang tua calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
+        Div(HTML('<h2>Verifikasi Data {{ name }}</h2><p>Silahkan lakukan verifikasi data orang tua calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
             css_class="col-lg-10 col-md-12 border rounded mr-2 bg-white p-2"),
         Div(Fieldset(None,
             'verified',
@@ -34,7 +34,7 @@ DASHBOARD_PARENT = Layout(
 
 DASHBOARD_MAJOR = Layout(
     Row(
-        Div(HTML('<h2>Verifikasi Data</h2><p>Silahkan lakukan verifikasi data jurusan calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
+        Div(HTML('<h2>Verifikasi Data {{ name }}</h2><p>Silahkan lakukan verifikasi data jurusan calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
             css_class="col-lg-10 col-md-12 border rounded mr-2 bg-white p-2"),
         Div(Fieldset(None,
             'verified',
@@ -49,7 +49,7 @@ DASHBOARD_MAJOR = Layout(
 
 DASHBOARD_FILES = Layout(
     Row(
-        Div(HTML('<h2>Verifikasi Data</h2><p>Silahkan lakukan verifikasi data berkas calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
+        Div(HTML('<h2>Verifikasi Data {{ name }}</h2><p>Silahkan lakukan verifikasi data berkas calon siswa, jika semua data telah sesuai, centang <samp class="text-danger">verified</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save. Isi pesan jika ada berkas yang tidak valid.</p>'),
             css_class="col-lg-10 col-md-12 border rounded mr-2 bg-white p-2"),
         Div(Fieldset(None,
             'verified',
