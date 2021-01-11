@@ -1,0 +1,10 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Ujian Primaseru{% endblock title %}
+{% block main %}
+    <h1>Answer</h1>
+    {% for answer in data %}
+        {{ answer.answer_text  }} <br />
+    {% endfor %}
+    {% crispy form %}
+{% endblock main %}

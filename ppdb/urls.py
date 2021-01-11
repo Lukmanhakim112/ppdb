@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('primaseru.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('exam/', include('exam.urls')),
 
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html',
                                                 authentication_form=CustomAuthenticationForm), name='login'),

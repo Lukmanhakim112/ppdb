@@ -1,3 +1,90 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponse
+from django.views import View
+from django.http import JsonResponse
 
-# Create your views here.
+from . import forms, models
+
+def exam(request):
+    return render(request, 'exam/exam.html')
+
+def retrive_answer(request, pk):
+    answer = models.Answer.objects.filter(question=pk)
+
+    return JsonResponse({'success': True, 'answer': answer}, status=200)
+
+class ExamView(View):
+    form_class = forms.ExamForm
+    models = form_class.Meta.model
+    template_name = 'exam/exam.html'
+
+    def get(self, request, *args, **kwargs):
+        data = self.models.objects.all()
+        return render(request, self.template_name, {"form": self.form_class, "data": data})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            form.instance.author = request.user
+            form.save()
+            return HttpResponse('success')
+
+        return HttpResponse('fail', status=404)
+
+
+class ExamViewDetail(ExamView):
+
+    def get(self, request, *args, **kwargs):
+        data = self.models.objects.filter(pk=self.kwargs['pk'])
+        question = models.Question.objects.filter(exam=self.kwargs['pk'])
+        return render(request, self.template_name, {"form": self.form_class, "data": data, "question": question})
+
+
+class AddQuestion(View):
+    template_name = 'exam/question_add.html'
+    form_helper = forms.AnswerFormHelper
+
+    def get(self, request, *args, **kwargs):
+        form_q = forms.QuestionForm
+        form_a = forms.AnswerFormset(queryset=models.Answer.objects.none())
+        return render(request, self.template_name, {'form_a': form_a, 'form_q': form_q, 'helper': self.form_helper()})
+
+    def post(self, request, *args, **kwargs):
+        form_q = forms.QuestionForm(request.POST, request.FILES or None)
+        form_a = forms.AnswerFormset(request.POST, request.FILES or None)
+
+        if form_q.is_valid() and form_a.is_valid():
+            form_q.instance.exam = models.Exam.objects.get(pk=self.kwargs['pk'])
+            question = form_q.save()
+
+            for answer_instance in form_a.save(commit=False):
+                answer_instance.question = question
+                answer_instance.save()
+
+            return HttpResponse('success')
+
+        return HttpResponse('fail')
+
+
+
+class QuestionView(View):
+    form_class = forms.QuestionForm
+    models = form_class.Meta.model
+    template_name = 'exam/question.html'
+
+    def get(self, request, *args, **kwargs):
+        data = self.models.objects.filter(exam=self.kwargs['pk'])
+        return render(request, self.template_name, {"form": self.form_class, "data": data})
+
+class AnswerView(View):
+    form_class = forms.AnswerForm
+    models = form_class.Meta.model
+    # template_name = 'exam/answer.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            data = list(self.models.objects.filter(question=self.kwargs['pk']).values('pk', 'answer_text', 'answer_image', 'is_right'))
+        else:
+            data = list(self.models.objects.filter(question=self.kwargs['pk']).values('pk', 'answer_text', 'answer_image'))
+
+        return JsonResponse({'success': True, 'answer': data}, status=200)

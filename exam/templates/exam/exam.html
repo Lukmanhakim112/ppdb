@@ -1,0 +1,75 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Ujian Primaseru{% endblock title %}
+{% block main %}
+
+    <div class="row my-3">
+        <div class="col-12 border rounded bg-white p-3 mx-3 text-center">
+            {% for exam in data %}
+                <h3>{{ exam.exam_title  }}</h3>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-4">
+        {% for q in question %}
+        <div class="col mb-4">
+            <div class="card h-100">
+                {% if q.question_img %}
+                <img src="{{ q.question_img.url }}" class="card-img-top" alt="Question Image">
+                {% endif %}
+                <div class="card-header bg-danger">
+                    <h5 class="card-title mb-0 text-white">Pertanyaan {{ forloop.counter  }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ q.question_text  }}</p>
+                </div>
+                <ul class="list-group list-group-flush answer" id="answer-{{ q.pk  }}">
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="col mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-danger">
+                    <h5 class="card-title mb-0 text-white">Tambah Pertanyaan</h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    {% for exam in data %}
+                    <a href="{% url 'question-add' exam.pk %}" id="add-question" class="text-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" fill="currentColor" class="bi bi-plus-circle mx-auto my-auto" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg></a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addQuestion" tabindex="-1" aria-labelledby="addQuestion" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addQuestion">Tambah Pertanyaan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock main %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'exam/js/exam.js' %}"></script>
+{% endblock js %}
