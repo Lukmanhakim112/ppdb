@@ -12,14 +12,18 @@
 {% block dashboard %}
     <div class="row mx-3 mt-3 px-3">
         <div class="col-12 bg-danger rounded text-white text-center py-2">
-            <h3>Nama Ujian</h3>
+            <h3>{{ exam  }}</h3>
         </div>
     </div>
     <div class="row mx-3 p-3">
         <div class="col-md bg-white border rounded mr-2 p-3">
-            <p>Jumlah Soal: <span class="badge badge-danger">40</span></p>
-            <button type="save" class="btn btn-success btn-block" form="form-container">Simpan</button>
+            <p>Jumlah Soal: <span class="badge badge-danger" id="question-count">{{ question_count  }}</span></p>
+            <button type="save" class="btn btn-danger btn-block" form="form-container">Simpan</button>
+            <hr />
             <button type="button" class="btn btn-primary btn-block" id="add-answer">Tambah Jawaban</button>
+            <button type="button" class="btn btn-warning btn-block" id="remove-answer">Hapus Jawaban</button>
+            <hr />
+            <button type="button" class="btn btn-secondary btn-block">Kembali</button>
         </div>
         <div class="col-md-10 bg-white border rounded p-3">
             <form method="POST" enctype="multipart/form-data" id="form-container">

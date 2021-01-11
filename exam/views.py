@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.views import View
 from django.http import JsonResponse
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.template.context_processors import csrf
+
+from crispy_forms.utils import render_crispy_form
 
 from . import forms, models
 
@@ -40,14 +44,24 @@ class ExamViewDetail(ExamView):
         return render(request, self.template_name, {"form": self.form_class, "data": data, "question": question})
 
 
-class AddQuestion(View):
+class AddQuestion(UserPassesTestMixin, View):
     template_name = 'exam/question_add.html'
     form_helper = forms.AnswerFormHelper
+
+    def test_func(self):
+        return self.request.user.is_staff
 
     def get(self, request, *args, **kwargs):
         form_q = forms.QuestionForm
         form_a = forms.AnswerFormset(queryset=models.Answer.objects.none())
-        return render(request, self.template_name, {'form_a': form_a, 'form_q': form_q, 'helper': self.form_helper()})
+        context = {
+            'form_a': form_a,
+            'form_q': form_q,
+            'helper': self.form_helper(),
+            'exam': models.Exam.objects.get(pk=self.kwargs['pk']),
+            'question_count': models.Question.objects.filter(exam=self.kwargs['pk']).count(),
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         form_q = forms.QuestionForm(request.POST, request.FILES or None)
@@ -57,13 +71,21 @@ class AddQuestion(View):
             form_q.instance.exam = models.Exam.objects.get(pk=self.kwargs['pk'])
             question = form_q.save()
 
-            for answer_instance in form_a.save(commit=False):
-                answer_instance.question = question
-                answer_instance.save()
+            answer_instance = form_a.save(commit=False)
+            for a in answer_instance:
+                a.question = question
+                a.save()
 
-            return HttpResponse('success')
+            question_count = models.Question.objects.filter(exam=self.kwargs['pk']).count(),
+            return JsonResponse({'success': True, 'question_count': question_count}, status=200)
 
-        return HttpResponse('fail')
+        ctx = {}
+        ctx.update(csrf(request))
+        form_q = render_crispy_form(form_q, context=ctx)
+        form_a = render_crispy_form(form_a)
+
+
+        return JsonResponse({'success': False, 'form_q': form_q, 'form_a': form_a}, status=409)
 
 
 

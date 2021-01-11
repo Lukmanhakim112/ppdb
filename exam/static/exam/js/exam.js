@@ -15,8 +15,12 @@ $(document).ready(() => {
             },
             success: (data) => {
                 $(`#${answer[a]}`).empty();
-                for (const {answer_text: answer_text} of data.answer) {
-                    $(`#${answer[a]}`).append(`<li class="list-group-item py-1">${answer_text}</li>`);
+                for (const {answer_text: answer_text, is_right: is_right} of data.answer) {
+                    if (is_right) {
+                        $(`#${answer[a]}`).append(`<li class="list-group-item py-1 list-group-item-success">${answer_text}</li>`);
+                    } else {
+                        $(`#${answer[a]}`).append(`<li class="list-group-item py-1">${answer_text}</li>`);
+                    }
                 }
             },
         });

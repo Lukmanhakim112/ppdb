@@ -16,7 +16,7 @@ def question_directory_path(instance, filename):
     return f'question_pic/{instance.exam}/{filename}'
 
 def answer_directory_path(instance, filename):
-    return f'answer_pic/{instance.exam}/{filename}'
+    return f'answer_pic/{instance.question.exam}/{filename}'
 
 
 class Exam(models.Model):

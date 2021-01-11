@@ -27,11 +27,12 @@ $(document).ready(() => {
 
     function deleteForm(prefix) {
         var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        $(".formset tbody tr:last").remove();
         if (total > 1){
             var forms = $('.formset tbody tr');
             $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-            for (let i=0, formCount=forms.length; i<formCount; i++) {
-                $(forms.get(i)).find(':input').each(function() {
+            for (var i=0, formCount=forms.length; i<formCount; i++) {
+                $(forms.get(i)).find('td').each(function() {
                     updateElementIndex(this, prefix, i);
                 });
             }
@@ -44,4 +45,45 @@ $(document).ready(() => {
         cloneMore(".formset tbody tr:last", 'form');
         return false;
     });
+
+    $(document).on("click", "#remove-answer", (e) => {
+        e.preventDefault();
+        deleteForm('form');
+        return false;
+    });
+
+
+
+    let formQuestion = $('#form-container');
+    $(formQuestion).submit(() => {
+        let filesData = new FormData($(formQuestion).get(0));
+        $.ajax({
+            url: "/exam/1/question/add/",
+            type: "POST",
+            data: filesData,
+            dataType: 'json',
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: (response) => {
+                let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menambahkan Pertanyaan! \
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
+                                &times;</span></button></div>`;
+                $(formQuestion)[0].reset();
+                $(formQuestion).prepend(alertSuccess);
+                $("#question-count").html(response.question_count);
+            },
+            error: (response) => {
+                let alertDanger = `<div class="alert alert-danger alert-dismissible fade show" role="alert">Data Tidak Valid, Silahkan Cek Kembali... \
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
+                                &times;</span></button></div>`;
+                $(formQuestion).empty()
+                               .html(response.form_q)
+                               .append(response.form_a)
+                               .prepend(alertDanger);
+            },
+        });
+        return false;
+    });
+
 });

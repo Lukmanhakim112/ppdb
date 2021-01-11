@@ -16,12 +16,12 @@
         {% for q in question %}
         <div class="col mb-4">
             <div class="card h-100">
-                {% if q.question_img %}
-                <img src="{{ q.question_img.url }}" class="card-img-top" alt="Question Image">
-                {% endif %}
                 <div class="card-header bg-danger">
                     <h5 class="card-title mb-0 text-white">Pertanyaan {{ forloop.counter  }}</h5>
                 </div>
+                {% if q.question_image %}
+                <img src="{{ q.question_image.url }}" class="card-img-top h-50" alt="Question Image" loading="lazy" />
+                {% endif %}
                 <div class="card-body">
                     <p class="card-text">{{ q.question_text  }}</p>
                 </div>
@@ -43,26 +43,6 @@
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg></a>
                     {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="addQuestion" tabindex="-1" aria-labelledby="addQuestion" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addQuestion">Tambah Pertanyaan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
