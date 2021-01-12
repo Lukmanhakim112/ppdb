@@ -12,7 +12,7 @@
 {% block dashboard %}
     <div class="row mx-3 mt-3 px-3">
         <div class="col-12 bg-danger rounded text-white text-center py-2">
-            <h3>{{ exam  }}</h3>
+            <h3 class="judul mb-0">{{ exam  }}</h3>
         </div>
     </div>
     <div class="row mx-3 p-3">
@@ -23,9 +23,9 @@
             <button type="button" class="btn btn-primary btn-block" id="add-answer">Tambah Jawaban</button>
             <button type="button" class="btn btn-warning btn-block" id="remove-answer">Hapus Jawaban</button>
             <hr />
-            <button type="button" class="btn btn-secondary btn-block">Kembali</button>
+            <a href="{% url 'exam-detail' exam.pk %}" class="btn btn-secondary btn-block">Kembali</a>
         </div>
-        <div class="col-md-10 bg-white border rounded p-3">
+        <div class="col-md-12 col-lg-10 bg-white border rounded p-3">
             <form method="POST" enctype="multipart/form-data" id="form-container">
                 {% crispy form_q %}
                 <div class="formset">
@@ -36,5 +36,9 @@
     </div>
 {% endblock dashboard %}
 {% block js %}
+    <script type="text/javascript">
+     let endPoint = "/exam/{{ exam.pk }}/question/add/"
+    </script>
+
     <script type="text/javascript" src={% static 'exam/js/question_add.js' %}></script>
 {% endblock js %}

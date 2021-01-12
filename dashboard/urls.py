@@ -1,15 +1,15 @@
 from django.urls import path, include
-from primaseru import models as prim_models
 from users.forms import CustomUserUpdateForm
-from . import views, forms
+from . import views
 
 urlpatterns = [
     path('', views.dashboard, name="dashboard"),
+    path('exam/', views.exam_list, name="dashboard-exam"),
     path('siswa/<int:pk>/', views.ProfileDetailView.as_view(), name="detail-student"),
-    path('ayah/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardFatherForm, model=prim_models.FatherStudentProfile), name="detail-student-father"),
-    path('ibu/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardMotherForm, model=prim_models.MotherStudentProfile), name="detail-student-mother"),
-    path('wali/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardGuardianForm, model=prim_models.StudentGuardianProfile), name="detail-student-guardian"),
-    path('jurusan/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardMajorForm, model=prim_models.MajorStudent), name="detail-student-major"),
-    path('berkas/<int:pk>/', views.ProfileDetailView.as_view(form_class=forms.DashboardFilesForm, model=prim_models.StudentFile), name="detail-student-files"),
+    path('ayah/<int:pk>/', views.FatherProfileDetailView.as_view(), name="detail-student-father"),
+    path('ibu/<int:pk>/', views.MotherProfileDetailView.as_view(), name="detail-student-mother"),
+    path('wali/<int:pk>/', views.GuardianProfileDetailView.as_view(), name="detail-student-guardian"),
+    path('jurusan/<int:pk>/', views.MajorProfileDetailView.as_view(), name="detail-student-major"),
+    path('berkas/<int:pk>/', views.FilesProfileDetailView.as_view(), name="detail-student-files"),
     path('users/<int:pk>/', views.UpdateUser.as_view(), name="change-student-name"),
 ]

@@ -52,13 +52,15 @@ $(document).ready(() => {
         return false;
     });
 
-
-
     let formQuestion = $('#form-container');
+    $("#id_question_text").focus(() => {
+        $('.alert').alert('close')
+    });
+
     $(formQuestion).submit(() => {
         let filesData = new FormData($(formQuestion).get(0));
         $.ajax({
-            url: "/exam/1/question/add/",
+            url: endPoint,
             type: "POST",
             data: filesData,
             dataType: 'json',
@@ -85,5 +87,7 @@ $(document).ready(() => {
         });
         return false;
     });
+
+
 
 });

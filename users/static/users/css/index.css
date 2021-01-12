@@ -16,3 +16,6 @@ input[type=number] {
     color: red;
     margin-left: 0.25rem;
 }
+.judul {
+  font-family: 'Roboto Slab', serif;
+}
