@@ -1,54 +1,55 @@
-{% extends 'users/base.html' %}
+{% extends 'dashboard/dashboard_base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% block title %}Ujian Primaseru{% endblock title %}
-{% block navbar %}{% endblock navbar %}
-{% block dashboard %}
-    <div class="row m-3">
-        <div class="col-12  border bg-danger rounded text-white text-center py-2">
-            {% for exam in data %}
-            <h3 class="mb-0 judul">{{ exam.exam_title  }}</h3>
-        </div>
-    </div>
-    <div class="row m-3">
-        <div class="col-md bg-white border rounded mr-2 p-3 shadow">
-            <p>Jumlah Soal: <span class="badge badge-danger" id="question-count">{{ question_count  }}</span></p>
-            <a href="{% url 'question-add' exam.pk %}" class="btn btn-danger btn-block">Tambah Soal</a>
-            {% endfor %}
-            <hr />
-            <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-block">Dashboard</a>
-        </div>
-        <div class="col-md-12 col-lg-10 bg-white border shadow rounded p-3">
-            <div class="row row-cols-1 row-cols-md-4">
-                {% for q in question %}
-                    <div class="col mb-4">
-                        <div class="card h-100">
-                            <div class="card-header bg-primary">
-                                <h6 class="card-title mb-0 text-white">
-                                    Soal No. {{ forloop.counter  }}
-                                    <a href="{% url 'question-delete' q.exam.pk q.pk %}" class="badge badge-danger">Hapus</a>
-                                    <a href="#" class="badge badge-warning">Edit</a>
-                                </h6>
-                            </div>
-                            {% if q.question_image %}
-                                <img src="{{ q.question_image.url }}" class="card-img-top h-50" alt="Question Image" loading="lazy" />
-                            {% endif %}
-                            <div class="card-body">
-                                <p class="card-text">{{ q.question_text  }}</p>
-                            </div>
-                            <ul class="list-group list-group-flush answer" id="answer-{{ q.pk  }}">
-                            </ul>
+{% block judul %}
+    {{ data.exam_title  }}
+{% endblock judul %}
+{% block sidebar %}
+    <h6 class="judul d-flex justify-content-between align-items-center px-3 mt-4 mb-2">
+        <span>Jumlah Soal: <span class="badge badge-danger">{{ question_count  }}</span></span>
+    </h6>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'question-add' data.pk %}">
+            <span data-feather="home"></span>
+            Tambah Pertanyaan
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'dashboard-exam' %}">
+            Daftar Ujian
+        </a>
+    </li>
+{% endblock sidebar %}
+{% block maindash %}
+
+    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
+        <div class="row row-cols-1 row-cols-md-4">
+            {% for q in question %}
+                <div class="col mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary">
+                            <h6 class="card-title mb-0 text-white">
+                                Soal No. {{ forloop.counter  }}
+                                <a href="{% url 'question-delete' q.exam.pk q.pk %}" class="badge badge-danger">Hapus</a>
+                                <a href="#" class="badge badge-warning">Edit</a>
+                            </h6>
                         </div>
+                        {% if q.question_image %}
+                            <img src="{{ q.question_image.url }}" class="card-img-top h-50" alt="Question Image" loading="lazy" />
+                        {% endif %}
+                        <div class="card-body">
+                            <p class="card-text">{{ q.question_text  }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush answer" id="answer-{{ q.pk  }}">
+                        </ul>
                     </div>
-                {% endfor %}
-            </div>
-
+                </div>
+            {% endfor %}
         </div>
     </div>
 
-
-
-{% endblock dashboard %}
+{% endblock maindash %}
 {% block js %}
     <script type="text/javascript" src="{% static 'exam/js/exam.js' %}"></script>
 {% endblock js %}

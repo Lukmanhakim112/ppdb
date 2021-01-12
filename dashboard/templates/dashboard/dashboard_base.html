@@ -35,6 +35,7 @@
                                 Dashboard <span class="sr-only">(current)</span>
                             </a>
                         </li>
+                        {% block sidebar %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'dashboard-exam' %}">
                                 <span data-feather="home"></span>
@@ -56,6 +57,7 @@
                             </a>
                         </li>
                         {% endif %}
+                        {% endblock %}
                     </ul>
 
                     {% if calon_pk %}

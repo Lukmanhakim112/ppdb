@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.http import JsonResponse
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.template.context_processors import csrf
@@ -40,9 +40,10 @@ class ExamViewDetail(ExamView):
     template_name = 'exam/exam_detail.html'
 
     def get(self, request, *args, **kwargs):
-        data = self.models.objects.filter(pk=self.kwargs['pk'])
+        data = self.models.objects.get(pk=self.kwargs['pk'])
         question = models.Question.objects.filter(exam=self.kwargs['pk'])
-        return render(request, self.template_name, {"form": self.form_class, "data": data, "question": question})
+        question_count = question.count()
+        return render(request, self.template_name, {"form": self.form_class, "data": data, "question": question, "question_count": question_count})
 
 
 class AddQuestion(UserPassesTestMixin, View):
@@ -94,6 +95,9 @@ class QuestionDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy('exam-detail', kwargs={'pk': self.kwargs['pk_exam']})
 
+
+class QuestionUpdateView(UpdateView):
+    pass
 
 class QuestionView(View):
     form_class = forms.QuestionForm

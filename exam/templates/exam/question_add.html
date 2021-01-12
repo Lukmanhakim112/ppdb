@@ -1,40 +1,47 @@
-{% extends 'users/base.html' %}
+{% extends 'dashboard/dashboard_base.html' %}
 {% load static %}
-{% block navbar %}{% endblock navbar %}
 {% load crispy_forms_tags %}
+{% block judul %}
+    Tambah Soal
+{% endblock judul %}
 {% block head %}
+    {{ block.super  }}
     <style type="text/css" media="screen">
      .hidden{
          display: none;
      }
     </style>
 {% endblock head %}
-{% block dashboard %}
-    <div class="row mx-3 mt-3 px-3">
-        <div class="col-12 bg-danger rounded text-white text-center py-2">
-            <h3 class="judul mb-0">{{ exam  }}</h3>
-        </div>
+{% block sidebar %}
+    <h6 class="judul d-flex justify-content-between align-items-center px-3 mt-4 mb-2">
+        <span>Jumlah Soal: <span class="badge badge-danger" id="question-count">{{ question_count  }}</span></span>
+    </h6>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'exam-detail' exam.pk %}">
+            Kembali
+        </a>
+    </li>
+    <hr />
+    <li class="nav-item mx-4 my-1">
+        <button type="save" class="btn btn-danger btn-block" form="form-container">Simpan</button>
+    </li>
+    <li class="nav-item mx-4 my-1">
+        <button type="button" class="btn btn-primary btn-block" id="add-answer">Tambah Jawaban</button>
+    </li>
+    <li class="nav-item mx-4 my-1">
+        <button type="button" class="btn btn-warning btn-block" id="remove-answer">Hapus Jawaban</button>
+    </li>
+{% endblock sidebar %}
+{% block maindash %}
+    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
+        <form method="POST" enctype="multipart/form-data" id="form-container">
+            {% crispy form_q %}
+            <div class="formset">
+                {% crispy form_a helper %}
+            </div>
+        </form>
     </div>
-    <div class="row mx-3 p-3">
-        <div class="col-md bg-white border rounded mr-2 p-3">
-            <p>Jumlah Soal: <span class="badge badge-danger" id="question-count">{{ question_count  }}</span></p>
-            <button type="save" class="btn btn-danger btn-block" form="form-container">Simpan</button>
-            <hr />
-            <button type="button" class="btn btn-primary btn-block" id="add-answer">Tambah Jawaban</button>
-            <button type="button" class="btn btn-warning btn-block" id="remove-answer">Hapus Jawaban</button>
-            <hr />
-            <a href="{% url 'exam-detail' exam.pk %}" class="btn btn-secondary btn-block">Kembali</a>
-        </div>
-        <div class="col-md-12 col-lg-10 bg-white border rounded p-3">
-            <form method="POST" enctype="multipart/form-data" id="form-container">
-                {% crispy form_q %}
-                <div class="formset">
-                    {% crispy form_a helper %}
-                </div>
-            </form>
-        </div>
-    </div>
-{% endblock dashboard %}
+{% endblock maindash %}
 {% block js %}
     <script type="text/javascript">
      let endPoint = "/exam/{{ exam.pk }}/question/add/"
