@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic.edit import DeleteView
 from django.http import JsonResponse
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.template.context_processors import csrf
@@ -8,13 +10,11 @@ from crispy_forms.utils import render_crispy_form
 
 from . import forms, models
 
-def exam(request):
-    return render(request, 'exam/exam.html')
 
 def retrive_answer(request, pk):
     answer = models.Answer.objects.filter(question=pk)
-
     return JsonResponse({'success': True, 'answer': answer}, status=200)
+
 
 class ExamView(View):
     form_class = forms.ExamForm
@@ -37,6 +37,7 @@ class ExamView(View):
 
 
 class ExamViewDetail(ExamView):
+    template_name = 'exam/exam_detail.html'
 
     def get(self, request, *args, **kwargs):
         data = self.models.objects.filter(pk=self.kwargs['pk'])
@@ -87,6 +88,11 @@ class AddQuestion(UserPassesTestMixin, View):
 
         return JsonResponse({'success': False, 'form_q': form_q, 'form_a': form_a}, status=409)
 
+class QuestionDeleteView(DeleteView):
+    model = models.Question
+
+    def get_success_url(self):
+        return reverse_lazy('exam-detail', kwargs={'pk': self.kwargs['pk_exam']})
 
 
 class QuestionView(View):
