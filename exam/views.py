@@ -46,6 +46,23 @@ class ExamViewDetail(ExamView):
         return render(request, self.template_name, {"form": self.form_class, "data": data, "question": question, "question_count": question_count})
 
 
+class ExamUpdateView(UserPassesTestMixin, UpdateView):
+    model = models.Exam
+    form_class = forms.ExamForm
+    template_name = 'exam/exam_update.html'
+    success_url = '/dashboard/exam/'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+class ExamDeleteView(UserPassesTestMixin, DeleteView):
+    model = models.Exam
+    success_url = '/dashboard/exam/'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
 class AddQuestion(UserPassesTestMixin, View):
     template_name = 'exam/question_add.html'
     form_helper = forms.AnswerFormHelper
@@ -115,8 +132,8 @@ class AnswerView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_staff:
-            data = list(self.models.objects.filter(question=self.kwargs['pk']).values('pk', 'answer_text', 'answer_image', 'is_right'))
+            data = list(self.models.objects.filter(question=self.kwargs['pk']).values('answer_text', 'answer_image', 'is_right'))
         else:
-            data = list(self.models.objects.filter(question=self.kwargs['pk']).values('pk', 'answer_text', 'answer_image'))
+            data = list(self.models.objects.filter(question=self.kwargs['pk']).values('answer_text', 'answer_image'))
 
         return JsonResponse({'success': True, 'answer': data}, status=200)

@@ -1,0 +1,27 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block navbar %}{% endblock navbar %}
+{% block main %}
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <img src="{% static 'primaseru/images/prima_1.png' %}" width="32" height="32" class="mb-1" alt="logo primaseru" loading="lazy">
+                    Primaseru | SMK Telkom Bandung
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title judul">Hapus Ujian</h4>
+                    <p class="card-text">
+                        Apakah Anda yakin untuk menghapus "<b>{{ object.exam_title }}</b>" ? <br />
+                        <span class="text-muted">Semua Soal yang Berkaitan Akan Ikut Terhapus.</span>
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Confirm" class="btn btn-danger">
+                        <a href="{% url 'dashboard-exam' %}" class="btn btn-primary">Batal</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

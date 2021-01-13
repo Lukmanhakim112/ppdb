@@ -1,13 +1,41 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import UpdateView
+from django.shortcuts import render, redirect
+from django.views.generic import UpdateView, View
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 
 from users.forms import CustomUserCreationForm, CustomUserUpdateForm
 from primaseru import models as prim_models
-from exam.models import Exam, Question
+from exam.forms import ExamForm
+from exam.models import Exam
 from . import forms
+
+
+class ExamCreateView(UserPassesTestMixin, View):
+    model = Exam
+    form_class = ExamForm
+    template_name = 'dashboard/exam.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class
+        exam = self.model.objects.all()
+
+        return render(request, 'dashboard/exam.html', {'form': form, 'exam': exam})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            form.instance.author = request.user
+            exam = form.save()
+
+            return redirect('exam-detail', pk=exam.pk)
+
+        return redirect('dashboard-exam')
+
 
 class UpdateUser(UserPassesTestMixin, UpdateView):
     model = CustomUserUpdateForm.Meta.model
@@ -54,16 +82,6 @@ class MajorProfileDetailView(ProfileDetailView):
 
 class FilesProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardFilesForm
-
-@login_required
-def exam_list(request):
-
-    if not request.user.is_staff:
-        return redirect('profile')
-
-    exam = Exam.objects.all()
-
-    return render(request, 'dashboard/exam.html', context={'exam': exam})
 
 @login_required
 def dashboard(request):

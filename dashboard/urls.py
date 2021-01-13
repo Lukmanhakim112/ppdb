@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.dashboard, name="dashboard"),
-    path('exam/', views.exam_list, name="dashboard-exam"),
+    path('exam/', views.ExamCreateView.as_view(), name="dashboard-exam"),
     path('siswa/<int:pk>/', views.ProfileDetailView.as_view(), name="detail-student"),
     path('ayah/<int:pk>/', views.FatherProfileDetailView.as_view(), name="detail-student-father"),
     path('ibu/<int:pk>/', views.MotherProfileDetailView.as_view(), name="detail-student-mother"),

@@ -15,7 +15,6 @@ class ExamForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
-        FormHelper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(None,
                 'exam_title',

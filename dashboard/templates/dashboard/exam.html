@@ -21,10 +21,12 @@
                         {% endif %}
                         <div class="card-body">
                             <p class="card-text">
-                                Dibuat Oleh: {{ q.author.full_name  }}
-                                <span class="text-muted">{{ q.author  }}</span> <br />
+                                Dibuat Oleh: {{ q.author.full_name  }} <br />
+                                <span class="text-muted">{{ q.author  }}</span>
                             </p>
-                            <a href="{% url 'exam-detail' q.pk %}" class="btn btn-outline-danger">Detail</a>
+                            <a href="{% url 'exam-detail' q.pk %}" class="btn btn-sm btn-outline-danger">Detail</a>
+                            <a href="{% url 'exam-update' q.pk %}" class="btn btn-sm btn-outline-secondary">Ganti</a>
+                            <a href="{% url 'exam-delete' q.pk %}" class="btn btn-sm btn-outline-secondary">Hapus</a>
                         </div>
                         <ul class="list-group list-group-flush answer" id="answer-{{ q.pk  }}">
                         </ul>
@@ -37,7 +39,7 @@
                                 <h5 class="card-title mb-0 text-white">Tambah Ujian</h5>
                             </div>
                             <div class="card-body d-flex justify-content-center align-items-center">
-                                <a href="{% url 'question-add' 1 %}" id="add-question" class="text-secondary">
+                                <a href="#" id="add-question" class="text-secondary" data-toggle="modal" data-target="#addExamModal">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" fill="currentColor" class="bi bi-plus-circle mx-auto my-auto" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -53,21 +55,24 @@
     </div>
 
     <!-- MODAL -->
-    <div class="modal fade" id="changeNameModal" tabindex="-1" aria-labelledby="changeusernameModal" aria-hidden="true">
+    <div class="modal fade" id="addExamModal" tabindex="-1" aria-labelledby="addExamModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changeusernameModal">Ganti Nama dan Email</h5>
+                    <h5 class="modal-title" id="addExamModalLabel">Tambah Ujian</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-
+                    <form method="POST" id="add-exam-form">
+                        {% csrf_token %}
+                        {{ form|crispy  }}
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary" form="update-student">Simpan</button>
+                    <button type="submit" class="btn btn-primary" form="add-exam-form">Simpan</button>
                 </div>
             </div>
         </div>
