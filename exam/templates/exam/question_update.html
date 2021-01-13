@@ -1,0 +1,44 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block judul %}
+    Edit Soal
+{% endblock judul %}
+{% block head %}
+    {{ block.super  }}
+    <style type="text/css" media="screen">
+     .hidden{
+         display: none;
+     }
+    </style>
+{% endblock head %}
+{% block sidebar %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'exam-detail' exam.pk %}">
+            Kembali
+        </a>
+    </li>
+    <hr />
+    <li class="nav-item mx-4 my-1">
+        <button type="save" class="btn btn-danger btn-block" form="form-update">Simpan</button>
+    </li>
+    <li class="nav-item mx-4 my-1">
+        <button type="button" class="btn btn-primary btn-block" id="add-answer">Tambah Jawaban</button>
+    </li>
+    <li class="nav-item mx-4 my-1">
+        <button type="button" class="btn btn-warning btn-block" id="remove-answer">Hapus Jawaban</button>
+    </li>
+{% endblock sidebar %}
+{% block maindash %}
+    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
+        <form method="POST" enctype="multipart/form-data" id="form-update">
+            {% crispy form_q %}
+            <div class="formset">
+                {% crispy form_a helper %}
+            </div>
+        </form>
+    </div>
+{% endblock maindash %}
+{% block js %}
+    <script type="text/javascript" src={% static 'exam/js/question_update.js' %}></script>
+{% endblock js %}

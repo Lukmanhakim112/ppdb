@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import DeleteView, UpdateView
@@ -113,8 +113,48 @@ class QuestionDeleteView(DeleteView):
         return reverse_lazy('exam-detail', kwargs={'pk': self.kwargs['pk_exam']})
 
 
-class QuestionUpdateView(UpdateView):
-    pass
+class QuestionUpdateView(UserPassesTestMixin, View):
+    model = models.Question
+    form_class = forms.QuestionForm
+    form_helper = forms.AnswerFormHelper
+    template_name = 'exam/question_update.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get(self, request, *args, **kwargs):
+        question = self.model.objects.get(pk=self.kwargs['pk'])
+        form_q = self.form_class(instance=question)
+        form_a = forms.AnswerFormsetUpdate(queryset=models.Answer.objects.filter(question=question))
+        context = {
+            'form_q': form_q,
+            'form_a': form_a,
+            'helper': self.form_helper(),
+            'exam': models.Exam.objects.get(pk=self.kwargs['pk_exam']),
+        }
+        return render(request, 'exam/question_update.html', context)
+
+    def post(self, request, *args, **kwargs):
+        question = self.model.objects.get(pk=self.kwargs['pk'])
+        form_q = forms.QuestionForm(request.POST, request.FILES or None, instance=question)
+        form_a = forms.AnswerFormsetUpdate(request.POST, request.FILES or None)
+
+        if form_q.is_valid() and form_a.is_valid():
+            question = form_q.save()
+
+            answer_instance = form_a.save(commit=False)
+
+            for deleted_obj in form_a.deleted_objects:
+                deleted_obj.delete() # Deleting Answer
+
+            for obj in answer_instance:
+                obj.question = question
+                obj.save()
+
+            return redirect('exam-detail', pk=question.exam.pk)
+
+        return HttpResponse('fail', status=400)
+
 
 class QuestionView(View):
     form_class = forms.QuestionForm

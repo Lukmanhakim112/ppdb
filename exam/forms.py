@@ -51,3 +51,4 @@ class AnswerForm(forms.ModelForm):
         exclude = ['question']
 
 AnswerFormset = forms.modelformset_factory(Answer, form=AnswerForm, extra=4)
+AnswerFormsetUpdate = forms.modelformset_factory(Answer, form=AnswerForm, can_delete=True)
