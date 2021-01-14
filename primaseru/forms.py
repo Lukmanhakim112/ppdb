@@ -17,6 +17,7 @@ class StudentFileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.form_tag = True
         self.helper.form_class = 'col-sm-12 form-horizontal'
         self.helper.label_class = 'col-sm-3 my-auto'
         self.helper.field_class = 'col-sm-9'
@@ -41,6 +42,7 @@ class MajorStudentForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_class = 'col-sm-12 '
+        self.form_tag = True
         self.helper.form_id = 'jurusan-form'
         self.helper.layout = layouts.MAJOR_LAYOUT
 
@@ -55,6 +57,7 @@ class FatherStudentProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.form_tag = True
         self.helper.form_class = 'col-sm-12 parent-form'
         self.helper.form_id = 'ayah-form'
         self.helper.layout = layouts.PARENTS_LAYOUT
@@ -70,6 +73,7 @@ class MotherStudentProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.form_tag = True
         self.helper.form_class = 'col-sm-12 parent-form'
         self.helper.form_id = 'ibu-form'
         self.helper.layout = layouts.PARENTS_LAYOUT
@@ -85,6 +89,7 @@ class StudentGuardianProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.form_tag = True
         self.helper.form_class = 'col-sm-12 parent-form'
         self.helper.form_id = 'wali-form'
         self.helper.layout = layouts.PARENTS_LAYOUT
@@ -101,6 +106,7 @@ class StudentProfileForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.helper.form_class = 'col-md-12 '
+        self.form_tag = True
         self.helper.form_id = 'siswa-form'
         self.helper.layout = layouts.STUDENT_LAYOUT
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, View
+from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
@@ -97,8 +98,13 @@ def dashboard(request):
 
     siswa = prim_models.StudentProfile.objects.all()
     verified = prim_models.StudentProfile.objects.filter(verified=True).count()
+
+    paginator = Paginator(siswa, 10)
+    page_number = request.GET.get('page')
+    page_siswa = paginator.get_page(page_number)
     ctx = {
-        'siswa': siswa,
+        'siswa': page_siswa,
+        'jumlah_siswa': siswa.count(),
         'siswa_verified': verified,
         'siswa_not_verified': siswa.count() - verified,
         'form_r': CustomUserCreationForm,
