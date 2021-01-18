@@ -1,0 +1,32 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Ujian Primaseru{% endblock title %}
+{% block navbar %}{% endblock navbar %}
+{% block main %}
+
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <img src="{% static 'primaseru/images/prima_1.png' %}" width="32" height="32" class="mb-1" alt="logo primaseru" loading="lazy">
+                    Ujian Primaseru
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-danger">{{ exam.exam_title  }}</h4>
+                    <p class="card-text">
+                        Silahkan masukan passcode di bawah ini. <br />
+                        Harap melaksanakan ujian dengan jujur, sungguh - sungguh, dan berintegritas.
+                    </p>
+                    {% if message %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message  }}
+                        </div>
+                    {% endif %}
+                    {% crispy form %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}

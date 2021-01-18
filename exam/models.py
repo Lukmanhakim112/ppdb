@@ -42,7 +42,7 @@ class Answer(models.Model):
     is_right = models.BooleanField('Benar', default=False)
 
     def __str__(self):
-        return f'{self.question} - {self.answer_text}'
+        return self.answer_text
 
 class Record(models.Model):
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -54,7 +54,8 @@ class Record(models.Model):
         return f'Record {self.student} - {self.exam}'
 
 class Score(models.Model):
-    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.DO_NOTHING)
+    student = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     score = models.IntegerField('Score', null=True)
 
     def __str__(self):

@@ -1,0 +1,71 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block title %}Ujian Primaseru{% endblock title %}
+{% block main %}
+    <div class="row my-4">
+        {% for question in object_list %}
+            <div class="col-md-12 col-sm-12 col-lg-9">
+                <div class="card shadow border-0">
+                    <div class="card-header">
+                        Pertanyaan No. {{ page_obj.number }}
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ question.question_text  }}</p>
+                        <div class="answer" id="{{ pk_exam }}-form_answer-{{ question.pk  }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col col-sm">
+            <div class="card mt-4 mt-md-4 mt-xl-0">
+                <div class="card-header">
+                    Navigasi
+                </div>
+                <div class="card-body">
+
+                    {{ page_obj.paginator.page_range  }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav aria-label="navigasi">
+        <ul class="pagination pagination-sm">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            {% endif %}
+
+            {% for n in page_obj.paginator.page_range %}
+                {% if page_obj.number == n %}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{ n }}">{{ n }}</a>
+                    </li>
+                {% elif n > page_obj.number|add:'-4' and n < page_obj.number|add:'4' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            <li class="ml-xl-5 ml-1 ml-md-5">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-danger">Submit</button>
+                </div>
+            </li>
+        </ul>
+    </nav>
+{% endblock main %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'exam/js/exam_list.js' %}"></script>
+{% endblock js %}

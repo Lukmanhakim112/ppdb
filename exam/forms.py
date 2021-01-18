@@ -5,7 +5,9 @@ from crispy_forms.layout import Layout, Fieldset, Row, Div, HTML, Field
 from crispy_forms.bootstrap import InlineField
 
 
-from .models import Exam, Question, Answer
+from .models import Exam, Question, Answer, Record
+
+
 
 
 class ExamForm(forms.ModelForm):
@@ -26,6 +28,36 @@ class ExamForm(forms.ModelForm):
     class Meta:
         model = Exam
         exclude = ['author']
+
+class ExamEnrollForm(forms.Form):
+    passcode = forms.CharField(widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Fieldset(None,
+                    'passcode',
+                    ),
+            HTML('<button role="submit" type="submit" class="btn btn-primary">Go!</button>'),
+        )
+
+class ExamTakeForm(forms.ModelForm):
+    exam = forms.CharField(widget=forms.HiddenInput)
+    question = forms.CharField(widget=forms.HiddenInput)
+    answer = forms.ModelChoiceField(queryset=Answer.objects.none(), widget=forms.RadioSelect)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_id = 'answer-form'
+        self.helper.form_method = 'post'
+
+    class Meta:
+        model = Record
+        fields = ['exam', 'question', 'answer']
+
 
 class QuestionForm(forms.ModelForm):
     class Meta:
