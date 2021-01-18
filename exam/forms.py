@@ -1,13 +1,11 @@
 from django import forms
+from django.utils.safestring import mark_safe
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Div, HTML, Field
 from crispy_forms.bootstrap import InlineField
 
-
 from .models import Exam, Question, Answer, Record
-
-
 
 
 class ExamForm(forms.ModelForm):
@@ -36,6 +34,7 @@ class ExamEnrollForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
+        self.helper.form_tag = True
         self.helper.layout = Layout(
             Fieldset(None,
                     'passcode',
@@ -43,10 +42,19 @@ class ExamEnrollForm(forms.Form):
             HTML('<button role="submit" type="submit" class="btn btn-primary">Go!</button>'),
         )
 
+class CustomChoiceField(forms.ModelChoiceField):
+
+    def label_from_instance(self, obj):
+        if obj.answer_image:
+            return mark_safe("<img src='%s' class='w-50 img-fluid' />" % obj.answer_image.url)
+        else:
+            return obj.answer_text
+
+
 class ExamTakeForm(forms.ModelForm):
     exam = forms.CharField(widget=forms.HiddenInput)
     question = forms.CharField(widget=forms.HiddenInput)
-    answer = forms.ModelChoiceField(queryset=Answer.objects.none(), widget=forms.RadioSelect)
+    answer = CustomChoiceField(queryset=Answer.objects.none(), widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

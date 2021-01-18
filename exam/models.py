@@ -54,8 +54,8 @@ class Record(models.Model):
         return f'Record {self.student} - {self.exam}'
 
 class Score(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.DO_NOTHING)
     student = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
+    exam = models.ForeignKey(Exam, on_delete=models.DO_NOTHING)
     score = models.IntegerField('Score', null=True)
 
     def __str__(self):

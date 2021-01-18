@@ -11,6 +11,9 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ question.question_text  }}</p>
+                        {% if question.question_image %}
+                        <img src="{{ question.question_image.url }}" alt="Question Image" class="img-fluid" />
+                        {% endif %}
                         <div class="answer" id="{{ pk_exam }}-form_answer-{{ question.pk  }}">
                         </div>
                     </div>
@@ -60,7 +63,7 @@
             {% endif %}
             <li class="ml-xl-5 ml-1 ml-md-5">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-danger">Submit</button>
+                    <a href="{% url 'submit-question' pk_exam %}" class="btn btn-danger">Submit</a>
                 </div>
             </li>
         </ul>

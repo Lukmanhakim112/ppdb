@@ -46,6 +46,7 @@ class PhotoProfile(models.Model):
 
 class StudentProfile(models.Model):
     verified = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False)
     # Personal Information
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     no_regis = models.PositiveIntegerField('No. Pendaftaran', help_text="Bisa Konfirmasi Ke Bagian Pendaftaran, Contoh : 221321", unique=True, null=True)
