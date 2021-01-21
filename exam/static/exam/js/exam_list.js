@@ -1,15 +1,16 @@
 $(document).ready(() => {
 
-    function shuffle(a) {
-        var j, x, i;
-        for (i = a.length - 1; i > 0; i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            x = a[i];
-            a[i] = a[j];
-            a[j] = x;
-        }
-        return a;
-    }
+
+    $(document).on('click', '#openNav', () => {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    });
+
+    $(document).on('click', '#closeNav', () => {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    });
+
 
     let answer = [];
     $(".card .answer").each(function() {

@@ -17,7 +17,7 @@
                 <h3 class="mb-0 mt-1">{{ siswa_not_verified }} <small class="text-muted h6">siswa</small></h3>
             </div>
             <div class="col-md mx-2 p-3 bg-white rounded shadow">
-                <h4 class="mb-1">Total Pendaftar</h4><span class="badge badge-success">TERVERIFIKASI</span>
+                <h4 class="mb-1">Total Pendaftar</h4><span class="badge badge-primary">TERVERIFIKASI</span>
                 <br />
                 <h3 class="mb-0 mt-1">{{ siswa_verified }} <small class="text-muted h6">siswa</small></h3>
             </div>
@@ -58,7 +58,7 @@
                                     <td>{{ s.date_born|date:"d M Y"  }}</td>
                                     <td>
                                         {% if s.verified %}
-                                            <span class="badge badge-success">TERVERIFIKASI</span>
+                                            <span class="badge badge-primary">TERVERIFIKASI</span>
                                         {% else %}
                                             <span class="badge badge-danger">BELUM TERVERIFIKASI</span>
                                         {% endif %}

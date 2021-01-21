@@ -1,0 +1,27 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block navbar %}{% endblock navbar %}
+{% block main %}
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <img src="{% static 'primaseru/images/prima_1.png' %}" width="32" height="32" class="mb-1" alt="logo primaseru" loading="lazy">
+                    Primaseru | SMK Telkom Bandung
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title judul">Konfirmasi Submit Ujian</h4>
+                    <p class="card-text">
+                        Apakah Anda yakin untuk mengsubmit "<b>{{ exam.exam_title }}</b>" ? <br />
+                        <span class="text-muted mt-2">Setelah mensubmit ujian ini, maka Anda tidak dapat mengisi ujian ini lagi.</span>
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Konfirmasi" class="btn btn-danger">
+                        <a href="{% url 'taken-question' exam.pk %}" class="btn btn-primary">Kembali</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

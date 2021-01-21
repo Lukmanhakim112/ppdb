@@ -2,23 +2,23 @@ from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, View
 from django.core.paginator import Paginator
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 
+from users.views import UserIsStaffMixin
 from users.forms import CustomUserCreationForm, CustomUserUpdateForm
+
 from primaseru import models as prim_models
+
 from exam.forms import ExamForm
 from exam.models import Exam
+
 from . import forms
 
 
-class ExamCreateView(UserPassesTestMixin, View):
+class ExamCreateView(UserIsStaffMixin, View):
     model = Exam
     form_class = ExamForm
     template_name = 'dashboard/exam.html'
-
-    def test_func(self):
-        return self.request.user.is_staff
 
     def get(self, request, *args, **kwargs):
         form = self.form_class
@@ -38,7 +38,7 @@ class ExamCreateView(UserPassesTestMixin, View):
         return redirect('dashboard-exam')
 
 
-class UpdateUser(UserPassesTestMixin, UpdateView):
+class UpdateUser(UserIsStaffMixin, UpdateView):
     model = CustomUserUpdateForm.Meta.model
     form_class = CustomUserUpdateForm
     template_name = 'dashboard/student_change.html'
@@ -46,10 +46,7 @@ class UpdateUser(UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         return reverse_lazy('detail-student', kwargs={'pk': self.kwargs['pk']})
 
-    def test_func(self):
-        return self.request.user.is_staff
-
-class ProfileDetailView(UserPassesTestMixin, UpdateView):
+class ProfileDetailView(UserIsStaffMixin, UpdateView):
     form_class = forms.DashboardStudentProfileForm
     template_name = 'dashboard/student_detail.html'
 
@@ -64,10 +61,6 @@ class ProfileDetailView(UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('detail-student', kwargs={'pk': self.kwargs['pk']})
-
-    def test_func(self):
-        return self.request.user.is_staff
-
 
 class FatherProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardFatherForm

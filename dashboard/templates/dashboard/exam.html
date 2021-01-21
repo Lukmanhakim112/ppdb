@@ -25,7 +25,7 @@
                                 <span class="text-muted">{{ q.author  }}</span>
                             </p>
                             <a href="{% url 'exam-detail' q.pk %}" class="btn btn-sm btn-outline-danger">Detail</a>
-                            <a href="{% url 'exam-update' q.pk %}" class="btn btn-sm btn-outline-secondary">Ganti</a>
+                            <a href="{% url 'exam-update' q.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
                             <a href="{% url 'exam-delete' q.pk %}" class="btn btn-sm btn-outline-secondary">Hapus</a>
                         </div>
                         <ul class="list-group list-group-flush answer" id="answer-{{ q.pk  }}">

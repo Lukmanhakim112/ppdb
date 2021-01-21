@@ -2,14 +2,15 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DeleteView, UpdateView, ListView
+from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.template.context_processors import csrf
 
 from crispy_forms.utils import render_crispy_form
+from users.views import UserIsStaffMixin
 
 from . import forms, models
-
 
 class ExamView(View):
     form_class = forms.ExamForm
@@ -21,11 +22,8 @@ class ExamView(View):
         return render(request, self.template_name, {"data": data})
 
 
-class ExamViewDetail(UserPassesTestMixin, ExamView):
+class ExamViewDetail(UserIsStaffMixin, ExamView):
     template_name = 'exam/exam_detail.html'
-
-    def test_func(self):
-        return self.request.user.is_staff
 
     def get(self, request, *args, **kwargs):
         data = self.models.objects.get(pk=self.kwargs['pk'])
@@ -34,21 +32,15 @@ class ExamViewDetail(UserPassesTestMixin, ExamView):
         return render(request, self.template_name, {"form": self.form_class, "data": data, "question": question, "question_count": question_count})
 
 
-class ExamUpdateView(UserPassesTestMixin, UpdateView):
+class ExamUpdateView(UserIsStaffMixin, UpdateView):
     model = models.Exam
     form_class = forms.ExamForm
     template_name = 'exam/exam_update.html'
     success_url = '/dashboard/exam/'
 
-    def test_func(self):
-        return self.request.user.is_staff
-
-class ExamDeleteView(UserPassesTestMixin, DeleteView):
+class ExamDeleteView(UserIsStaffMixin, DeleteView):
     model = models.Exam
     success_url = '/dashboard/exam/'
-
-    def test_func(self):
-        return self.request.user.is_staff
 
 
 class ExamEnrollView(View):
@@ -130,39 +122,46 @@ class RetriveAnswer(AnswerView):
         return JsonResponse({'success': True}, status=200)
 
 class SubmitAnswer(RetriveAnswer):
-    models = models.Exam
+    model = models.Exam
+    template_name = 'exam/answer_confirmation.html'
 
     def get(self, request, *args, **kwargs):
-        exam = self.models.objects.get(pk=self.kwargs['pk_exam'])
+        exam = self.model.objects.get(pk=self.kwargs['pk_exam'])
+        check_score = models.Score.objects.filter(student=request.user, exam=exam).exists()
+        if check_score:
+            raise PermissionDenied
+
+        return render(request, self.template_name, {'exam': exam})
+
+    def post(self, request, *args, **kwargs):
+
+        exam = self.model.objects.get(pk=self.kwargs['pk_exam'])
         question = models.Question.objects.filter(exam=exam)
+        score = 0
 
-        if request.session.get(f'{kwargs["pk_exam"]}-take-quiz'):
-            return HttpResponse('Sudah Menjalankan Ujian')
-
+        # REVIEW Need refactor? I think so...
         for q in question:
 
             try:
-                data = request.session.get(f'{q.exam.pk}-{q.pk}-answer')
-                record_question = models.Question.objects.get(pk=int(data['question']))
-                answer = models.Answer(pk=int(data['answer']))
-            except (KeyError, ValueError, models.Answer.DoesNotExist, models.Question.DoesNotExist):
-                return HttpResponse('fail')
+                data = request.session.get(f'{exam.pk}-{q.pk}-answer')
+                answer = models.Answer.objects.get(pk=int(data['answer']))
+            except (KeyError, ValueError, models.Answer.DoesNotExist):
+                return HttpResponse('fail', status=400)
 
-            record = models.Record(exam=exam, question=record_question, answer=answer, student=request.user)
-            record.save()
+            record = models.Record.objects.create(exam=exam, question=q, answer=answer, student=request.user)
+            if record.answer.is_right:
+                score += 1
 
-        request.session[f'{kwargs["pk_exam"]}-take-quiz'] = True
+        persentage = score // len(question) * 100
+        models.Score.objects.create(student=request.user, exam=exam, score=score, persentage=persentage)
         return HttpResponse('success')
 
 
 
-class AddQuestion(UserPassesTestMixin, View):
+class AddQuestion(UserIsStaffMixin, View):
     form_class = forms.QuestionForm
     template_name = 'exam/question_add.html'
     form_helper = forms.AnswerFormHelper
-
-    def test_func(self):
-        return self.request.user.is_staff
 
     def get(self, request, *args, **kwargs):
         form_q = self.form_class
@@ -199,11 +198,8 @@ class AddQuestion(UserPassesTestMixin, View):
 
         return JsonResponse({'success': False, 'form_q': form_q, 'form_a': form_a}, status=409)
 
-class QuestionDeleteView(UserPassesTestMixin, DeleteView):
+class QuestionDeleteView(UserIsStaffMixin, DeleteView):
     model = models.Question
-
-    def test_func(self):
-        return self.request.user.is_staff
 
     def get_success_url(self):
         return reverse_lazy('exam-detail', kwargs={'pk': self.kwargs['pk_exam']})

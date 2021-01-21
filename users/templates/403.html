@@ -1,0 +1,25 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block navbar %}{% endblock navbar %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'users/css/403.css' %}" type="text/css" media="screen" />
+{% endblock head %}
+{% block main %}
+    <div class="scene">
+        <div class="overlay"></div>
+        <div class="overlay"></div>
+        <div class="overlay"></div>
+        <div class="overlay"></div>
+        <span class="bg-403">403</span>
+        <div class="text">
+            <span class="hero-text"></span>
+            <span class="msg">can't let <span>you</span> in.</span>
+            <span class="support">
+                <a href="/" class="btn btn-outline-secondary mb-3">Home</a>
+                <span>unexpected?</span>
+                <a href="#">contact support</a>
+            </span>
+        </div>
+        <div class="lock"></div>
+    </div>
+{% endblock main %}

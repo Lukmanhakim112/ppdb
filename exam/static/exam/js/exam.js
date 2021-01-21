@@ -15,9 +15,16 @@ $(document).ready(() => {
             },
             success: (data) => {
                 $(`#${answer[a]}`).empty();
-                for (const {answer_text: answer_text, is_right: is_right} of data.answer) {
-                    if (is_right) {
+                console.log(data.answer)
+                for (const {answer_text: answer_text, is_right: is_right, answer_image: answer_image} of data.answer) {
+                    if (is_right && answer_image) {
+                        $(`#${answer[a]}`).append(`<li class="list-group-item py-1 list-group-item-success">${answer_text} <br/> \
+                                                    <img src='/media/${answer_image}' class="img-fluid w-25" alt="answer image" /></li>`);
+                    } else if (is_right) {
                         $(`#${answer[a]}`).append(`<li class="list-group-item py-1 list-group-item-success">${answer_text}</li>`);
+                    } else if (answer_image) {
+                         $(`#${answer[a]}`).append(`<li class="list-group-item py-1 list-group-item">${answer_text} <br/> \
+                                                    <img src='/media/${answer_image}' class="img-fluid w-25" alt="answer image" /></li>`);
                     } else {
                         $(`#${answer[a]}`).append(`<li class="list-group-item py-1">${answer_text}</li>`);
                     }

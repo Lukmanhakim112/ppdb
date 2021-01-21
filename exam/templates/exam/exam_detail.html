@@ -24,10 +24,10 @@
 {% block maindash %}
 
     <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
-        <div class="row row-cols-1 row-cols-md-4">
+        <div class="row row-cols-1 row-cols-md-2">
             {% for q in question %}
-                <div class="col mb-4">
-                    <div class="card h-100">
+                <div class="col mb-3">
+                    <div class="card">
                         <div class="card-header bg-primary">
                             <h6 class="card-title mb-0 text-white">
                                 Soal No. {{ forloop.counter  }}
@@ -36,7 +36,7 @@
                             </h6>
                         </div>
                         {% if q.question_image %}
-                            <img src="{{ q.question_image.url }}" class="card-img-top h-50" alt="Question Image" loading="lazy" />
+                            <img src="{{ q.question_image.url }}" class="card-img-top w-100" alt="Question Image" loading="lazy" />
                         {% endif %}
                         <div class="card-body">
                             <p class="card-text">{{ q.question_text  }}</p>

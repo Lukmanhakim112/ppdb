@@ -46,10 +46,9 @@ class CustomChoiceField(forms.ModelChoiceField):
 
     def label_from_instance(self, obj):
         if obj.answer_image:
-            return mark_safe("<img src='%s' class='w-50 img-fluid' />" % obj.answer_image.url)
+            return mark_safe("<img src='%s' class='w-25 img-fluid' alt='image answer' />" % obj.answer_image.url)
         else:
             return obj.answer_text
-
 
 class ExamTakeForm(forms.ModelForm):
     exam = forms.CharField(widget=forms.HiddenInput)

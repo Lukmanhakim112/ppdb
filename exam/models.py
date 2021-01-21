@@ -57,6 +57,7 @@ class Score(models.Model):
     student = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING)
     exam = models.ForeignKey(Exam, on_delete=models.DO_NOTHING)
     score = models.IntegerField('Score', null=True)
+    persentage = models.IntegerField('Persentase', null=True)
 
     def __str__(self):
-        return 'Score {self.student}'
+        return f'Score {self.student}'
