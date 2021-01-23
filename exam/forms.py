@@ -5,7 +5,14 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Div, HTML, Field
 from crispy_forms.bootstrap import InlineField
 
-from .models import Exam, Question, Answer, Record
+from .models import Exam, Question, Answer, Record, Score
+
+
+class ScoreForm(forms.ModelForm):
+
+    class Meta:
+        model = Score
+        exclude = ['student']
 
 
 class ExamForm(forms.ModelForm):

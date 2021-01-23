@@ -1,0 +1,43 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+{% block head %}
+    {{ block.super  }}
+    <style type="text/css" media="screen">
+     form *:disabled{
+         color: #000 !important;
+     }
+    </style>
+{% endblock head %}
+{% block maindash %}
+    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" class="w-25">Nama Ujian</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Persentase</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for score in score_list %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter  }}</th>
+                            <td>{{ score.exam  }}</td>
+                            <td>{{ score.score  }}</td>
+                            <td>{{ score.persentage  }} %</td>
+                            {% if score.passed_test %}
+                                <td>LULUS</td>
+                            {% else %}
+                                <td>BELUM LULUS</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock maindash %}

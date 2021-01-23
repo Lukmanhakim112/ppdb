@@ -15,13 +15,12 @@ $(document).ready(() => {
             },
             success: (data) => {
                 $(`#${answer[a]}`).empty();
-                console.log(data.answer)
                 for (const {answer_text: answer_text, is_right: is_right, answer_image: answer_image} of data.answer) {
                     if (is_right && answer_image) {
-                        $(`#${answer[a]}`).append(`<li class="list-group-item py-1 list-group-item-success">${answer_text} <br/> \
-                                                    <img src='/media/${answer_image}' class="img-fluid w-25" alt="answer image" /></li>`);
+                        $(`#${answer[a]}`).append(`<li class="list-group-item py-1">${answer_text} <br/> \
+                                                    <img src='/media/${answer_image}' class="img-fluid w-25" alt="answer image" /> <span class="badge badge-success">&check;</span></li>`);
                     } else if (is_right) {
-                        $(`#${answer[a]}`).append(`<li class="list-group-item py-1 list-group-item-success">${answer_text}</li>`);
+                        $(`#${answer[a]}`).append(`<li class="list-group-item py-1">${answer_text} <span class="badge badge-success">&check;</span></li>`);
                     } else if (answer_image) {
                          $(`#${answer[a]}`).append(`<li class="list-group-item py-1 list-group-item">${answer_text} <br/> \
                                                     <img src='/media/${answer_image}' class="img-fluid w-25" alt="answer image" /></li>`);

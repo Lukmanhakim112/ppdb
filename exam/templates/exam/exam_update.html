@@ -1,25 +1,12 @@
 {% extends 'dashboard/dashboard_base.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
 {% block title %}Ujian Primaseru{% endblock title %}
-{% block judul %}
-    {{ data.exam_title  }}
-{% endblock judul %}
-{% block sidebar %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'dashboard-exam' %}">
-            Daftar Ujian
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'dashboard-exam' %}">
-            Kembali
-        </a>
-    </li>
-{% endblock sidebar %}
+{% block dashtitle %}
+    {{ object.exam_title  }}
+{% endblock dashtitle %}
 {% block maindash %}
 
-    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
+    <div class="bg-white p-3 rounded shadow mt-3">
         {% crispy form %}
     </div>
 

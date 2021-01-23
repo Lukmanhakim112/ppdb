@@ -71,17 +71,20 @@ class TakeExamView(UserPassesTestMixin, ListView):
     # context_object_name = 'question_list'
 
     def test_func(self):
+        exam = models.Exam.objects.get(pk=self.kwargs['pk_exam'])
+        check_score = models.Score.objects.filter(student=self.request.user, exam=exam).exists()
+
         granted = False
         if f'exam_{self.kwargs["pk_exam"]}_enroll' in self.request.session:
              granted = True
-        if self.request.session.get(f'{self.kwargs["pk_exam"]}-take-quiz'):
+        if check_score:
             granted = False
 
         return granted
 
     def get_queryset(self):
         query = get_object_or_404(models.Exam, pk=self.kwargs['pk_exam'])
-        return self.model.objects.filter(exam=query)
+        return self.model.objects.filter(exam=query).order_by('pk')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -152,7 +155,7 @@ class SubmitAnswer(RetriveAnswer):
             if record.answer.is_right:
                 score += 1
 
-        persentage = score // len(question) * 100
+        persentage = score / len(question) * 100
         models.Score.objects.create(student=request.user, exam=exam, score=score, persentage=persentage)
         return HttpResponse('success')
 

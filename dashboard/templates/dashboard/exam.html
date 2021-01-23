@@ -1,55 +1,54 @@
 {% extends 'dashboard/dashboard_base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block judul %}
+{% block dashtitle %}
     Daftar Ujian
-{% endblock judul %}
+{% endblock dashtitle %}
 {% block sidebar %}
 {% endblock sidebar %}
 {% block maindash %}
-    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
 
-        <div class="row row-cols-1 row-cols-md-4">
-            {% for q in exam %}
-                <div class="col mb-4">
-                    <div class="card h-100">
-                        <div class="card-header bg-danger">
-                            <h5 class="card-title mb-0 text-white">{{ q.exam_title }}</h5>
-                        </div>
-                        {% if q.exam_image %}
-                            <img src="{{ q.question_image.url }}" class="card-img-top h-50" alt="Question Image" loading="lazy" />
-                        {% endif %}
-                        <div class="card-body">
-                            <p class="card-text">
-                                Dibuat Oleh: {{ q.author.full_name  }} <br />
-                                <span class="text-muted">{{ q.author  }}</span>
-                            </p>
-                            <a href="{% url 'exam-detail' q.pk %}" class="btn btn-sm btn-outline-danger">Detail</a>
-                            <a href="{% url 'exam-update' q.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                            <a href="{% url 'exam-delete' q.pk %}" class="btn btn-sm btn-outline-secondary">Hapus</a>
-                        </div>
-                        <ul class="list-group list-group-flush answer" id="answer-{{ q.pk  }}">
-                        </ul>
-                    </div>
+    <div class="row row-cols-1 row-cols-lg-4 mt-4 row-cols-md-2">
+        <div class="col mb-4">
+            <div class="card h-100 shadow">
+                <div class="card-header bg-peach text-white">
+                    <h5 class="m-0">Tambah Ujian</h5>
                 </div>
-            {% endfor %}
-            <div class="col mb-4">
-                <div class="card h-100">
-                    <div class="card-header bg-danger">
-                        <h5 class="card-title mb-0 text-white">Tambah Ujian</h5>
-                    </div>
-                    <div class="card-body d-flex justify-content-center align-items-center">
-                        <a href="#" id="add-question" class="text-secondary" data-toggle="modal" data-target="#addExamModal">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" fill="currentColor" class="bi bi-plus-circle mx-auto my-auto" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                <div class="card-body">
+                    <p class="card-text justify-content-center align-items-center d-flex h-100">
+                        <a class="btn btn-outline-danger btn-lg" href="#" data-toggle="modal" data-target="#addExamModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-file-earmark-plus-fill" viewBox="0 0 16 16">
+                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM8.5 7v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 1 0z"/>
                             </svg>
                         </a>
-                    </div>
+                    </p>
                 </div>
             </div>
         </div>
-
+        {% for e in exam %}
+        <div class="col mb-4">
+            <div class="card h-100 shadow">
+                <div class="card-header bg-peach text-white">
+                    <h5 class="m-0">{{ e.exam_title  }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Author : {{ e.author.full_name  }} <br />
+                        <span class="text-muted">{{ e.author  }}</span>
+                    </p>
+                    <a class="btn btn-outline-danger btn-sm" href="{% url 'exam-detail' e.pk %}">
+                        Soal
+                    </a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{% url 'exam-update' e.pk %}">
+                        Edit
+                    </a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{% url 'exam-delete' e.pk %}">
+                        Hapus
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 
     <!-- MODAL -->

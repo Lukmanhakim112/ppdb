@@ -80,8 +80,8 @@ $(document).ready(() => {
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
                                 &times;</span></button></div>`;
                 $(formQuestion).empty()
-                               .html(response.form_q)
-                               .append(response.form_a)
+                               .html(response.responseJSON.form_q)
+                               .append(response.responseJSON.form_a)
                                .prepend(alertDanger);
             },
         });

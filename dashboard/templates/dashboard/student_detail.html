@@ -9,9 +9,24 @@
      }
     </style>
 {% endblock head %}
+{% block dahstitle %}
+    Detail Profile
+{% endblock dahstitle %}
 {% block maindash %}
-    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
-        {% crispy form %}
+    <div class="row">
+        <div class="col pt-2">
+            <div class="list-group mt-4 shadow border-0 sticky-top">
+                <a href="#" class="list-group-item list-group-item-action disabled judul" tabindex="-1" aria-disabled="true"><b>Data Profile</b></a>
+                <a href="{% url 'detail-student-father' calon_pk %}" class="list-group-item list-group-item-action">Ayah</a>
+                <a href="{% url 'detail-student-mother' calon_pk %}" class="list-group-item list-group-item-action">Ibu</a>
+                <a href="{% url 'detail-student-guardian' calon_pk %}" class="list-group-item list-group-item-action">Wali</a>
+                <a href="{% url 'detail-student-major' calon_pk %}" class="list-group-item list-group-item-action">Jurusan</a>
+                <a href="{% url 'detail-student-files' calon_pk %}" class="list-group-item list-group-item-action">Berkas</a>
+            </div>
+        </div>
+        <div class="col-10">
+            {% crispy form %}
+        </div>
     </div>
 
     <!-- MODAL -->
@@ -36,5 +51,6 @@
     </div>
 {% endblock maindash %}
 {% block js %}
+    {{ block.super  }}
     <script type="text/javascript" src="{% static 'dashboard/js/d_siswa.js' %}"></script>
 {% endblock js %}

@@ -1,119 +1,78 @@
 {% extends 'users/base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% block title %}Dashboard Primaseru{% endblock title %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/sidebar.css' %}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static 'dashboard/css/sidenav.css' %}" type="text/css" media="screen" />
 {% endblock head %}
-{% block navbar %}
-    <nav class="navbar navbar-dark sticky-top  flex-md-nowrap p-0 shadow bg-danger">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">Primaseru | SMK Tel BDG</a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <ul class="navbar-nav px-3 mr-auto">
-            <li class="nav-item text-nowrap text-white pl-2">
-                <h4 class="m-0 judul">{% block judul %}Main Dashboard{% endblock judul %}</h4>
-            </li>
-        </ul>
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link text-white" href="{% url 'logout' %}">Sign out</a>
-            </li>
-        </ul>
-    </nav>
-{% endblock navbar %}
+{% block navbar %}{% endblock navbar %}
 {% block dashboard %}
+
+    <div id="mySidenav" class="sidenav shadow">
+        <div class="py-3 px-2 bg-peach text-white judul">
+            <img src="{% static 'primaseru/images/prima_1.png' %}" width="32" height="32" class="mb-1" alt="logo primaseru" loading="lazy">
+            Primaseru
+        </div>
+        <ul class="nav flex-column mt-2">
+            <li class="nav-item">
+                <a class="nav-link " href="{% url 'dashboard' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house-door-fill mb-1" viewBox="0 0 16 16">
+                        <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+                    </svg>
+                    <span class="ml-1">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#" data-toggle="modal" data-target="#registerModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus-fill mb-1" viewBox="0 0 16 16">
+                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    <span class="ml-1">Tambah Calon Siswa</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{% url 'dashboard-exam' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-fill mb-1" viewBox="0 0 16 16">
+                        <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+                    </svg>
+                    <span class="ml-1">Daftar Ujian</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse">
-                <div class="sidebar-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}">
-                                <span data-feather="home"></span>
-                                Dashboard <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        {% block sidebar %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard-exam' %}">
-                                <span data-feather="home"></span>
-                                Daftar Ujian
-                            </a>
-                        </li>
-                        {% if not calon_pk %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#registerModal">
-                                <span data-feather="file"></span>
-                                Tambah Calon Siswa
-                            </a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#changeNameModal" id="updateNameUser">
-                                <span data-feather="file"></span>
-                                Ganti Nama Calon Siswa
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% endblock %}
-                    </ul>
-
-                    {% if calon_pk %}
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Data {{ name  }}</span>
-                        <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                            <span data-feather="plus-circle"></span>
-                        </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'detail-student' calon_pk %}">
-                                <span data-feather="file-text"></span>
-                                Profile Calon Siswa
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'detail-student-father' calon_pk %}">
-                                <span data-feather="file-text"></span>
-                                Ayah Calon Siswa
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'detail-student-mother' calon_pk %}">
-                                <span data-feather="file-text"></span>
-                                Ibu Calon Siswa
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'detail-student-guardian' calon_pk %}">
-                                <span data-feather="file-text"></span>
-                                Wali Calon Siswa
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'detail-student-major' calon_pk %}">
-                                <span data-feather="file-text"></span>
-                                Jurusan Pilihan Calon Siswa
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'detail-student-files' calon_pk %}">
-                                <span data-feather="file-text"></span>
-                                Berkas Calon Siswa
-                            </a>
-                        </li>
-                    </ul>
-                    <script type="text/javascript">
-                     let calon_pk = {{ calon_pk  }}
-                    </script>
-                    {% endif %}
+        <div class="row" id="main">
+            <div class="col-12 col-lg-12">
+                <nav class="navbar px-0 navbar-expand-lg navbar-dark bg-transparent">
+                    <a class="navbar-brand" href="javascript:void(0)" id="openNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="btn btn-outline-light btn-sm" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-12">
+                <div class="caption text-white judul">
+                    <h2 class="mb-0 mt-2">
+                        {% block dashtitle %}
+                            Dashboard Utama
+                        {% endblock dashtitle %}
+                    </h2>
                 </div>
-            </nav>
+                {% block maindash %}
+                {% endblock maindash %}
+            </div>
+        </div>
 
-            {% block maindash %}
-            {% endblock maindash %}
-
+    </div>
 
 {% endblock dashboard %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'dashboard/js/dashboard.js' %}"></script>
+{% endblock js %}

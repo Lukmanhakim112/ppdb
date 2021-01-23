@@ -11,5 +11,6 @@ urlpatterns = [
     path('wali/<int:pk>/', views.GuardianProfileDetailView.as_view(), name="detail-student-guardian"),
     path('jurusan/<int:pk>/', views.MajorProfileDetailView.as_view(), name="detail-student-major"),
     path('berkas/<int:pk>/', views.FilesProfileDetailView.as_view(), name="detail-student-files"),
+    path('score/<int:pk>/', views.ScoreListView.as_view(), name="detail-student-score"),
     path('users/<int:pk>/', views.UpdateUser.as_view(), name="change-student-name"),
 ]

@@ -1,9 +1,9 @@
 {% extends 'dashboard/dashboard_base.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
-{% block judul %}
+{% load static %}
+{% block dashtitle %}
     Edit Soal
-{% endblock judul %}
+{% endblock dashtitle %}
 {% block head %}
     {{ block.super  }}
     <style type="text/css" media="screen">
@@ -12,31 +12,28 @@
      }
     </style>
 {% endblock head %}
-{% block sidebar %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'exam-detail' exam.pk %}">
-            Kembali
-        </a>
-    </li>
-    <hr />
-    <li class="nav-item mx-4 my-1">
-        <button type="save" class="btn btn-danger btn-block" form="form-update">Simpan</button>
-    </li>
-    <li class="nav-item mx-4 my-1">
-        <button type="button" class="btn btn-primary btn-block" id="add-answer">Tambah Jawaban</button>
-    </li>
-    <li class="nav-item mx-4 my-1">
-        <button type="button" class="btn btn-warning btn-block" id="remove-answer">Hapus Jawaban</button>
-    </li>
-{% endblock sidebar %}
 {% block maindash %}
-    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
-        <form method="POST" enctype="multipart/form-data" id="form-update">
-            {% crispy form_q %}
-            <div class="formset">
-                {% crispy form_a helper %}
+    <div class="row mt-4">
+        <div class="col">
+            <div class="list-group shadow">
+                <a href="{% url 'exam-detail' exam.pk %}" class="list-group-item list-group-item-action">Kembali</a>
             </div>
-        </form>
+        </div>
+        <div class="col-md-12 col-lg-10 col-sm-12 m-xl-0 m-lg-0 mt-md-2 mt-sm-2">
+            <div class="bg-white rounded shadow p-3">
+                <form method="POST" enctype="multipart/form-data" id="form-update">
+                    {% crispy form_q %}
+                    <div class="formset">
+                        {% crispy form_a helper %}
+                    </div>
+                    <div class="btn-group" role="toolbar" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary" id="add-answer">Tambah Jawaban</button>
+                        <button type="button" class="btn btn-warning" id="remove-answer">Hapus Jawaban</button>
+                        <button type="save" class="btn btn-danger" form="form-update">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock maindash %}
 {% block js %}
