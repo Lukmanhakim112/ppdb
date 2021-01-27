@@ -9,6 +9,7 @@ DASHBOARD_STUDENT = Layout(
             css_class="col-lg-10 col-md-12 border rounded shadow-sm mr-2 bg-white p-2"),
         Div(Fieldset(None,
             'verified',
+            'accepted',
                      HTML('<button role="submit" type="submit" class="btn btn-outline-success btn-block save-verify">Save</button> \
                      <button role="button" type="button" class="btn btn-outline-danger btn-block submit-parent" id="activate-form" data-toggle="button" aria-pressed="false">Edit Data</button>'),
                      css_class="p-2"

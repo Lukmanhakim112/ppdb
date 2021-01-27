@@ -9,7 +9,8 @@ urlpatterns = [
     path('<int:pk>/update/', views.ExamUpdateView.as_view(), name="exam-update"),
     path('<int:pk>/delete/', views.ExamDeleteView.as_view(), name="exam-delete"),
     path('<int:pk>/enroll/', views.ExamEnrollView.as_view(), name="exam-enroll"),
-    path('<int:pk>/timer/', views.ExamTimerView.as_view(), name="exam-timer"),
+    path('<int:pk_exam>/timer/', views.ExamTimerView.as_view(), name="exam-timer"),
+    path('<int:pk_exam>/times/up/', views.ExamTimesUpView.as_view(), name="exam-times-up"),
     # Question Path
     path('<int:pk>/question/add/', views.AddQuestion.as_view(), name="question-add"),
     path('<int:pk_exam>/taken/', views.TakeExamView.as_view(), name="taken-question"),

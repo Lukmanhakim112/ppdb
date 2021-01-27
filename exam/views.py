@@ -4,11 +4,11 @@ from django.views import View
 from django.views.generic import DeleteView, UpdateView, ListView
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.context_processors import csrf
 
 from crispy_forms.utils import render_crispy_form
-from users.views import UserIsStaffMixin
+from users.views import UserIsStaffMixin, PassEnrollMixin
 
 from . import forms, models
 
@@ -43,7 +43,7 @@ class ExamDeleteView(UserIsStaffMixin, DeleteView):
     success_url = '/dashboard/exam/'
 
 
-class ExamEnrollView(View):
+class ExamEnrollView(LoginRequiredMixin, View):
     form_class = forms.ExamEnrollForm
     model = models.Exam
 
@@ -60,22 +60,22 @@ class ExamEnrollView(View):
 
         if exam.passcode == request.POST['passcode']:
             request.session[f'exam_{exam.pk}_enroll'] = True
-            request.session[f'exam_{exam.pk}_timer'] = int(exam.duration)
+            request.session[f'exam_{exam.pk}_timer'] = int(exam.duration) * 60
             return redirect('taken-question', pk_exam=exam.pk)
 
         return render(request, 'exam/exam_enroll.html', {'form': form, 'message': message, 'exam': exam})
 
-class ExamTimerView(View):
+class ExamTimerView(PassEnrollMixin, View):
     form_class = forms.TimerForm
 
     def get(self, request, *args, **kwargs):
-        pk = self.kwargs['pk']
+        pk = self.kwargs['pk_exam']
         time = self.request.session[f'exam_{pk}_timer']
         return JsonResponse({'time': time})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        exam = pk=self.kwargs['pk']
+        exam = self.kwargs['pk_exam']
 
         if form.is_valid():
             request.session[f'exam_{exam}_timer'] = form.cleaned_data['timerExam']
@@ -83,23 +83,19 @@ class ExamTimerView(View):
 
         return JsonResponse({'success': False}, status=406)
 
+class ExamTimesUpView(PassEnrollMixin, View):
 
-class TakeExamView(UserPassesTestMixin, ListView):
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs['pk_exam']
+
+        request.session[f'exam_{pk}_times_up'] = True
+
+        return JsonResponse({'success': True})
+
+class TakeExamView(PassEnrollMixin, ListView):
     model = models.Question
     paginate_by = 1
     # context_object_name = 'question_list'
-
-    def test_func(self):
-        exam = models.Exam.objects.get(pk=self.kwargs['pk_exam'])
-        check_score = models.Score.objects.filter(student=self.request.user, exam=exam).exists()
-
-        granted = False
-        if f'exam_{self.kwargs["pk_exam"]}_enroll' in self.request.session:
-             granted = True
-        if check_score:
-            granted = False
-
-        return granted
 
     def get_queryset(self):
         query = get_object_or_404(models.Exam, pk=self.kwargs['pk_exam'])
@@ -152,6 +148,7 @@ class SubmitAnswer(RetriveAnswer):
     def get(self, request, *args, **kwargs):
         exam = self.model.objects.get(pk=self.kwargs['pk_exam'])
         check_score = models.Score.objects.filter(student=request.user, exam=exam).exists()
+
         if check_score:
             raise PermissionDenied
 
@@ -169,16 +166,17 @@ class SubmitAnswer(RetriveAnswer):
             try:
                 data = request.session.get(f'{exam.pk}-{q.pk}-answer')
                 answer = models.Answer.objects.get(pk=int(data['answer']))
-            except (KeyError, ValueError, models.Answer.DoesNotExist):
-                return HttpResponse('fail', status=400)
+                record = models.Record.objects.create(exam=exam, question=q, answer=answer, student=request.user)
 
-            record = models.Record.objects.create(exam=exam, question=q, answer=answer, student=request.user)
-            if record.answer.is_right:
-                score += 1
+                if record.answer.is_right:
+                    score += 1
+
+            except (KeyError, ValueError, models.Answer.DoesNotExist, TypeError):
+                pass
 
         persentage = score / len(question) * 100
         models.Score.objects.create(student=request.user, exam=exam, score=score, persentage=persentage)
-        return HttpResponse('success')
+        return render(request, 'exam/exam_finish.html')
 
 
 

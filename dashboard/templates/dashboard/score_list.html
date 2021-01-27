@@ -2,41 +2,69 @@
 {% load static %}
 {% block head %}
     {{ block.super  }}
-    <style type="text/css" media="screen">
-     form *:disabled{
-         color: #000 !important;
-     }
-    </style>
 {% endblock head %}
+{% block dashtitle %}
+    Detail Daftar Nilai {{ photo.student.full_name  }}
+{% endblock dashtitle %}
 {% block maindash %}
-    <div class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-3">
-        <div class="table-responsive">
-            <table class="table table-hover table-sm">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col" class="w-25">Nama Ujian</th>
-                        <th scope="col">Score</th>
-                        <th scope="col">Persentase</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for score in score_list %}
+    <div class="row">
+        <div class="col col-sm-2">
+            <div class="list-group mt-4 shadow border-0 sticky-top">
+                <li class="list-group-item">
+                    <img src="{{ photo.image.url }}" alt="photo-profile" class="img-fluid" />
+                </li>
+                <a href="#" class="list-group-item list-group-item-action disabled judul" tabindex="-1" aria-disabled="true"><b>Data Profile</b></a>
+                <a href="{% url 'detail-student' calon_pk %}" class="list-group-item list-group-item-action">Profile</a>
+                <a href="{% url 'detail-student-father' calon_pk %}" class="list-group-item list-group-item-action">Ayah</a>
+                <a href="{% url 'detail-student-mother' calon_pk %}" class="list-group-item list-group-item-action">Ibu</a>
+                <a href="{% url 'detail-student-guardian' calon_pk %}" class="list-group-item list-group-item-action">Wali</a>
+                <a href="{% url 'detail-student-major' calon_pk %}" class="list-group-item list-group-item-action">Jurusan</a>
+                <a href="{% url 'detail-student-files' calon_pk %}" class="list-group-item list-group-item-action">Berkas</a>
+                <a href="{% url 'detail-student-score' calon_pk %}" class="list-group-item list-group-item-action">Ujian</a>
+            </div>
+        </div>
+        <div class="col-lg-10 col-sm-12 col-md-10">
+            <div class="table-responsive bg-white rounded p-3 mt-4 shadow">
+                <table class="table table-hover table-sm">
+                    <thead class="thead-light">
                         <tr>
-                            <th scope="row">{{ forloop.counter  }}</th>
-                            <td>{{ score.exam  }}</td>
-                            <td>{{ score.score  }}</td>
-                            <td>{{ score.persentage  }} %</td>
-                            {% if score.passed_test %}
-                                <td>LULUS</td>
-                            {% else %}
-                                <td>BELUM LULUS</td>
-                            {% endif %}
+                            <th scope="col">#</th>
+                            <th scope="col" class="w-25">Nama Ujian</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Persentase</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for score in score_list %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter  }}</th>
+                                <td>{{ score.exam  }}</td>
+                                <td>{{ score.score  }}</td>
+                                <td>{{ score.persentage  }} %</td>
+                                {% if score.passed_test %}
+                                    <td><span class="badge badge-success">Lulus</span></td>
+                                {% else %}
+                                    <td><span class="badge badge-danger">Belum Lulus</span></td>
+                                {% endif %}
+                                <td>
+                                    <div class="d-inline-flex">
+                                        <form method="POST" class="" action="{% url 'detail-student-score-delete' calon_pk score.pk %}">
+                                            {% csrf_token %}
+                                            <input type="submit" value="Delete" class="btn btn-outline-danger btn-sm">
+                                        </form>
+                                        <form method="POST" class="form-inline col" action="{% url 'detail-student-score-passed' calon_pk score.pk %}">
+                                            {% csrf_token %}
+                                            <input type="submit" value="Lulus" class="btn btn-outline-primary btn-sm">
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import UpdateView, View, ListView
+from django.views.generic import UpdateView, View, ListView, DeleteView
 from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -58,6 +58,7 @@ class ProfileDetailView(UserIsStaffMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['calon_pk'] = self.kwargs['pk']
         context['name'] = self.object.student.full_name
+        context['photo'] = prim_models.PhotoProfile.objects.get(student=self.kwargs['pk'])
         return context
 
     def get_success_url(self):
@@ -78,9 +79,6 @@ class MajorProfileDetailView(ProfileDetailView):
 class FilesProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardFilesForm
 
-class ScoreProfileDetailView(ProfileDetailView):
-    form_class = ScoreForm
-
 class ScoreListView(UserIsStaffMixin, ListView):
     model = Score
     context_object_name = 'score_list'
@@ -93,7 +91,23 @@ class ScoreListView(UserIsStaffMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['calon_pk'] = self.kwargs['pk']
+        context['photo'] = prim_models.PhotoProfile.objects.get(student=self.kwargs['pk'])
         return context
+
+class ScoreDeleteView(UserIsStaffMixin, DeleteView):
+    model = Score
+
+    def get_success_url(self):
+        return reverse_lazy('detail-student-score', kwargs={'pk': self.kwargs['pk_user']})
+
+class ScorePassView(UserIsStaffMixin, View):
+    model = Score
+
+    def post(self, request, *args, **kwargs):
+        score = self.model.objects.get(pk=self.kwargs['pk'])
+        score.passed_test = True
+        score.save()
+        return redirect('detail-student-score', pk=self.kwargs['pk_user'])
 
 @login_required
 def dashboard(request):
@@ -119,6 +133,7 @@ def dashboard(request):
         'jumlah_siswa': siswa.count(),
         'siswa_verified': verified,
         'siswa_not_verified': siswa.count() - verified,
+        'siswa_accepted': siswa.filter(accepted=True).count(),
         'form_r': CustomUserCreationForm,
     }
 

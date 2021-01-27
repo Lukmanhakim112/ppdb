@@ -12,5 +12,7 @@ urlpatterns = [
     path('jurusan/<int:pk>/', views.MajorProfileDetailView.as_view(), name="detail-student-major"),
     path('berkas/<int:pk>/', views.FilesProfileDetailView.as_view(), name="detail-student-files"),
     path('score/<int:pk>/', views.ScoreListView.as_view(), name="detail-student-score"),
+    path('score/<int:pk_user>/<int:pk>/delete/', views.ScoreDeleteView.as_view(), name="detail-student-score-delete"),
+    path('score/<int:pk_user>/<int:pk>/passed/', views.ScorePassView.as_view(), name="detail-student-score-passed"),
     path('users/<int:pk>/', views.UpdateUser.as_view(), name="change-student-name"),
 ]
