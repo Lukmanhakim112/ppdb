@@ -22,6 +22,7 @@ def answer_directory_path(instance, filename):
 class Exam(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     exam_title = models.CharField('Judul Ujian', max_length=100)
+    duration = models.CharField('Durasi Ujian', max_length=4, default=0)
     passcode = models.CharField('Passcode', max_length=20)
 
     def __str__(self):

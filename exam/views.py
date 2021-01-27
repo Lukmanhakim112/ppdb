@@ -60,9 +60,28 @@ class ExamEnrollView(View):
 
         if exam.passcode == request.POST['passcode']:
             request.session[f'exam_{exam.pk}_enroll'] = True
+            request.session[f'exam_{exam.pk}_timer'] = int(exam.duration)
             return redirect('taken-question', pk_exam=exam.pk)
 
         return render(request, 'exam/exam_enroll.html', {'form': form, 'message': message, 'exam': exam})
+
+class ExamTimerView(View):
+    form_class = forms.TimerForm
+
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        time = self.request.session[f'exam_{pk}_timer']
+        return JsonResponse({'time': time})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        exam = pk=self.kwargs['pk']
+
+        if form.is_valid():
+            request.session[f'exam_{exam}_timer'] = form.cleaned_data['timerExam']
+            return JsonResponse({'success': True})
+
+        return JsonResponse({'success': False}, status=406)
 
 
 class TakeExamView(UserPassesTestMixin, ListView):
@@ -88,7 +107,9 @@ class TakeExamView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pk_exam'] = self.kwargs['pk_exam']
+        pk_exam = self.kwargs['pk_exam']
+        context['pk_exam'] = pk_exam
+        context['timerForm'] = forms.TimerForm
         return context
 
 class AnswerView(LoginRequiredMixin, View):

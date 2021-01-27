@@ -3,10 +3,13 @@ from django.utils.safestring import mark_safe
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Div, HTML, Field
-from crispy_forms.bootstrap import InlineField
+from crispy_forms.bootstrap import InlineField, AppendedText
 
 from .models import Exam, Question, Answer, Record, Score
 
+
+class TimerForm(forms.Form):
+    timerExam = forms.CharField(widget=forms.HiddenInput)
 
 class ScoreForm(forms.ModelForm):
 
@@ -25,7 +28,10 @@ class ExamForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(None,
                 'exam_title',
-                'passcode',
+                Row(
+                    Div(AppendedText('duration', "Menit", active=True), css_class="col-6"),
+                    Div('passcode', css_class="col-6"),
+                ),
             ),
             HTML('<button role="submit" type="submit" class="btn btn-primary">Submit</button>'),
         )

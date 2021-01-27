@@ -1,6 +1,8 @@
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
+from django.contrib.sessions.models import Session
 from .models import CustomUser
+
 
 from primaseru.models import StudentProfile, FatherStudentProfile, MotherStudentProfile, StudentGuardianProfile, PhotoProfile, MajorStudent, StudentFile
 
@@ -30,3 +32,8 @@ def save_profile(sender, instance, **kwargs):
         instance.majorstudent.save()
         instance.studentfile.save()
         print("Instance Saved")
+
+
+@receiver(pre_delete, sender=Session)
+def house_keeping(sender, instance, **kwargs):
+    pass

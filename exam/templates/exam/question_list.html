@@ -5,8 +5,8 @@
 {% block main %}
 
     <div class="row my-4">
-        {% for question in object_list %}
-            <div class="col-md-12 col-sm-12 col-lg-12">
+        <div class="col-md-9 col-sm-12 col-lg-10">
+            {% for question in object_list %}
                 <div class="card shadow border-0">
                     <div class="card-header bg-primary text-white">
                         Pertanyaan No. {{ page_obj.number }}
@@ -20,8 +20,25 @@
                         </div>
                     </div>
                 </div>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Timer
+                </div>
+                <div class="card-body">
+                    <p class="card-text h2 text-center" id="timer">
+                        <div>
+                            <form method="POST" id="timerExamForm">
+                                {% csrf_token %}
+                                {{ timerForm  }}
+                            </form>
+                        </div>
+                    </p>
+                </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
 
     {% if is_paginated %}
@@ -79,5 +96,5 @@
 
 {% endblock main %}
 {% block js %}
-    <script type="text/javascript" src="{% static 'exam/js/exam_list.js' %}"></script>
+    <script type="text/javascript" src="{% static 'exam/js/question_list.js' %}"></script>
 {% endblock js %}

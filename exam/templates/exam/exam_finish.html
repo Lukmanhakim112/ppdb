@@ -1,0 +1,20 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block main %}
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <img src="{% static 'primaseru/images/prima_1.png' %}" width="32" height="32" class="mb-1" alt="logo primaseru" loading="lazy">
+                    Primaseru | SMK Telkom Bandung
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title judul">Ujian Selesai!</h4>
+                    <p class="card-text">
+                        Selamat! Anda telah berhasil mensubmit ujian, nilai akan direview oleh Petugas kami.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
