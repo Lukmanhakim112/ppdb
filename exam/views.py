@@ -12,12 +12,16 @@ from users.views import UserIsStaffMixin, PassEnrollMixin
 
 from . import forms, models
 
-class ExamView(View):
+class ExamView(LoginRequiredMixin, View):
     form_class = forms.ExamForm
     models = form_class.Meta.model
     template_name = 'exam/exam.html'
 
     def get(self, request, *args, **kwargs):
+
+        if not request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            raise PermissionDenied
+
         data = self.models.objects.all()
         return render(request, self.template_name, {"data": data})
 

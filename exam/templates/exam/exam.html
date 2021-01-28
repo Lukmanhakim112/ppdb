@@ -1,22 +1,12 @@
-{% extends 'users/base.html' %}
-{% load static %}
-{% block title %}Ujian Primaseru{% endblock title %}
-{% block main %}
-    <div class="row my-3">
-        <div class="col-12 border rounded bg-white p-3 mx-3 text-center">
-            <h3>Ujian Primaseru</h3>
-        </div>
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-4">
-        {% for q in data %}
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4">
+    {% for q in data %}
         <div class="col mb-4">
             <div class="card h-100">
                 <div class="card-header bg-danger">
                     <h5 class="card-title mb-0 text-white">{{ q.exam_title  }}</h5>
                 </div>
                 {% if q.exam_image %}
-                <img src="{{ q.question_image.url }}" class="card-img-top h-50" alt="Question Image" loading="lazy" />
+                    <img src="{{ q.question_image.url }}" class="card-img-top h-50" alt="Question Image" loading="lazy" />
                 {% endif %}
                 <div class="card-body">
                     <a href="{% url 'exam-enroll' q.pk %}" class="btn btn-primary">Enroll</a>
@@ -25,6 +15,5 @@
                 </ul>
             </div>
         </div>
-        {% endfor %}
-    </div>
-{% endblock main %}
+    {% endfor %}
+</div>

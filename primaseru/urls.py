@@ -1,17 +1,13 @@
 from django.urls import path, include
-from . import views, forms, models
-from .views import ProfileView
+from . import views
 
 urlpatterns = [
     path('', views.home, name="home"),
     path('profile/', views.studentProfile, name="profile"),
-    # path('profile/berkas/', views.studentFiles, name="berkas"),
-    path('profile/ayah/', ProfileView.as_view(), name="profile-ayah"),
-    path('profile/ibu/', ProfileView.as_view(form_class=forms.MotherStudentProfileForm, models=models.MotherStudentProfile, name="ibu"), name="profile-ibu"),
-    path('profile/siswa/', ProfileView.as_view(form_class=forms.StudentProfileForm, models=models.StudentProfile, name="siswa"), name="profile-siswa"),
-    path('profile/wali/', ProfileView.as_view(form_class=forms.StudentGuardianProfileForm, models=models.StudentGuardianProfile, name="wali"), name="profile-wali"),
-    path('profile/jurusan/', ProfileView.as_view(form_class=forms.MajorStudentForm, models=models.MajorStudent, template_name="primaseru/major.html",
-                                                 name="jurusan"), name="jurusan-siswa"),
-    path('profile/berkas/', ProfileView.as_view(form_class=forms.StudentFileForm, models=models.StudentFile, template_name="primaseru/student_files.html",
-                                                name="berkas"), name="berkas-siswa"),
+    path('profile/ayah/', views.ProfileView.as_view(), name="profile-ayah"),
+    path('profile/ibu/', views.MoatherProfileView.as_view(), name="profile-ibu"),
+    path('profile/siswa/', views.StudentProfileView.as_view(), name="profile-siswa"),
+    path('profile/wali/', views.GuardianProfileView.as_view(), name="profile-wali"),
+    path('profile/jurusan/', views.MajorStudentView.as_view(), name="jurusan-siswa"),
+    path('profile/berkas/', views.FilesStudentView.as_view(), name="berkas-siswa"),
 ]
