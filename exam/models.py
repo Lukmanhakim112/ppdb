@@ -18,7 +18,6 @@ def question_directory_path(instance, filename):
 def answer_directory_path(instance, filename):
     return f'answer_pic/{instance.question.exam}/{filename}'
 
-
 class Exam(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     exam_title = models.CharField('Judul Ujian', max_length=100)
@@ -59,7 +58,6 @@ class Score(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.DO_NOTHING)
     score = models.IntegerField('Score', null=True)
     persentage = models.IntegerField('Persentase', null=True)
-    passed_test = models.BooleanField('Lulus', default=False)
 
     def __str__(self):
         return f'Score {self.student}'

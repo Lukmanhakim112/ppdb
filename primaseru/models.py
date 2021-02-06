@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.utils import timezone
 
@@ -130,3 +132,18 @@ class MajorStudent(models.Model):
     def __str__(self):
         return f'{self.student} - {self.first_major}'
 
+class RegisterSchedule(models.Model):
+    name = models.CharField('Nama Gelombang Pendaftaran', max_length=120)
+    start_date = models.DateField('Tanggal Dimulai Pendaftaran')
+    end_date = models.DateField('Tanggal Berakhir Pendaftaran')
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def is_ongoing(self):
+        return date.today() < self.end_date and date.today() > self.start_date
+
+    @property
+    def is_past_date(self):
+        return date.today() > self.end_date

@@ -100,15 +100,6 @@ class ScoreDeleteView(UserIsStaffMixin, DeleteView):
     def get_success_url(self):
         return reverse_lazy('detail-student-score', kwargs={'pk': self.kwargs['pk_user']})
 
-class ScorePassView(UserIsStaffMixin, View):
-    model = Score
-
-    def post(self, request, *args, **kwargs):
-        score = self.model.objects.get(pk=self.kwargs['pk'])
-        score.passed_test = True
-        score.save()
-        return redirect('detail-student-score', pk=self.kwargs['pk_user'])
-
 @login_required
 def dashboard(request):
 

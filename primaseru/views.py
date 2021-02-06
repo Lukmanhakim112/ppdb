@@ -12,7 +12,9 @@ from . import forms, models
 
 
 def home(request):
-    return render(request, 'primaseru/home.html')
+    jadwal = models.RegisterSchedule.objects.all()
+
+    return render(request, 'primaseru/timeline.html', {'jadwal': jadwal})
 
 class ProfileView(LoginRequiredMixin, View):
     """
