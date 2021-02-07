@@ -1,0 +1,14 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block navbar %}{% endblock navbar %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'users/css/500.css' %}" type="text/css" media="screen" />
+{% endblock head %}
+{% block main %}
+    <div id="error">
+        <div id="box"></div>
+        <h3>ERROR 500</h3>
+        <p>Things are a little <span>unstable</span> here</p>
+        <p>I suggest come back later</p>
+    </div>
+{% endblock main %}
