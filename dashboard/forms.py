@@ -1,7 +1,23 @@
+from django import forms
+import datetime
+
 from primaseru import models as prim_models
 from primaseru import forms as prim_forms
 
 from . import layouts
+
+
+class RegisterScheduleForm(forms.ModelForm):
+
+    start_date = forms.DateField(label='Tanggal Mulai',initial=datetime.date.today, widget=forms.DateInput(format="%d/%m/%Y"),
+                                help_text="Format: <em>DD/MM/YYYY</em>", input_formats=["%d/%m/%Y"])
+
+    end_date = forms.DateField(label='Tanggal Berakhir',initial=datetime.date.today, widget=forms.DateInput(format="%d/%m/%Y"),
+                                help_text="Format: <em>DD/MM/YYYY</em>", input_formats=["%d/%m/%Y"])
+
+    class Meta:
+        model = prim_models.RegisterSchedule
+        fields = '__all__'
 
 class DashboardStudentProfileForm(prim_forms.StudentProfileForm):
 
