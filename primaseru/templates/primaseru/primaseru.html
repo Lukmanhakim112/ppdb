@@ -11,11 +11,27 @@
          color: #fff;
          background-color: #FF0000;
      }
+     .nav .nav-link::after {
+         content: "";
+         display: block;
+         width: 0;
+         border-bottom: 2px solid #941D15;
+         transition: .5s;
+     }
+     .nav .nav-link:hover::after {
+         width: 100%;
+     }
+     #v-pills-tab .nav-link.active::after {
+         width: 100%;
+     }
     </style>
 {% endblock head %}
+{% block navbar %}{% endblock navbar %}
+{% block container %}container-fluid{% endblock container %}
 {% block main %}
 
-    <div class="row py-2 my-4">
+
+    <div class="row bg-light py-2 pt-5">
         <div class="col-sm-3 text-center mb-1">
             <img src="{{ profile.image.url }}" alt="photo profile" width="175" height="175" />
         </div>
@@ -28,12 +44,12 @@
                     <label class="custom-file-label" for="{{ form_ph.image.auto_id }}">Upload Photo</label>
                 </div>
             </form>
+            <a class="btn btn-outline-secondary mt-3" href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
-    <hr />
-    <div class="row">
-        <div class="col-sm-3 mb-3">
-            <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="navigation" aria-orientation="vertical">
+    <div class="row mb-3">
+        <div class="col-12 px-3 pt-3 pb-1 bg-light border-bottom border-top">
+            <div class="nav" id="v-pills-tab" role="navigation">
                 <a class="nav-link tab-profile active" id="v-pills-identity-tab" data-toggle="pill" href="#v-pills-identity" role="tab" aria-controls="v-pills-identity" aria-selected="true">Identitas Diri</a>
                 <a class="nav-link tab-profile" id="v-pills-id-ayah-tab" data-toggle="pill" href="#v-pills-id-ayah" role="tab" aria-controls="v-pills-id-ayah" aria-selected="false">Identitas Ayah</a>
                 <a class="nav-link tab-profile" id="v-pills-id-ibu-tab" data-toggle="pill" href="#v-pills-id-ibu" role="tab" aria-controls="v-pills-id-ibu" aria-selected="false">Identitas Ibu</a>
@@ -43,36 +59,41 @@
                 <a class="nav-link tab-profile" id="v-pills-exam-tab" data-toggle="pill" href="#v-pills-exam" role="tab" aria-controls="v-pills-exam" aria-selected="false">Exam</a>
             </div>
         </div>
-        <div class="col-sm-9">
-            <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-identity" role="tabpanel" aria-labelledby="v-pills-identity-tab">
-                    <div class="row  rounded py-2 bg-white min-vh shadow mb-4" id="student-content">
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="v-pills-id-ayah" role="tabpanel" aria-labelledby="v-pills-id-ayah-tab">
-                    <div class="row rounded py-2 bg-white min-vh shadow mb-4" id="father-content">
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="v-pills-id-ibu" role="tabpanel" aria-labelledby="v-pills-id-ibu-tab">
-                    <div class="row  rounded py-2 bg-white min-vh shadow mb-4" id="mother-content">
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="v-pills-id-wali" role="tabpanel" aria-labelledby="v-pills-id-wali-tab">
-                    <div class="row  rounded py-2 bg-white min-vh shadow mb-4" id="guardian-content">
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="v-pills-major" role="tabpanel" aria-labelledby="v-pills-major-tab">
-                    <div class="row  rounded py-2 bg-white min-vh shadow mb-4" id="major-content">
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="v-pills-files" role="tabpanel" aria-labelledby="v-pills-files-tab">
-                    <div class="row  rounded py-2 bg-white min-vh shadow mb-4" id="files-content">
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="v-pills-exam" role="tabpanel" aria-labelledby="v-pills-exam-tab">
-                    <div class="row  rounded py-2 bg-white min-vh shadow mb-4">
-                        <div class="col-12" id="exam-content">
+    </div>
 
+    <div class="row">
+        <div class="container">
+            <div class="col-sm-12">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-identity" role="tabpanel" aria-labelledby="v-pills-identity-tab">
+                        <div class="row  rounded py-2 bg-white min-vh border mb-4" id="student-content">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-id-ayah" role="tabpanel" aria-labelledby="v-pills-id-ayah-tab">
+                        <div class="row rounded py-2 bg-white min-vh border mb-4" id="father-content">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-id-ibu" role="tabpanel" aria-labelledby="v-pills-id-ibu-tab">
+                        <div class="row  rounded py-2 bg-white min-vh border mb-4" id="mother-content">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-id-wali" role="tabpanel" aria-labelledby="v-pills-id-wali-tab">
+                        <div class="row  rounded py-2 bg-white min-vh border mb-4" id="guardian-content">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-major" role="tabpanel" aria-labelledby="v-pills-major-tab">
+                        <div class="row  rounded py-2 bg-white min-vh border mb-4" id="major-content">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-files" role="tabpanel" aria-labelledby="v-pills-files-tab">
+                        <div class="row  rounded py-2 bg-white min-vh border mb-4" id="files-content">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-exam" role="tabpanel" aria-labelledby="v-pills-exam-tab">
+                        <div class="row  rounded py-2 bg-white min-vh border mb-4">
+                            <div class="col-12" id="exam-content">
+
+                            </div>
                         </div>
                     </div>
                 </div>

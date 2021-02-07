@@ -31,7 +31,7 @@
 
                     <div class="collapse navbar-collapse" id="primaseruNavbar">
                         <ul class="navbar-nav mr-auto border-line">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="#home">Home <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
@@ -50,20 +50,20 @@
                         <ul class="navbar-nav ml-auto">
                             {% if user.is_authenticated %}
                                 <li class="nav-item mx-1">
-                                    <a class="btn btn-light btn-block" href="{% url 'logout' %}">Logout</a>
+                                    <a class="btn btn-block btn-light btn-block" href="{% url 'logout' %}">Logout</a>
                                 </li>
                                 {% if user.is_staff %}
                                     <li class="nav-item mx-1">
-                                        <a class="btn btn-outline-light btn-block" href="{% url 'dashboard' %}">Dashboard</a>
+                                        <a class="btn btn-block btn-outline-light btn-block" href="{% url 'dashboard' %}">Dashboard</a>
                                     </li>
                                 {% else %}
                                     <li class="nav-item mx-1">
-                                        <a class="btn btn-light btn-block" href="{% url 'profile' %}">Profile</a>
+                                        <a class="btn btn-block btn-light btn-block" href="{% url 'profile' %}">Profile</a>
                                     </li>
                                 {% endif %}
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="btn btn-light" href="{% url 'login' %}">Login</a>
+                                    <a class="btn btn-block btn-light" href="{% url 'login' %}">Login</a>
                                 </li>
                             {% endif %}
                         </ul>
