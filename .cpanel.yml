@@ -4,10 +4,10 @@ deployment:
     - export DEPLOYPATH=/home/smktelko/primaseru/
     - /bin/cp -R dashboard $DEPLOYPATH
     - /bin/cp -R exam $DEPLOYPATH
-    - /bin/cp -R manage.py $DEPLOYPATH
     - /bin/cp -R ppdb $DEPLOYPATH
     - /bin/cp -R media $DEPLOYPATH
     - /bin/cp -R primaseru $DEPLOYPATH
     - /bin/cp -R users $DEPLOYPATH
-    - /bin/cp requirements.txt $DEPLOYPATH
-    - /bin/cp db.sqlite3 $DEPLOYPATH
+    - /bin/cp manage.py $DEPLOYPATH/manage.py
+    - /bin/cp requirements.txt $DEPLOYPATH/requirements.txt
+    - /bin/cp db.sqlite3 $DEPLOYPATH/db.sqlite3
