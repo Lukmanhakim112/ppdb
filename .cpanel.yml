@@ -2,12 +2,13 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/smktelko/primaseru/
-    - /bin/cp -rf dashboard $DEPLOYPATH
-    - /bin/cp -rf exam $DEPLOYPATH
-    - /bin/cp -rf ppdb $DEPLOYPATH
-    - /bin/cp -rf media $DEPLOYPATH
-    - /bin/cp -rf primaseru $DEPLOYPATH
-    - /bin/cp -rf users $DEPLOYPATH
-    - /bin/cp -f manage.py $DEPLOYPATH/manage.py
-    - /bin/cp -f requirements.txt $DEPLOYPATH/requirements.txt
-    - /bin/cp -f db.sqlite3 $DEPLOYPATH/db.sqlite3
+    - /bin/cp -rf * $DEPLOYPATH
+      #- /bin/cp -rf dashboard $DEPLOYPATH
+      #- /bin/cp -rf exam $DEPLOYPATH
+      #- /bin/cp -rf ppdb $DEPLOYPATH
+      #- /bin/cp -rf media $DEPLOYPATH
+      #- /bin/cp -rf primaseru $DEPLOYPATH
+      #- /bin/cp -rf users $DEPLOYPATH
+      #- /bin/cp -f manage.py $DEPLOYPATH/manage.py
+      #- /bin/cp -f requirements.txt $DEPLOYPATH/requirements.txt
+      #- /bin/cp -f db.sqlite3 $DEPLOYPATH/db.sqlite3
