@@ -1,5 +1,5 @@
 ---
 deployment:
-  tasks:
-    - export DEPLOYPATH=/home/smktelko/primaseru/
-    - /bin/cp -R images $DEPLOYPATH
+ tasks:
+ - export DEPLOYPATH=/home/smktelko/primaseru/
+ - /bin/cp -R images $DEPLOYPATH
