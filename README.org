@@ -2,3 +2,6 @@
 
 
 This webapp gonna be used for register a new student at school.
+
+-- SMK Telkom Bandung
+
