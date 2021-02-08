@@ -20,6 +20,7 @@ class ScoreForm(forms.ModelForm):
 
 class ExamForm(forms.ModelForm):
     passcode = forms.CharField(widget=forms.PasswordInput)
+    duration = forms.CharField(help_text="Durasi dalam <b>menit</b>.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
