@@ -12,6 +12,7 @@ urlpatterns = [
     path('jadwal/pendaftaran/update/<int:pk>/', views.RegisterSchduleUpdateView.as_view(), name="schedule-update"),
 
     path('siswa/<int:pk>/', views.ProfileDetailView.as_view(), name="detail-student"),
+    path('siswa/delete/<int:pk>/', views.ProfileDeleteView.as_view(), name="delete-student"),
     path('ayah/<int:pk>/', views.FatherProfileDetailView.as_view(), name="detail-student-father"),
     path('ibu/<int:pk>/', views.MotherProfileDetailView.as_view(), name="detail-student-mother"),
     path('wali/<int:pk>/', views.GuardianProfileDetailView.as_view(), name="detail-student-guardian"),

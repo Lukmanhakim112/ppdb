@@ -1,5 +1,9 @@
 {% extends 'dashboard/dashboard_base.html' %}
 {% load crispy_forms_tags %}
+{% block dashtitle %}
+    Dashboard Primaseru <br />
+    <a class="btn btn-light" data-toggle="modal" data-target="#registerModal" href="javascript:void(0)">Tambah Pendaftar</a>
+{% endblock dashtitle %}
 {% block head %}
     {{ block.super  }}
 {% endblock head %}
@@ -40,6 +44,7 @@
                             <th scope="col">Tempat Lahir</th>
                             <th scope="col">Tanggal Lahir</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,11 +56,19 @@
                                 <td>{{ s.city_born  }}</td>
                                 <td>{{ s.date_born|date:"d M Y"  }}</td>
                                 <td>
-                                    {% if s.verified %}
+                                    {% if s.accepted %}
+                                        <span class="badge badge-success">DITERIMA</span>
+                                    {% elif s.verified %}
                                         <span class="badge badge-primary">TERVERIFIKASI</span>
                                     {% else %}
                                         <span class="badge badge-danger">BELUM TERVERIFIKASI</span>
                                     {% endif %}
+                                </td>
+                                <td>
+                                    <form method="POST" class="" action="{% url 'delete-student' s.pk %}">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}

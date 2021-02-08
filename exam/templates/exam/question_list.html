@@ -1,6 +1,19 @@
 {% extends 'users/base.html' %}
 {% load static %}
 {% block title %}Ujian Primaseru{% endblock title %}
+{% block head %}
+    <style type="text/css" media="screen">
+     * {
+         user-select: none;
+     }
+     *::selection {
+         background: none;
+     }
+     *::-moz-selection {
+         background: none;
+     }
+    </style>
+{% endblock head %}
 {% block navbar %}{% endblock navbar %}
 {% block main %}
 

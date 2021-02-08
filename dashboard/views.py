@@ -36,6 +36,10 @@ class RegisterSchduleUpdateView(UserIsStaffMixin, UpdateView):
     template_name = "dashboard/registerschedule_form.html"
     success_url = '/dashboard/jadwal/pendaftaran/'
 
+class ProfileDeleteView(UserIsStaffMixin, DeleteView):
+    model = prim_models.StudentProfile
+    success_url = '/dashboard/'
+
 
 class ExamCreateView(UserIsStaffMixin, View):
     model = Exam

@@ -4,6 +4,10 @@ $(document).ready(() => {
         answer.push($(this).attr('id'));
     });
 
+    document.addEventListener("contextmenu", function(evt){
+        evt.preventDefault();
+    }, false);
+
     function startTimer(duration, display) {
         var timer = duration, minutes, seconds;
         setInterval(function () {

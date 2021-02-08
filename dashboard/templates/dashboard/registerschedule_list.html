@@ -4,7 +4,8 @@
     {{ block.super  }}
 {% endblock head %}
 {% block dashtitle %}
-    Daftar Jadwal Pendaftaran
+    Daftar Jadwal Pendaftaran <br />
+    <a class="btn btn-light" href="{% url 'schedule-create' %}">Tambah Pendaftar</a>
 {% endblock dashtitle %}
 {% block maindash %}
     <div class="row">
