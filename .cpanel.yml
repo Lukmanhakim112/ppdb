@@ -8,3 +8,7 @@ deployment:
     - /bin/cp -rf exam $DEPLOYPATH
     - /bin/cp -rf primaseru $DEPLOYPATH
     - /bin/cp -rf users $DEPLOYPATH
+    - source /home/smktelko/virtualenv/primaseru/3.7/bin/activate && cd /home/smktelko/primaseru
+    - python manage.py collectstatic --noinput
+    - python manage.py makemigrations
+    - python manage.py migrate
