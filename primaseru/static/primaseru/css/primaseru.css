@@ -67,7 +67,7 @@
 }
 body::before {
     content: " ";
-    width: 60%;
+    width: 57.1%;
     height: 100%;
     position: absolute;
     top: 0;
