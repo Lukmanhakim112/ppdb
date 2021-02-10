@@ -158,7 +158,15 @@ class SubmitAnswer(RetriveAnswer):
         if check_score:
             raise PermissionDenied
 
-        return render(request, self.template_name, {'exam': exam})
+        question = models.Question.objects.filter(exam=exam)
+        answer = []
+        for q in question:
+            if request.session.get(f'{exam.pk}-{q.pk}-answer'):
+                answer.append(True)
+            else:
+                answer.append(False)
+
+        return render(request, self.template_name, {'exam': exam, 'answer': answer})
 
     def post(self, request, *args, **kwargs):
 

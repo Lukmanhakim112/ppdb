@@ -15,6 +15,28 @@
                         Apakah Anda yakin untuk mengsubmit "<b>{{ exam.exam_title }}</b>" ? <br />
                         <span class="text-muted mt-2">Setelah mensubmit ujian ini, maka Anda tidak dapat mengisi ujian ini lagi.</span>
                     </p>
+                    <hr />
+                    <h4 class="card-title mb-0 judul">Pertanyaan Terjawab</h4>
+                    <div class="row p-3">
+                        {% for r in answer %}
+                            {% if r %}
+                            <div class="col text-center text-white rounded m-1 p-1 bg-primary">
+                                <a href="/exam/{{ exam.pk }}/taken/?page={{ forloop.counter }}" class="text-white">
+                                No. {{ forloop.counter  }} <br />
+                                Terjawab
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="col text-center rounded m-1 p-1 bg-warning">
+                                <a href="/exam/{{ exam.pk }}/taken/?page={{ forloop.counter }}" class="text-body">
+                                No. {{ forloop.counter  }} <br />
+                                Tidak Terjawab
+                                </a>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <hr />
                     <form method="post">
                         {% csrf_token %}
                         <input type="submit" value="Konfirmasi" class="btn btn-danger">
