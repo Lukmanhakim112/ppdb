@@ -1,3 +1,5 @@
+from itertools import islice
+
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -165,12 +167,14 @@ class SubmitAnswer(RetriveAnswer):
         score = 0
 
         # REVIEW Need refactor? I think so...
+        total_question = []
         for q in question:
 
             try:
-                data = request.session.get(f'{exam.pk}-{q.pk}-answer')
-                answer = models.Answer.objects.get(pk=int(data['answer']))
-                record = models.Record.objects.create(exam=exam, question=q, answer=answer, student=request.user)
+                data = request.session.get(f'{exam.pk}-{q.pk}-answer') # Retrive data from the session
+                answer = models.Answer.objects.get(pk=int(data['answer'])) # Retrive the answer
+                record = models.Record(exam=exam, question=q, answer=answer, student=request.user) # Create the object
+                total_question.append(record) # Add it to the list, and then bulk insert it
 
                 if record.answer.is_right:
                     score += 1
@@ -178,8 +182,12 @@ class SubmitAnswer(RetriveAnswer):
             except (KeyError, ValueError, models.Answer.DoesNotExist, TypeError):
                 pass
 
+        # Add the score to DB
         persentage = score / len(question) * 100
         models.Score.objects.create(student=request.user, exam=exam, score=score, persentage=persentage)
+
+        # Bulk create the record (history)
+        models.Record.objects.bulk_create(total_question)
         return render(request, 'exam/exam_finish.html')
 
 
