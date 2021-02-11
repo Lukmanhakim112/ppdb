@@ -54,6 +54,10 @@ class ExamEnrollView(LoginRequiredMixin, View):
     model = models.Exam
 
     def get(self, request, *args, **kwargs):
+
+        if request.session[f'exam_{self.kwargs["pk"]}_enroll']:
+            return redirect('taken-question', pk_exam=self.kwargs["pk"])
+
         form = self.form_class
         exam = self.model.objects.get(pk=self.kwargs['pk'])
 
