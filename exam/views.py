@@ -55,7 +55,7 @@ class ExamEnrollView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
 
-        if request.session[f'exam_{self.kwargs["pk"]}_enroll']:
+        if request.session.get(f'exam_{self.kwargs["pk"]}_enroll'):
             return redirect('taken-question', pk_exam=self.kwargs["pk"])
 
         form = self.form_class
@@ -70,7 +70,7 @@ class ExamEnrollView(LoginRequiredMixin, View):
 
         if exam.passcode == request.POST['passcode']:
             request.session[f'exam_{exam.pk}_enroll'] = True
-            request.session[f'exam_{exam.pk}_timer'] = int(exam.duration) * 60
+            request.session[f'exam_{exam.pk}_timer'] = float(exam.duration) * 60
             return redirect('taken-question', pk_exam=exam.pk)
 
         return render(request, 'exam/exam_enroll.html', {'form': form, 'message': message, 'exam': exam})
@@ -93,14 +93,6 @@ class ExamTimerView(PassEnrollMixin, View):
 
         return JsonResponse({'success': False}, status=406)
 
-class ExamTimesUpView(PassEnrollMixin, View):
-
-    def post(self, request, *args, **kwargs):
-        pk = self.kwargs['pk_exam']
-
-        request.session[f'exam_{pk}_times_up'] = True
-
-        return JsonResponse({'success': True})
 
 class TakeExamView(PassEnrollMixin, ListView):
     model = models.Question
@@ -151,26 +143,10 @@ class RetriveAnswer(AnswerView):
 
         return JsonResponse({'success': True}, status=200)
 
-class SubmitAnswer(RetriveAnswer):
+
+class InputScore(View):
     model = models.Exam
     template_name = 'exam/answer_confirmation.html'
-
-    def get(self, request, *args, **kwargs):
-        exam = self.model.objects.get(pk=self.kwargs['pk_exam'])
-        check_score = models.Score.objects.filter(student=request.user, exam=exam).exists()
-
-        if check_score:
-            raise PermissionDenied
-
-        question = models.Question.objects.filter(exam=exam)
-        answer = []
-        for q in question:
-            if request.session.get(f'{exam.pk}-{q.pk}-answer'):
-                answer.append(True)
-            else:
-                answer.append(False)
-
-        return render(request, self.template_name, {'exam': exam, 'answer': answer})
 
     def post(self, request, *args, **kwargs):
 
@@ -200,8 +176,45 @@ class SubmitAnswer(RetriveAnswer):
 
         # Bulk create the record (history)
         models.Record.objects.bulk_create(total_question)
+
+
+class ExamTimesUpView(PassEnrollMixin, InputScore):
+
+    def post(self, request, *args, **kwargs):
+        super().post(request, *args, **kwargs)
+
+        pk = self.kwargs['pk_exam']
+        request.session[f'exam_{pk}_times_up'] = True
+
         return render(request, 'exam/exam_finish.html')
 
+class SubmitAnswer(PassEnrollMixin, InputScore):
+    form_class = forms.ExamTakeForm
+    model = models.Exam
+    template_name = 'exam/answer_confirmation.html'
+
+    def get(self, request, *args, **kwargs):
+        exam = self.model.objects.get(pk=self.kwargs['pk_exam'])
+        check_score = models.Score.objects.filter(student=request.user, exam=exam).exists()
+
+        if check_score:
+            raise PermissionDenied
+
+        timerForm = forms.TimerForm
+        question = models.Question.objects.filter(exam=exam)
+        answer = []
+        for q in question:
+            if request.session.get(f'{exam.pk}-{q.pk}-answer'):
+                answer.append(True)
+            else:
+                answer.append(False)
+
+        return render(request, self.template_name, {'exam': exam, 'answer': answer, 'timerForm': timerForm})
+
+    def post(self, request, *args, **kwargs):
+        super().post(request, *args, **kwargs)
+
+        return render(request, 'exam/exam_finish.html')
 
 
 class AddQuestion(UserIsStaffMixin, View):

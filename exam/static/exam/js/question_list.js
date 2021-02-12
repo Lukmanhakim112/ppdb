@@ -10,7 +10,7 @@ $(document).ready(() => {
 
     function startTimer(duration, display) {
         var timer = duration, minutes, seconds;
-        setInterval(function () {
+        var stopwatch = setInterval(function () {
             minutes = parseInt(timer / 60, 10)
             seconds = parseInt(timer % 60, 10);
 
@@ -22,11 +22,15 @@ $(document).ready(() => {
             $("#id_timerExam").val(timer)
 
             if (--timer < 0) {
-                timer = duration;
 
                 let data = new FormData($("#timerExamForm").get(0));
                 navigator.sendBeacon(`/exam/${answer[0].split('-')[0]}/times/up/`, data);
-                window.location.replace(`/exam/${answer[0].split('-')[0]}/taken/submit/`);
+                // window.location.replace(`/exam/${answer[0].split('-')[0]}/taken/submit/`);
+                let alert = `<div class="alert alert-danger mt-2" role="alert">
+                            Waktu Habis!
+                            </div>`
+                clearInterval(stopwatch);
+                $(".container").prepend(alert);
             }
         }, 1000);
     }

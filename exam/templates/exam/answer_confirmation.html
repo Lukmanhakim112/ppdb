@@ -3,7 +3,7 @@
 {% block navbar %}{% endblock navbar %}
 {% block main %}
     <div class="row my-5">
-        <div class="col-12">
+        <div class="col-12 col-md order-2 order-md-1">
             <div class="card shadow">
                 <div class="card-header">
                     <img src="{% static 'primaseru/images/prima_1.png' %}" width="32" height="32" class="mb-1" alt="logo primaseru" loading="lazy">
@@ -45,5 +45,28 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 col-md-3 mb-2 mb-md-0 order-1 order-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Timer
+                </div>
+                <div class="card-body">
+                    <p class="card-text h2 text-center" id="timer">
+                        <div>
+                            <form method="POST" id="timerExamForm">
+                                {% csrf_token %}
+                                {{ timerForm  }}
+                            </form>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock main %}
+{% block js %}
+    <script type="text/javascript">
+        let examPk = {{ exam.pk }}
+    </script>
+    <script type="text/javascript" src="{% static 'exam/js/answer_confirmation.js' %}"></script>
+{% endblock js %}
