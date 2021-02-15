@@ -58,6 +58,12 @@ disableMajor();
                         $("#{{ name }}-form").prepend(alertDanger);
                         return false;
                     }
+                    $("#{{ name }}-form").empty().html(`<div class="d-flex justify-content-center" >
+                        <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        </div>`
+                    );
                 },
                 success: () => {
                     let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menyimpan Jurusan Pilihan \

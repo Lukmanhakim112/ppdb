@@ -33,6 +33,14 @@ $("#{{ name }}-form").submit(() => {
         type: "POST",
         data: $("#{{ name }}-form").serialize(),
         dataType: 'json',
+        beforeSend: () => {
+            $("#{{ name }}-form").empty().html(`<div class="d-flex justify-content-center" >
+                <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                </div>`
+            );
+        },
         success: (response) => {
             $("#{{ name }}-form").empty().html(response.form_s);
             let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menyimpan Data {{ name|capfirst }} \

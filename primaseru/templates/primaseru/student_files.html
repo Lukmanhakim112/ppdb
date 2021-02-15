@@ -42,6 +42,14 @@ $("#{{ name }}-form").submit((e) => {
         cache: false,
         processData: false,
         contentType: false,
+        beforeSend: () => {
+            $("#{{ name }}-form").empty().html(`<div class="d-flex justify-content-center" >
+                  <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;">
+                <span class="sr-only">Loading...</span>
+            </div>
+            </div>`
+            );
+        },
         success: (response) => {
             let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menyimpan Berkas \
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
