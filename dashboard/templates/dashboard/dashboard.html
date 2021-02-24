@@ -34,7 +34,7 @@
     <div class="row px-2">
         <div class="col-md-12 py-2 bg-white rounded shadow">
             <h3 class="judul">Daftar Calon Murid</h3>
-            <div class="table-responsive">
+            <div class="table-responsive-md">
                 <table class="table table-hover table-sm">
                     <thead class="thead-light">
                         <tr>
@@ -65,9 +65,18 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <form method="POST" class="" action="{% url 'delete-student' s.pk %}">
+                                    <form method="POST" class="" action="{% url 'delete-student' s.student.pk %}">
                                         {% csrf_token %}
-                                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                        <div class="dropdown">
+                                            <button class="btn btn-danger dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <input type="submit" value="Delete" class="dropdown-item">
+                                                <a class="dropdown-item" href="/admin/users/customuser/{{ s.student.pk }}/change/">Nama dan Email</a>
+                                                <a class="dropdown-item" href="/admin/users/customuser/{{ s.student.pk }}/password/">Password</a>
+                                            </div>
+                                        </div>
                                     </form>
                                 </td>
                             </tr>

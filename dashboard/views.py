@@ -37,7 +37,7 @@ class RegisterSchduleUpdateView(UserIsStaffMixin, UpdateView):
     success_url = '/dashboard/jadwal/pendaftaran/'
 
 class ProfileDeleteView(UserIsStaffMixin, DeleteView):
-    model = prim_models.StudentProfile
+    model = prim_models.CustomUser
     success_url = '/dashboard/'
 
 
