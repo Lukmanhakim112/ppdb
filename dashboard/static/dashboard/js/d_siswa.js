@@ -15,7 +15,7 @@ $(document).ready(() => {
     });
 
 
-    $("#updateNameUser").one('click', () => {
+    $("#updateNameUser").one('click', (e) => {
         let elem = $("#changeNameModal .modal-body");
         $.ajax({
             url: `/dashboard/users/${calon_pk}/`,

@@ -157,3 +157,12 @@
         </div>
     </div>
 {% endblock maindash %}
+{% block js %}
+    <script type="text/javascript">
+     let formError = {{ form_error  }};
+     if(formError) {
+         $('#registerModal').modal('show');
+     }
+    </script>
+
+{% endblock js %}

@@ -127,7 +127,8 @@ class ScoreDeleteView(UserIsStaffMixin, DeleteView):
 
 @login_required
 def dashboard(request):
-
+    form = CustomUserCreationForm()
+    form_error = 'false'
     if not request.user.is_staff:
         return redirect('profile')
 
@@ -136,6 +137,8 @@ def dashboard(request):
         if form.is_valid():
             form.save()
             return redirect('dashboard')
+        else:
+            form_error = 'true'
 
     siswa = prim_models.StudentProfile.objects.all().order_by('-student')
     verified = prim_models.StudentProfile.objects.filter(verified=True).count()
@@ -150,7 +153,8 @@ def dashboard(request):
         'siswa_verified': verified,
         'siswa_not_verified': siswa.count() - verified,
         'siswa_accepted': siswa.filter(accepted=True).count(),
-        'form_r': CustomUserCreationForm,
+        'form_r': form,
+        'form_error': form_error,
     }
 
     return render(request, 'dashboard/dashboard.html', context=ctx)
