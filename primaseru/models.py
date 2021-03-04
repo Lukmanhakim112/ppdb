@@ -142,7 +142,7 @@ class RegisterSchedule(models.Model):
 
     @property
     def is_ongoing(self):
-        return date.today() < self.end_date and date.today() > self.start_date
+        return date.today().month <= self.end_date.month and date.today().month >= self.start_date.month
 
     @property
     def is_past_date(self):
