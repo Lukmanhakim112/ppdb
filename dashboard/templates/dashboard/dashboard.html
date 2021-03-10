@@ -167,6 +167,7 @@
     </div>
 {% endblock maindash %}
 {% block js %}
+    {{ block.super  }}
     <script type="text/javascript">
      let formError = {{ form_error  }};
      if(formError) {
