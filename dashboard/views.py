@@ -9,6 +9,7 @@ from users.forms import CustomUserCreationForm, CustomUserUpdateForm
 from users.models import CustomUser
 
 from primaseru import models as prim_models
+from .models import StudentStatus
 
 from exam.forms import ExamForm, ScoreForm
 from exam.models import Exam, Score
@@ -104,6 +105,9 @@ class MajorProfileDetailView(ProfileDetailView):
 class FilesProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardFilesForm
 
+class StatusStudentDetailView(ProfileDetailView):
+    form_class = forms.StudentStatusForm
+
 class ScoreListView(UserIsStaffMixin, ListView):
     model = Score
     context_object_name = 'score_list'
@@ -141,7 +145,8 @@ def dashboard(request):
             form_error = 'true'
 
     siswa = prim_models.StudentProfile.objects.all().order_by('-student')
-    verified = prim_models.StudentProfile.objects.filter(verified=True).count()
+    siswa_accepted = StudentStatus.objects.filter(accepted=True).count()
+    verified = siswa.filter(verified=True).count()
 
     paginator = Paginator(siswa, 10)
     page_number = request.GET.get('page')
@@ -152,7 +157,7 @@ def dashboard(request):
         'jumlah_siswa': siswa.count(),
         'siswa_verified': verified,
         'siswa_not_verified': siswa.count() - verified,
-        'siswa_accepted': siswa.filter(accepted=True).count(),
+        'siswa_accepted': siswa_accepted,
         'form_r': form,
         'form_error': form_error,
     }

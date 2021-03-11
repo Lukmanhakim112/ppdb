@@ -14,7 +14,7 @@ def user_directory_path(instance, filename):
 
 class StudentFile(models.Model):
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    verified = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False, db_index=True)
     msg = models.CharField("Pesan", max_length=120, null=True, blank=True)
     ra_sem_1 = models.FileField('Rapor Semester 1', upload_to=user_directory_path, null=True, blank=True)
     ra_sem_2 = models.FileField('Rapor Semester 2', upload_to=user_directory_path, null=True, blank=True)
@@ -47,8 +47,7 @@ class PhotoProfile(models.Model):
 
 
 class StudentProfile(models.Model):
-    verified = models.BooleanField(default=False)
-    accepted = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False, db_index=True)
     # Personal Information
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     no_regis = models.PositiveIntegerField('No. Pendaftaran', help_text="Bisa Konfirmasi Ke Bagian Pendaftaran, Contoh : 221321", unique=True, null=True)
@@ -95,9 +94,9 @@ class ProfileParent(models.Model):
     Creating abstract models, so this models (field) can be use multiple time (inheritance).
     https://docs.djangoproject.com/en/3.1/topics/db/models/#abstract-base-classes
     """
-    verified = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False, db_index=True)
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    full_name = models.CharField(verbose_name=f"Nama Lengkap", max_length=120)
+    full_name = models.CharField(verbose_name=f"Nama Lengkap", max_length=120, db_index=True)
     city_born = models.CharField('Kota/Kabupaten Kelahiran', max_length=120, help_text="Contoh pengisian tempat lahir: Kab bandung")
     date_born = models.DateField('Tanggal Lahir', null=True)
     nik = models.PositiveIntegerField('Nomor Induk Kependudukan (NIK)', null=True, help_text="Diisi berdasarkan Kartu Keluarga")
@@ -124,7 +123,7 @@ class StudentGuardianProfile(ProfileParent):
 
 class MajorStudent(models.Model):
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    verified = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False, db_index=True)
     first_major = models.CharField('Pilihan Jurusan Pertama', choices=choices.MAJOR, max_length=4)
     second_major = models.CharField('Pilihan Jurusan Kedua', choices=choices.MAJOR, max_length=4)
     info = models.CharField('Info Primaseru (PPDB)', max_length=120, help_text="Tuliskan Darimana Kamu Mendapatkan Info Tentang Primaseru.")

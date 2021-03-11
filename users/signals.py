@@ -5,6 +5,7 @@ from .models import CustomUser
 
 
 from primaseru.models import StudentProfile, FatherStudentProfile, MotherStudentProfile, StudentGuardianProfile, PhotoProfile, MajorStudent, StudentFile
+from dashboard import models as dashboard_model
 
 @receiver(post_save, sender=CustomUser)
 def create_profile(sender, instance, created, **kwargs):
@@ -18,6 +19,7 @@ def create_profile(sender, instance, created, **kwargs):
             PhotoProfile.objects.create(student=instance)
             MajorStudent.objects.create(student=instance)
             StudentFile.objects.create(student=instance)
+            dashboard_model.StudentStatus.objects.create(student=instance)
             print("Created Instance")
 
 @receiver(post_save, sender=CustomUser)
@@ -31,6 +33,7 @@ def save_profile(sender, instance, **kwargs):
         instance.photoprofile.save()
         instance.majorstudent.save()
         instance.studentfile.save()
+        instance.studentstatus.save()
         print("Instance Saved")
 
 

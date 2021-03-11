@@ -5,7 +5,26 @@ from primaseru import models as prim_models
 from primaseru import forms as prim_forms
 
 from . import layouts
+from .models import StudentStatus
 
+from crispy_forms.helper import FormHelper
+
+
+
+class StudentStatusForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_method = 'post'
+        self.form_tag = True
+        self.helper.form_class = 'col-sm-12'
+        self.helper.form_id = 'status-form'
+        self.helper.layout = layouts.DASHBOARD_STATUS
+
+    class Meta:
+        model = StudentStatus
+        exclude = ['student']
 
 class RegisterScheduleForm(forms.ModelForm):
 
@@ -86,3 +105,5 @@ class DashboardGuardianForm(DashboardFatherForm):
 
     class Meta(DashboardFatherForm.Meta):
         model = prim_models.StudentGuardianProfile
+
+

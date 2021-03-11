@@ -44,7 +44,7 @@ class CustomUser(AbstractUser):
     last_name = None
 
     # and adding new fields
-    full_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=100, db_index=True)
     email = models.EmailField(_('email address'), unique=True)
 
     USERNAME_FIELD = 'email'

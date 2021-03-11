@@ -36,7 +36,8 @@
             <img src="{{ profile.image.url }}" alt="photo profile" width="175" height="175" />
         </div>
         <div class="col-sm-9 mb-1">
-            <h1>{{ profile.student.full_name  }} <br /> <small class="text-muted">{{ profile.student.email  }}</small></h1>
+            <h1>{{ profile.student.full_name|title  }} </h1>
+            <h3 class="text-muted">{{ profile.student.email  }}</h3>
             <form method="POST" enctype="multipart/form-data" id="photo-profile-form" name="photo-profile-form">
                 {% csrf_token %}
                 <div class="custom-file">
@@ -44,6 +45,16 @@
                     <label class="custom-file-label" for="{{ form_ph.image.auto_id }}">Upload Photo</label>
                 </div>
             </form>
+            {% if accepted %}
+                <div class="alert alert-success mt-3" role="alert">
+                    Selamat Anda Dinyatakan Lulus!
+                </div>
+            {% endif %}
+            {% if accepted == False %}
+                <div class="alert alert-success mt-3" role="alert">
+                    Maaf, Anda Belum Dinyatakan Lulus.
+                </div>
+            {% endif %}
             <a class="btn btn-outline-secondary mt-3" href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
