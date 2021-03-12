@@ -1,10 +1,10 @@
 from crispy_forms.layout import Layout, Fieldset, Row, Div, HTML, Field
-from crispy_forms.bootstrap import TabHolder, Tab
+from crispy_forms.bootstrap import TabHolder, Tab, Accordion, AccordionGroup
 
 STUDENT_BASE_LAYOUT = Layout(
             Fieldset(None,
-                TabHolder(
-                    Tab('Data Diri',
+                Accordion(
+                    AccordionGroup("Data Diri",
                         Row(
                             Div(Field("sex", css_class='custom-select custom-select-sm'), css_class="col-sm-6"),
                             Div(Field('religion', css_class='custom-select custom-select-sm'), css_class="col-sm-6"),
@@ -33,7 +33,7 @@ STUDENT_BASE_LAYOUT = Layout(
                             Div(Field('achievement', css_class='form-control-sm'), css_class="col-sm-12"),
                         ),
                     ),
-                    Tab('Alamat',
+                    AccordionGroup("Alamat",
                         Row(
                             Div(Field("resident", css_class='form-control-sm'), css_class="col-sm-6"),
                             Div(Field('transport', css_class='form-control-sm'), css_class="col-sm-6"),
@@ -52,7 +52,7 @@ STUDENT_BASE_LAYOUT = Layout(
                             Div(Field('real_address', css_class='form-control-sm'), css_class="col-sm-6"),
                         ),
                     ),
-                    Tab('Cat. Kesehatan',
+                    AccordionGroup("Catatan Kesehatan",
                         Row(
                             Div(Field("blood_type", css_class='custom-select custom-select-sm'), css_class="col-sm-6"),
                             Div(Field('in_medicine', css_class='form-control-sm'), css_class="col-sm-6"),
@@ -64,7 +64,7 @@ STUDENT_BASE_LAYOUT = Layout(
                         Row(
                             Div(Field('medic_record', css_class='form-control-sm  auto-size'), css_class="col-sm-12"),
                         ),
-                    ),
+                    )
                 ),
             ),
         )

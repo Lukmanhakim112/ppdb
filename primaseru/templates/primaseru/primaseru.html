@@ -11,18 +11,19 @@
          color: #fff;
          background-color: #FF0000;
      }
-     .nav .nav-link::after {
-         content: "";
-         display: block;
-         width: 0;
-         border-bottom: 2px solid #941D15;
-         transition: .5s;
-     }
      .nav .nav-link:hover::after {
          width: 100%;
      }
-     #v-pills-tab .nav-link.active::after {
-         width: 100%;
+     #v-pills-tab .nav-link:hover {
+         border-bottom: 2px solid #aaa;
+     }
+     #v-pills-tab .nav-link.active{
+         color: red;
+         border-bottom: 2px solid red;
+     }
+     .card-bg {
+         background-color: #fff2f4;
+         border-color: #ffc9c6;
      }
     </style>
 {% endblock head %}
@@ -31,13 +32,13 @@
 {% block main %}
 
 
-    <div class="row bg-light py-2 pt-5">
+    <div class="row py-2 pt-4">
         <div class="col-sm-3 text-center mb-1">
             <img src="{{ profile.image.url }}" alt="photo profile" width="175" height="175" />
         </div>
         <div class="col-sm-9 mb-1">
             <h1>{{ profile.student.full_name|title  }} </h1>
-            <h3 class="text-muted">{{ profile.student.email  }}</h3>
+            <h4 class="text-muted">{{ profile.student.email  }}</h4>
             <form method="POST" enctype="multipart/form-data" id="photo-profile-form" name="photo-profile-form">
                 {% csrf_token %}
                 <div class="custom-file">
@@ -55,24 +56,24 @@
                     Maaf, Anda Belum Dinyatakan Lulus.
                 </div>
             {% endif %}
-            <a class="btn btn-outline-secondary mt-3" href="{% url 'logout' %}">Logout</a>
+            <a class="btn btn-outline-secondary btn-sm mt-3" href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-12 px-3 pt-3 pb-1 bg-light border-bottom border-top">
-            <div class="nav" id="v-pills-tab" role="navigation">
+    <div class="row">
+        <div class="col-12 px-2 px-lg-5 bg-light border-bottom border-top">
+            <div class="nav mx-0 mx-lg-5 px-0 px-lg-3" id="v-pills-tab" role="navigation">
                 <a class="nav-link tab-profile active" id="v-pills-identity-tab" data-toggle="pill" href="#v-pills-identity" role="tab" aria-controls="v-pills-identity" aria-selected="true">Identitas Diri</a>
                 <a class="nav-link tab-profile" id="v-pills-id-ayah-tab" data-toggle="pill" href="#v-pills-id-ayah" role="tab" aria-controls="v-pills-id-ayah" aria-selected="false">Identitas Ayah</a>
                 <a class="nav-link tab-profile" id="v-pills-id-ibu-tab" data-toggle="pill" href="#v-pills-id-ibu" role="tab" aria-controls="v-pills-id-ibu" aria-selected="false">Identitas Ibu</a>
                 <a class="nav-link tab-profile" id="v-pills-id-wali-tab" data-toggle="pill" href="#v-pills-id-wali" role="tab" aria-controls="v-pills-id-wali" aria-selected="false">Identitas Wali</a>
                 <a class="nav-link tab-profile" id="v-pills-major-tab" data-toggle="pill" href="#v-pills-major" role="tab" aria-controls="v-pills-major" aria-selected="false">Jurusan</a>
                 <a class="nav-link tab-profile" id="v-pills-files-tab" data-toggle="pill" href="#v-pills-files" role="tab" aria-controls="v-pills-files" aria-selected="false">Berkas</a>
-                <a class="nav-link tab-profile" id="v-pills-exam-tab" data-toggle="pill" href="#v-pills-exam" role="tab" aria-controls="v-pills-exam" aria-selected="false">Exam</a>
+                <a class="nav-link tab-profile" id="v-pills-exam-tab" data-toggle="pill" href="#v-pills-exam" role="tab" aria-controls="v-pills-exam" aria-selected="false">Ujian</a>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row bg-light pt-3">
         <div class="container">
             <div class="col-sm-12">
                 <div class="tab-content" id="v-pills-tabContent">
