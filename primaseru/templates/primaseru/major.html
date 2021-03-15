@@ -65,14 +65,16 @@ disableMajor();
                         </div>`
                     );
                 },
-                success: () => {
+                success: (response) => {
+                    $("#{{ name }}-form").empty().html(response.form_s);
                     let alertSuccess = `<div class="alert alert-success alert-dismissible fade show" role="alert">Berhasil Menyimpan Jurusan Pilihan \
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
                                     &times;</span></button></div>`;
                     disableMajor()
                     $("#{{ name }}-form").prepend(alertSuccess);
                 },
-                error: () => {
+                error: (response) => {
+                    $("#{{ name }}-form").empty().html(response.form_s);
                     let alertDanger = `<div class="alert alert-danger alert-dismissible fade show" role="alert">Data Tidak Valid, Silahkan Cek Kembali... \
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">\
                                     &times;</span></button></div>`;
