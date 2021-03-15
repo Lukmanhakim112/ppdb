@@ -18,7 +18,7 @@ class StudentStatusForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_method = 'post'
         self.form_tag = True
-        self.helper.form_class = 'col-sm-12'
+        self.helper.form_class = 'col-sm-12 my-3 p-3'
         self.helper.form_id = 'status-form'
         self.helper.layout = layouts.DASHBOARD_STATUS
 

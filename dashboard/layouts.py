@@ -5,7 +5,7 @@ from crispy_forms.layout import Layout, Fieldset, Row, Div, HTML, Field
 
 DASHBOARD_STATUS = Layout(
     Row(
-        Div(HTML('<h2 class="judul">Pilih Jurusan {{ name|title }}</h2><p>Silahkan pilih jurusan yang dikehendaki, jika semua data telah sesuai, centang <samp class="text-danger">Diterima</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
+        Div(HTML('<h2 class="judul">Pilih Jurusan {{ name|title }}</h2><p>Silahkan pilih jurusan yang dikehendaki (click Edit Data), jika semua data telah sesuai, centang <samp class="text-danger">Diterima</samp> dan click save. Jika ingin mengedit data, silahkan click tombol <samp>edit</samp>, dan edit data, lalu save.</p>'),
             css_class="col-lg-10 col-md-12 border rounded shadow-sm mr-2 bg-white p-2"),
         Div(Fieldset(None,
             'accepted',
