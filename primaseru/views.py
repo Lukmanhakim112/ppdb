@@ -1,14 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.template.context_processors import csrf
 from django.views import View
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.template.loader import get_template
 
 from crispy_forms.utils import render_crispy_form
+from xhtml2pdf import pisa
 
 from . import forms, models
+from .converter import link_callback_pdf
 
 
 def home(request):
@@ -78,6 +81,33 @@ class FilesStudentView(ProfileView):
     models = models.StudentFile
     template_name = "primaseru/student_files.html"
     name = "berkas"
+
+def render_register_card_view(request):
+    template_path = 'primaseru/register_card.html'
+    profile = models.StudentProfile.objects.get(student=request.user)
+    major = models.MajorStudent.objects.get(student=request.user)
+
+    context = {
+        'profile': profile,
+        'major': major,
+    }
+
+    response = HttpResponse(content_type="application/pdf")
+    response['Content-Disposition'] = f'attachment; filename="Kartu Peserta_{request.user.full_name}.pdf"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+        html, dest=response, link_callback=link_callback_pdf)
+
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+    return response
 
 
 @login_required

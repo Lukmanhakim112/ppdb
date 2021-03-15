@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+         @page {
+             size: a6 landscape;
+             margin: 0.9cm 1.6cm;
+         }
+         img.photo {
+             padding: 5px;
+             width: 114px;
+             height: 152px;
+             border: 1px solid black;
+         }
+         tr.border-header{
+             margin-bottom: 10px;
+             border-left: none;
+             border-right: none;
+             border-top: none;
+             border-bottom: 1px solid black;
+             font-size: 1.3rem;
+         }
+         .main-table {
+             -pdf-keep-in-frame-mode: shrink;
+             border: 1px solid black;
+         }
+         tr.data{
+         }
+        </style>
+
+    </head>
+    <body>
+
+
+        <div class="register-card">
+            <table class="main-table">
+                <!-- Header Card -->
+                <tr class="border-header">
+                    <td style="text-align: center;">
+                        <img src="https://primaseru.smktelkom-bdg.sch.id/static/primaseru/images/prima_1.png" width="80" />
+                    </td>
+                    <td style="width: 250px;">
+                        <p style="text-align: center; padding: 5px;">
+                            <b>KARTU PESERTA TES</b> <br />
+                            PENERIMAAN PESERTA DIDIK BARU <br />
+                            SMK TELKOM BANDUNG <br />
+                            Tahun Pelajaran 2020/2021
+                        </p>
+                    </td>
+                    <td style="text-align: center;">
+                        <img src="https://primaseru.smktelkom-bdg.sch.id/static/users/images/Sekunder.png" width="80" />
+                    </td>
+                </tr>
+                <tr style="border: none"></tr>
+                <tr class="data" style="border: none">
+                    <td colspan="2">
+                        <table style="border: none; margin: 0 20px; font-size: 1.2rem; width: 100px;">
+                            <tr>
+                                <td style="width: 128px">Nama Lengkap</td>
+                                <td>: {{ profile.student.full_name|title }}</td>
+                            </tr>
+                            <tr>
+                                <td>Asal Sekolah</td>
+                                <td>: {{ profile.school_origin|default:"-" }}</td>
+                            </tr>
+                            <tr>
+                                <td>No. Pendaftaran</td>
+                                <td>: {{ profile.no_regis|default_if_none:"-" }}</td>
+                            </tr>
+                            <tr>
+                                <td>Jurusan 1</td>
+                                <td>: {{ major.first_major|default:"-"  }}</td>
+                            </tr>
+                            <tr>
+                                <td>Jurusan 2</td>
+                                <td>: {{ major.second_major|default:"-"  }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <tr style="border: none; margin: 20px; padding: 7px 0px; text-align: right;">
+                        <td colspan="3" class="photo-border">
+                            <img src="https://primaseru.smktelkom-bdg.sch.id{{ profile.student.photoprofile.image.url }}" class="photo" />
+                        </td>
+                    </tr>
+                </tr>
+            </table>
+        </div>
+
+
+
+    </body>
+</html>

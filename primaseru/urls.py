@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.home, name="home"),
     path('profile/', views.studentProfile, name="profile"),
+    path('profile/kartu-peserta/', views.render_register_card_view, name="profile-card"),
     path('profile/ayah/', views.ProfileView.as_view(), name="profile-ayah"),
     path('profile/ibu/', views.MoatherProfileView.as_view(), name="profile-ibu"),
     path('profile/siswa/', views.StudentProfileView.as_view(), name="profile-siswa"),
