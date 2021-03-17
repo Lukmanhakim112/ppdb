@@ -12,6 +12,7 @@ from xhtml2pdf import pisa
 
 from . import forms, models
 from .converter import link_callback_pdf
+from dashboard.models import StudentStatus
 
 
 def home(request):
@@ -124,5 +125,6 @@ def studentProfile(request):
         ctx = {
                'form_ph': forms.PhotoProfileForm(instance=request.user.photoprofile),
                'profile': models.PhotoProfile.objects.get(student=request.user),
+               'status': StudentStatus.objects.get(student=request.user),
            }
         return render(request, 'primaseru/primaseru.html', context=ctx)

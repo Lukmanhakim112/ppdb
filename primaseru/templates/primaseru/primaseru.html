@@ -46,14 +46,14 @@
                     <label class="custom-file-label" for="{{ form_ph.image.auto_id }}">Upload Photo</label>
                 </div>
             </form>
-            {% if accepted %}
-                <div class="alert alert-success mt-3" role="alert">
-                    Selamat Anda Dinyatakan Lulus!
+            {% if status.accepted %}
+                <div class="alert alert-success mt-3 mb-0" role="alert">
+                    Selamat Anda Dinyatakan Diterima di SMK Telkom Bandung! <br />
+                    Jurusan: {{ status.get_major_display  }}
                 </div>
-            {% endif %}
-            {% if accepted == False %}
-                <div class="alert alert-success mt-3" role="alert">
-                    Maaf, Anda Belum Dinyatakan Lulus.
+            {% elif status.accepted == False %}
+                <div class="alert alert-danger mt-3 mb-0" role="alert">
+                    Jangan bersedih hati, Anda belum diterima di SMK Telkom Bandung.
                 </div>
             {% endif %}
             <a class="btn btn-outline-secondary btn-sm mt-3" href="{% url 'logout' %}">Logout</a>

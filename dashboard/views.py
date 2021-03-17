@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, View, ListView, DeleteView, CreateView
 from django.core.paginator import Paginator
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from users.views import UserIsStaffMixin
@@ -71,11 +71,12 @@ class UpdateUser(UserIsStaffMixin, UpdateView):
     template_name = 'dashboard/student_change.html'
 
     def get_success_url(self):
-        return reverse_lazy('detail-student', kwargs={'pk': self.kwargs['pk']})
+        return reverse('detail-student', kwargs={'pk': self.kwargs['pk']})
 
 class ProfileDetailView(UserIsStaffMixin, UpdateView):
     form_class = forms.DashboardStudentProfileForm
     template_name = 'dashboard/student_detail.html'
+    url_name = 'detail-student'
 
     def get_object(self):
         return self.form_class.Meta.model.objects.get(student=self.kwargs['pk'])
@@ -88,25 +89,31 @@ class ProfileDetailView(UserIsStaffMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('detail-student', kwargs={'pk': self.kwargs['pk']})
+        return reverse(self.url_name, kwargs={'pk': self.kwargs['pk']})
 
 class FatherProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardFatherForm
+    url_name = 'detail-student-father'
 
 class MotherProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardMotherForm
+    url_name = 'detail-student-mother'
 
 class GuardianProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardGuardianForm
+    url_name = 'detail-student-guardian'
 
 class MajorProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardMajorForm
+    url_name = 'detail-student-major'
 
 class FilesProfileDetailView(ProfileDetailView):
     form_class = forms.DashboardFilesForm
+    url_name = 'detail-student-files'
 
 class StatusStudentDetailView(ProfileDetailView):
     form_class = forms.StudentStatusForm
+    url_name = 'detail-student-status'
 
 class ScoreListView(UserIsStaffMixin, ListView):
     model = Score
@@ -127,7 +134,7 @@ class ScoreDeleteView(UserIsStaffMixin, DeleteView):
     model = Score
 
     def get_success_url(self):
-        return reverse_lazy('detail-student-score', kwargs={'pk': self.kwargs['pk_user']})
+        return reverse('detail-student-score', kwargs={'pk': self.kwargs['pk_user']})
 
 @login_required
 def dashboard(request):
