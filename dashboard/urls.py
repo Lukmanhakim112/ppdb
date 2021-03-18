@@ -23,4 +23,5 @@ urlpatterns = [
     path('score/<int:pk_user>/<int:pk>/delete/', views.ScoreDeleteView.as_view(), name="detail-student-score-delete"),
 
     path('users/<int:pk>/', views.UpdateUser.as_view(), name="change-student-name"),
+    path('export/', views.export_excel, name="export-student"),
 ]

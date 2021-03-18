@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+import datetime
+
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import UpdateView, View, ListView, DeleteView, CreateView
 from django.core.paginator import Paginator
 from django.urls import reverse
@@ -9,10 +11,14 @@ from users.forms import CustomUserCreationForm, CustomUserUpdateForm
 from users.models import CustomUser
 
 from primaseru import models as prim_models
+
 from .models import StudentStatus
+from .forms import AddRegisterNumberForm
 
 from exam.forms import ExamForm, ScoreForm
 from exam.models import Exam, Score
+
+import xlwt
 
 from . import forms
 
@@ -138,15 +144,21 @@ class ScoreDeleteView(UserIsStaffMixin, DeleteView):
 
 @login_required
 def dashboard(request):
-    form = CustomUserCreationForm()
-    form_error = 'false'
+
     if not request.user.is_staff:
         return redirect('profile')
 
+    form = CustomUserCreationForm()
+    form_a = AddRegisterNumberForm()
+    form_error = 'false'
+
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
+        form_a = AddRegisterNumberForm(request.POST)
+        if form.is_valid() and form_a.is_valid():
+            form = form.save()
+            form_a.instance.student = form
+            form_a.save()
             return redirect('dashboard')
         else:
             form_error = 'true'
@@ -166,7 +178,53 @@ def dashboard(request):
         'siswa_not_verified': siswa.count() - verified,
         'siswa_accepted': siswa_accepted,
         'form_r': form,
+        'form_a': form_a,
         'form_error': form_error,
     }
 
     return render(request, 'dashboard/dashboard.html', context=ctx)
+
+@login_required
+def export_excel(request):
+    if not request.user.is_staff:
+        return redirect('profile')
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Pendaftar_Primaseru.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Pendaftar Primaseru')
+
+    student_names = CustomUser.objects.filter(is_staff=False).values_list('full_name', flat=True)
+    profile_fields = prim_models.StudentProfile._meta.get_fields()[3:]
+
+    font_style = xlwt.XFStyle()
+    ws.write(0, 0, 'Nama Lengkap', font_style)
+    row_num = 0
+
+    header = [n.verbose_name for n in profile_fields]
+    for col_num in range(len(header)):
+        ws.write(row_num, col_num+1, header[col_num], font_style)
+
+    columns = [n.name for n in profile_fields]
+    rows = prim_models.StudentProfile.objects.all().values_list(*columns)
+
+    for i in range(len(student_names)):
+        ws.write(i+1, 0, student_names[i], font_style)
+
+    for row in rows:
+        row_num += 1
+
+        col_num = 1
+        for data in row:
+            try:
+                data = data.strftime('%d-%m-%Y')
+                data = data.get_sex_display()
+            except AttributeError:
+                pass
+
+            ws.write(row_num, col_num, data, font_style)
+            col_num += 1
+
+    wb.save(response)
+    return response

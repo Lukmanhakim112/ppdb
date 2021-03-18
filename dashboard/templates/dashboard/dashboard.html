@@ -33,7 +33,14 @@
 
     <div class="row px-2">
         <div class="col-md-12 py-2 bg-white rounded shadow">
-            <h3 class="judul">Daftar Calon Murid</h3>
+            <div class="row">
+                <div class="col">
+                    <h3 class="judul">Daftar Calon Murid</h3>
+                </div>
+                <div class="col d-flex justify-content-end align-items-start">
+                    <a class="btn btn-sm btn-outline-danger" href="{% url 'export-student' %}">Export</a>
+                </div>
+            </div>
             <div class="table-responsive-md">
                 <table class="table table-hover table-sm">
                     <thead class="thead-light">
@@ -156,6 +163,7 @@
                     <form method="POST" id="add-student">
                         {% csrf_token %}
                         {{ form_r|crispy  }}
+                        {{ form_a|crispy  }}
                     </form>
                 </div>
                 <div class="modal-footer">

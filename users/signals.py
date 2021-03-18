@@ -12,7 +12,7 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         if not instance.is_staff:
             # TODO refactor me, pls.... I beg you.....
-            StudentProfile.objects.create(student=instance)
+            # StudentProfile.objects.create(student=instance)
             FatherStudentProfile.objects.create(student=instance)
             MotherStudentProfile.objects.create(student=instance)
             StudentGuardianProfile.objects.create(student=instance)
@@ -26,7 +26,7 @@ def create_profile(sender, instance, created, **kwargs):
 def save_profile(sender, instance, **kwargs):
     # TODO same with above me....
     if not instance.is_staff:
-        instance.studentprofile.save()
+        # instance.studentprofile.save()
         instance.fatherstudentprofile.save()
         instance.motherstudentprofile.save()
         instance.studentguardianprofile.save()

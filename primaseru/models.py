@@ -52,7 +52,7 @@ class StudentProfile(models.Model):
     student = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     no_regis = models.PositiveIntegerField('No. Pendaftaran', help_text="Bisa Konfirmasi Ke Bagian Pendaftaran, Contoh : 221321", unique=True, null=True)
     sex = models.CharField('Jenis Kelamin', max_length=1, choices=choices.SEX)
-    religion = models.CharField('Agama', choices=choices.RELIGION, max_length=3)
+    religion = models.CharField('Agama', choices=choices.RELIGION, max_length=10)
     handpone = models.CharField('No. HP', null=True, max_length=15)
     city_born = models.CharField('Tempat Lahir', max_length=100, help_text="Contoh: Kabupaten Bandung")
     date_born = models.DateField('Tanggal Lahir', null=True)

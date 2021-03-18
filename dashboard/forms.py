@@ -10,6 +10,12 @@ from .models import StudentStatus
 from crispy_forms.helper import FormHelper
 
 
+class AddRegisterNumberForm(forms.ModelForm):
+
+    class Meta:
+        model = prim_models.StudentProfile
+        fields = ['no_regis']
+
 
 class StudentStatusForm(forms.ModelForm):
     CONFIRM = [

@@ -5,12 +5,12 @@ SEX = [
 ]
 RELIGION = [
     (None, '=Pilih='),
-    ('ISL', 'Islam'),
-    ('KRS', 'Kristen'),
-    ('KTL', 'Katolik'),
-    ('HND', 'Hindu'),
-    ('BDH', 'Budha'),
-    ('KHC', 'Kong Hu Cu'),
+    ('Islam', 'Islam'),
+    ('Kristen', 'Kristen'),
+    ('Katholik', 'Katholik'),
+    ('Hindu', 'Hindu'),
+    ('Budha', 'Budha'),
+    ('Kong Hu Cu', 'Kong Hu Cu'),
 ]
 BLOOD_TYPE = [
     (None, '=Pilih='),
